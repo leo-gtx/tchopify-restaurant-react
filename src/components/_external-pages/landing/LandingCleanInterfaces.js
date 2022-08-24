@@ -3,10 +3,10 @@ import { alpha, styled } from '@material-ui/core/styles';
 import { Box, Container, Typography, useTheme } from '@material-ui/core';
 //
 import { varFadeInUp, MotionInView } from '../../animate';
+import Map from './Map';
 
 // ----------------------------------------------------------------------
 
-const IMG = [...Array(10)].map((_, index) => `/static/home/clean-${index + 1}.png`);
 
 const RootStyle = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(15),
@@ -29,6 +29,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 export default function LandingCleanInterfaces() {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
+  const center = { lat: 7.3696495, lng: 12.3445856 };
 
   return (
     <RootStyle>
@@ -36,7 +37,7 @@ export default function LandingCleanInterfaces() {
         <ContentStyle>
           <MotionInView variants={varFadeInUp}>
             <Typography component="p" variant="overline" sx={{ mb: 2, color: 'text.secondary' }}>
-              Become partner
+              Cities with Tchopify
             </Typography>
           </MotionInView>
 
@@ -50,28 +51,17 @@ export default function LandingCleanInterfaces() {
                 })
               }}
             >
-              They trust us
+              Cities near me
             </Typography>
           </MotionInView>
         </ContentStyle>
-
-        <Box sx={{ position: 'relative' }}>
-          {IMG.map((_, index) => (
+        <Box sx={{ paddingTop: 15 }}>
             <MotionInView
-              key={index}
-              threshold={index / 15}
               variants={varFadeInUp}
-              sx={{
-                top: 0,
-                left: 0,
-                position: 'absolute',
-                ...(index === 0 && { zIndex: 8 }),
-                ...(index === 9 && { position: 'relative', zIndex: 9 })
-              }}
+              
             >
-              <Box component="img"  src={`/static/home/clean-${index + 1}.png`} />
+              <Map center={center} />
             </MotionInView>
-          ))}
         </Box>
       </Container>
     </RootStyle>
