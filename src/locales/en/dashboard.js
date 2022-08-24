@@ -1,0 +1,23 @@
+export default{
+    greating: 'Hi, Welcome back',
+    ads: 'Best seller of the month You have done 57.6% more sales today.',
+    balanceTitle: 'Your Current Balance',
+    commissionLabel: 'Commission',
+    rewardsLabel: 'Rewards',
+    withdrawableAmount: 'Withdrawable Amount',
+    withdrawTitle: 'Withdraw Money',
+    totalOrder: 'Total Order',
+    thanLastMonth: 'than last month',
+    posIncomes: 'Pos Incomes',
+    marketplaceIncomes: 'Marketplace Incomes',
+    orderMode: 'Order By Mode',
+    titleSalesDine: 'POS Yearly Sales',
+    titleSalesDelivery: 'Marketplace Yearly Sales',
+    totalIncomes: 'Total Incomes',
+    mostOrderedTitle: 'Most Ordered Dishes',
+    rank: 'Rank',
+    product: 'Product',
+    deliveryIncomes: 'Marketplace\'s Sales',
+    dineIncomes: 'POS\'s Sales',
+    saleoverview: 'Sales Overview'
+}

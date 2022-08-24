@@ -1,0 +1,22 @@
+export default {
+    general: 'General',
+    dashboard: 'Dashboard',
+    tools: 'Tools',
+    pos: 'Point of sale',
+    management: 'Management',
+    order: 'Order',
+    deliveryOrders: 'Delivery\'s Orders',
+    takeawayOrders: 'Take Away\'s Orders',
+    posOrders: 'Point of sale\'s Orders',
+    history: 'History',
+    menu: 'Menu',
+    dishes: 'Dishes',
+    newDish: 'New Dish',
+    categories: 'Categories',
+    store: 'Store',
+    stores: 'Stores',
+    newStore: 'New Store',
+    staff: 'Staff',
+    staffList: 'Staff List',
+    newStaff: 'New Staff'
+}

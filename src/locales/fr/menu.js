@@ -1,0 +1,22 @@
+export default {
+    general: 'Général',
+    dashboard: 'Tableau de bord',
+    tools: 'Outils',
+    pos: 'Point de vente',
+    management: 'Management',
+    order: 'Commande',
+    deliveryOrders: 'Commande à livrer',
+    takeawayOrders: 'Commande à emporter',
+    posOrders: 'Commande en salle',
+    history: 'Historique',
+    menu: 'Menu',
+    dishes: 'Plats',
+    newDish: 'Nouveau plat',
+    categories: 'Catégories',
+    store: 'Boutique',
+    stores: 'Boutiques',
+    newStore: 'Nouvelle Boutique',
+    staff: 'Personel',
+    staffList: 'Liste du personel',
+    newStaff: 'Nouveau personel'
+}

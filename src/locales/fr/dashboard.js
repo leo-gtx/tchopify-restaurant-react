@@ -1,0 +1,23 @@
+export default{
+    greating: 'Salut, ',
+    ads: 'Vous pouvez gagnez des récompenses en améliorant vos activités',
+    balanceTitle: 'Votre Solde',
+    commissionLabel: 'Commission',
+    rewardsLabel: 'Récompenses',
+    withdrawableAmount: 'Montant à retirer',
+    withdrawTitle: 'Retirer l\'argent',
+    totalOrder: 'Commande Totale',
+    thanLastMonth: 'Comparé au mois passé',
+    posIncomes: 'Revenu POS',
+    marketplaceIncomes: 'Revenu Marketplace',
+    orderMode: 'Commande Par Mode',
+    titleSalesDine: 'POS Ventes Annuelles',
+    titleSalesDelivery: 'Marketplace Ventes Annuelles',
+    totalIncomes: 'Revenu Totale',
+    mostOrderedTitle: 'Plats les plus commandés',
+    rank: 'Rang',
+    product: 'Produit',
+    deliveryIncomes: 'Vente Marketplace',
+    dineIncomes: 'Vente POS',
+    saleoverview: 'Globalité des ventes'
+}
