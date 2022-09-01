@@ -2,10 +2,10 @@ import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
 import flashFill from '@iconify/icons-eva/flash-fill';
 import twitterFill from '@iconify/icons-eva/twitter-fill';
-import linkedinFill from '@iconify/icons-eva/linkedin-fill';
 import facebookFill from '@iconify/icons-eva/facebook-fill';
 import instagramFilled from '@iconify/icons-ant-design/instagram-filled';
 import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 // material
 import { styled } from '@material-ui/core/styles';
 import { Button, Box, Container, Typography, Stack } from '@material-ui/core';
@@ -73,6 +73,7 @@ const HeroImgStyle = styled(motion.img)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LandingHero() {
+  const {t}  = useTranslation();
   return (
     <>
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
@@ -84,17 +85,17 @@ export default function LandingHero() {
           <ContentStyle>
             <motion.div variants={varFadeInRight}>
               <Typography variant="h1" sx={{ color: 'common.white' }}>
-                Restaurant Business <br />
-                Bring To The Next Level <br />
+                {t('landing.landingHero.title.sentence1')} <br />
+                {t('landing.landingHero.title.sentence2')} <br />
                 <Typography component="span" variant="h1" sx={{ color: 'primary.main' }}>
-                  Be The Boss
+                {t('landing.landingHero.title.sentence3')}
                 </Typography>
               </Typography>
             </motion.div>
 
             <motion.div variants={varFadeInRight}>
               <Typography sx={{ color: 'common.white' }}>
-                You are a restaurant this one is made for you, become partner with Tchopify and we will help you to develop your business.
+              {t('landing.landingHero.subtitle')}
               </Typography>
             </motion.div>
 
@@ -108,7 +109,7 @@ export default function LandingHero() {
                 to={PATH_AUTH.register}
                 startIcon={<Icon icon={flashFill} width={20} height={20} />}
               >
-                Get Started
+                {t('actions.getStarted')}
               </Button>
             </motion.div>
 
@@ -118,9 +119,6 @@ export default function LandingHero() {
               </motion.div>
               <motion.div variants={varFadeInRight}>
                 <Icon icon={instagramFilled} height={25} width={25} color="#D7336D" />
-              </motion.div>
-              <motion.div variants={varFadeInRight}>
-                <Icon icon={linkedinFill} height={25} width={25} color="#006097" />
               </motion.div>
               <motion.div variants={varFadeInRight}>
                 <Icon icon={twitterFill} height={25} width={25} color="#1C9CEA" />

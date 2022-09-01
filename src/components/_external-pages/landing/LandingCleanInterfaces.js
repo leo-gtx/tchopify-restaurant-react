@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 // material
 import { alpha, styled } from '@material-ui/core/styles';
 import { Box, Container, Typography, useTheme } from '@material-ui/core';
@@ -28,16 +29,21 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function LandingCleanInterfaces() {
   const theme = useTheme();
+  const {t} = useTranslation();
   const isLight = theme.palette.mode === 'light';
   const center = { lat: 7.3696495, lng: 12.3445856 };
-
+  const coords = [
+    { lat: 4.061536, lng: 9.786072, title: 'Douala' },
+    { lat: 3.844119, lng: 11.501346, title: 'Soon' },
+    { lat: 5.480752, lng: 10.428418, title: 'Soon'}
+  ];
   return (
     <RootStyle>
       <Container maxWidth="lg">
         <ContentStyle>
           <MotionInView variants={varFadeInUp}>
             <Typography component="p" variant="overline" sx={{ mb: 2, color: 'text.secondary' }}>
-              Cities with Tchopify
+              {t('landing.landingCleanInterfaces.title')}
             </Typography>
           </MotionInView>
 
@@ -51,7 +57,7 @@ export default function LandingCleanInterfaces() {
                 })
               }}
             >
-              Cities near me
+              {t('landing.landingCleanInterfaces.subtitle')}
             </Typography>
           </MotionInView>
         </ContentStyle>
@@ -60,7 +66,7 @@ export default function LandingCleanInterfaces() {
               variants={varFadeInUp}
               
             >
-              <Map center={center} />
+              <Map center={center} coords={coords} />
             </MotionInView>
         </Box>
       </Container>

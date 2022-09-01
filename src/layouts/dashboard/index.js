@@ -7,6 +7,7 @@ import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 //
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
+import Footer from './Footer';
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +41,7 @@ export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
 
   return (
+    <>
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
       <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
@@ -56,5 +58,6 @@ export default function DashboardLayout() {
         <Outlet />
       </MainStyle>
     </RootStyle>
+    </>
   );
 }

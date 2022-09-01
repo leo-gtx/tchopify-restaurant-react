@@ -15,10 +15,17 @@ const useCurrentRole = () => {
   return role;
 };
 
+const useCurrentStatus = () => {
+  const authedUser = useSelector(state=>state.authedUser);
+  return authedUser.enable;
+}
+
 export default function RoleBasedGuard({ accessibleRoles, children }) {
   const currentRole = useCurrentRole();
+  const isEnable = useCurrentStatus();
 
   if (!accessibleRoles.includes(currentRole)) {
+    
     return (
       <Container>
         <Alert severity="error">
@@ -27,6 +34,17 @@ export default function RoleBasedGuard({ accessibleRoles, children }) {
         </Alert>
       </Container>
     );
+  }
+
+  if(currentRole === 'ROLE_OWNER' && !isEnable){
+    return(
+      <Container>
+      <Alert severity="warning">
+        <AlertTitle>Your Account is Disable</AlertTitle>
+        The Tchopify support will contact you else, please contact the support at +237 698 618 200 / +237 676 411 506 / support@tchopify.com to activate your account.
+      </Alert>
+    </Container>
+    )
   }
 
   return <>{children}</>;

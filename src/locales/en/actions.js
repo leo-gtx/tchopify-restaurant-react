@@ -42,7 +42,7 @@ export default {
     applied: 'Applied',
     apply: 'Apply',
     yes: 'Yes',
-    addToCart: 'Add to Cart',
+    addToCart: 'Add',
     buyNow: 'Buy Now',
     markDelivered: 'Mark As Delivered',
     clearAll: 'Clear All',
@@ -53,5 +53,6 @@ export default {
     confirm: 'Confirm',
     shipping: 'Delivering',
     rate: 'Rate',
-    chooseTable: 'Set a table'
+    chooseTable: 'Set a table',
+    becomePartner: 'Become Partner'
 }

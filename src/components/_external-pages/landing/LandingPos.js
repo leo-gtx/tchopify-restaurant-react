@@ -29,7 +29,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function LandingDarkMode() {
+export default function LandingPos() {
   const {t} = useTranslation();
   return (
     <RootStyle>
@@ -73,8 +73,8 @@ export default function LandingDarkMode() {
           </Grid>
 
           <Grid item xs={12} md={7} sx={{ position: 'relative' }}>
-            <MotionInView threshold={0.5} variants={varFadeInUp}>
-              <img alt="light mode" src="/static/home/lightmode.png" />
+            <MotionInView threshold={0.5} variants={varFadeInUp} sx={{ top: 0, left: 0, position: 'absolute' }}>
+              <img alt="light mode" src="/static/home/point-of-sale.png" />
             </MotionInView>
           </Grid>
         </Grid>

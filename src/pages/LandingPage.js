@@ -1,5 +1,7 @@
 // material
 import { styled } from '@material-ui/core/styles';
+//
+import { useTranslation } from 'react-i18next';
 // components
 import Page from '../components/Page';
 import {
@@ -8,7 +10,9 @@ import {
   LandingDarkMode,
   LandingAdvertisement,
   LandingCleanInterfaces,
-  LandingHugePackElements
+  LandingHugePackElements,
+  LandingPos,
+  LandingThemeColor
 } from '../components/_external-pages/landing';
 
 // ----------------------------------------------------------------------
@@ -26,15 +30,16 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LandingPage() {
+  const {t} = useTranslation();
   return (
-    <RootStyle title="Become a Tchopify Partner | Tchopify" id="move_top">
+    <RootStyle title={t('landing.title')} id="move_top">
       <LandingHero />
       <ContentStyle>
         <LandingMinimal />
+        {/* <LandingPos/> */}
         <LandingHugePackElements />
         <LandingDarkMode />
         <LandingCleanInterfaces />
-        {/* <LandingPricingPlans /> */}
         <LandingAdvertisement />
       </ContentStyle>
     </RootStyle>

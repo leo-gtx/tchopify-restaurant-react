@@ -146,7 +146,7 @@ const getPadding = ()=>{
   return padding
 };
   return (
-    <Page title="Marketplace: POS | Tchopify">
+    <Page title="Point of Sale | Tchopify Merchant">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={t('pos.title')}

@@ -11,7 +11,7 @@ const ICON_SIZE = {
 };
 
 const menuConfig = [
-  { title: 'Login', path: PATH_AUTH.login, icon: <Icon icon={loginFill} {...ICON_SIZE} /> }
+  { title: 'actions.login', path: PATH_AUTH.login, icon: <Icon icon={loginFill} {...ICON_SIZE} /> }
 ];
 
 export default menuConfig;

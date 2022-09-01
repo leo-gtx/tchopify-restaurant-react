@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 // material
 import { styled } from '@material-ui/core/styles';
 import { Button, Box, Container, Typography } from '@material-ui/core';
@@ -27,6 +28,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LandingAdvertisement() {
+  const {t} = useTranslation();
   return (
     <Container maxWidth="lg">
       <ContentStyle>
@@ -49,8 +51,8 @@ export default function LandingAdvertisement() {
         >
           <MotionInView variants={varFadeInDown} sx={{ color: 'common.white', mb: 5 }}>
             <Typography variant="h2">
-              Level up your business 
-              <br/> with Tchopify today
+              {t('landing.landingAdvertisement.title.sentence1')} 
+              <br/> {t('landing.landingAdvertisement.title.sentence2')} 
             </Typography>
           </MotionInView>
           <MotionInView variants={varFadeInDown}>
@@ -67,7 +69,7 @@ export default function LandingAdvertisement() {
                 '&:hover': { bgcolor: 'grey.300' }
               }}
             >
-              Get Started
+              {t('actions.getStarted')}
             </Button>
           </MotionInView>
         </Box>

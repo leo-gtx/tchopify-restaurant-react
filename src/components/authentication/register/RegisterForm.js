@@ -9,7 +9,7 @@ import closeFill from '@iconify/icons-eva/close-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useTranslation } from 'react-i18next';
 // material
-import { Stack, TextField, IconButton, InputAdornment, Alert } from '@material-ui/core';
+import { Stack, TextField, IconButton, InputAdornment, Alert, Autocomplete } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 // actions
 import { register } from '../../../redux/actions/authedUser';
@@ -19,9 +19,10 @@ import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import { MIconButton } from '../../@material-extend';
 // utils
 import { ROLES } from '../../../utils/utils';
+import COUNTRIES  from  '../../../utils/countries';
 
 // ----------------------------------------------------------------------
-
+const phoneRegExp = /^[\d\s]+$/
 export default function RegisterForm() {
   const { t } = useTranslation();
   const isMountedRef = useIsMountedRef();
@@ -30,6 +31,8 @@ export default function RegisterForm() {
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().min(2, t('forms.minAlert')).max(50, t('forms.maxAlert')).required(t('forms.firstnameRequired')),
     lastName: Yup.string().min(2, t('forms.minAlert')).max(50, t('forms.maxAlert')).required(t('forms.lastnameRequired')),
+    code: Yup.string().required(t('forms.countryRequired')),
+    phoneNumber: Yup.string().matches(phoneRegExp, t('forms.phoneNumberInvalid')).required(t('forms.phoneNumberRequired')),
     email: Yup.string().email(t('forms.emailInvalid')).required(t('forms.emailRequired')),
     password: Yup.string().min(6, t('forms.passwordSizeAlert')).required(t('forms.passwordRequired'))
   });
@@ -38,6 +41,8 @@ export default function RegisterForm() {
     initialValues: {
       firstName: '',
       lastName: '',
+      code: '',
+      phoneNumber: '',
       email: '',
       password: ''
     },
@@ -47,6 +52,8 @@ export default function RegisterForm() {
           email: values.email,
           fullname: `${values.firstName} ${values.lastName}`,
           password: values.password,
+          phoneNumber: `${values.code}${values.phoneNumber}`,
+          country: COUNTRIES.find((item)=>item.phone === values.code).label,
           role: ROLES.owner.value,
         };
         const onSuccess = ()=>{
@@ -74,7 +81,7 @@ export default function RegisterForm() {
     }
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
 
   return (
     <FormikProvider value={formik}>
@@ -100,9 +107,32 @@ export default function RegisterForm() {
             />
           </Stack>
 
+          <Autocomplete
+                freeSolo
+                fullWidth
+                options={COUNTRIES}
+                getOptionLabel={(option)=>`${option.label} (${option.phone})`}
+                onSelect={(e)=>{
+                        setFieldValue('code', COUNTRIES.find((item)=>e.target.value.includes(item.label))?.phone)  
+                }}
+                renderInput={(params)=> <TextField
+                {...params}
+                label={t('forms.countryLabel')}
+                />}
+          />
+
           <TextField
             fullWidth
-            autoComplete="username"
+            {...getFieldProps('phoneNumber')}
+            type="phone"
+            label={t('forms.phoneNumberLabel')}
+            placeholder={t('forms.phoneNumberLabel')}
+            error={Boolean(touched.phoneNumber && errors.phoneNumber)}
+            helperText={touched.phoneNumber && errors.phoneNumber}
+          />
+
+          <TextField
+            fullWidth
             type="email"
             label={t('forms.emailLabel')}
             {...getFieldProps('email')}

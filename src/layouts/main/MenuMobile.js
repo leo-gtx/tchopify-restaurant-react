@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
+import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
@@ -41,7 +42,10 @@ MenuMobileItem.propTypes = {
 };
 
 function MenuMobileItem({ item, isOpen, isActive, onOpen }) {
-  const { title, path, icon, children } = item;
+  const {t} = useTranslation();
+  const { path, icon, children } = item;
+
+  const title = t(item.title)
 
   if (children) {
     return (

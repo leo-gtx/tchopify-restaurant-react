@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 import arrowIosUpwardFill from '@iconify/icons-eva/arrow-ios-upward-fill';
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
@@ -59,9 +60,11 @@ MenuDesktopItem.propTypes = {
 };
 
 function MenuDesktopItem({ item, pathname, isHome, isOpen, isOffset, onOpen, onClose }) {
-  const { title, path, children } = item;
+  const {t} = useTranslation();
+  const { path, children } = item;
+  const title = t(item.title);
   const isActive = pathname === path;
-
+  
   if (children) {
     return (
       <div key={title}>

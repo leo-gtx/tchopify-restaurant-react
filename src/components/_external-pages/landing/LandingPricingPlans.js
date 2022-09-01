@@ -10,10 +10,24 @@ import { varFadeIn, varFadeInUp, MotionInView, varFadeInDown } from '../../anima
 
 // ----------------------------------------------------------------------
 
-const LICENSES = ['Free', 'Plus', 'Extended'];
+const LICENSES = [
+  {
+    license: 'Essential',
+    price: '5% Per Order'
+  },
+  {
+    license: 'Plus',
+    price: '5% Per Order + 40.000XAF (Activation)'
+  },
+  {
+    license: 'Extended',
+    price: '5% Per Order + 80.000XAF (Activation)'
+  }
+  ];
 
-const PLANS = [...Array(1)].map((_, index) => ({
-  license: LICENSES[index],
+const PLANS = [...Array(3)].map((_, index) => ({
+  license: LICENSES[index].license,
+  price: LICENSES[index].price,
   commons: ['One end products', '12 months updates', '6 months of support'],
   options: ['JavaScript version', 'TypeScript version', 'Design Resources', 'Commercial applications'],
   icons: ['/static/home/ic_sketch.svg', '/static/home/ic_figma.svg', '/static/home/ic_js.svg', '/static/home/ic_ts.svg']
@@ -40,7 +54,7 @@ PlanCard.propTypes = {
 
 function PlanCard({ plan, cardIndex }) {
   const theme = useTheme();
-  const { license, commons, options, icons } = plan;
+  const { license, price, commons, options, icons } = plan;
 
   const isLight = theme.palette.mode === 'light';
 
@@ -59,9 +73,9 @@ function PlanCard({ plan, cardIndex }) {
       <Stack spacing={5}>
         <div>
           <Typography variant="overline" sx={{ mb: 2, color: 'text.disabled', display: 'block' }}>
-            Essential
+            {license}
           </Typography>
-          <Typography variant="h4">{license}</Typography>
+          <Typography variant="h4">{price}</Typography>
         </div>
 
         <Stack spacing={2.5}>

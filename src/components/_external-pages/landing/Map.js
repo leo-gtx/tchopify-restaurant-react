@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { useJsApiLoader, GoogleMap, Marker} from '@react-google-maps/api';
-import { Skeleton } from '@material-ui/core';
-import location from '@iconify/icons-ic/location-on';
-import { Icon } from '@iconify/react';
+import { useJsApiLoader, GoogleMap, Marker, InfoBox} from '@react-google-maps/api';
+import { Skeleton, Typography, Card} from '@material-ui/core';
 
 
 Map.propTypes = {
@@ -14,8 +12,7 @@ Map.propTypes = {
 
 export default function Map({coords, center}){
     const {t} = useTranslation();
-    const [opacity, setOpacity] = useState(1);
-
+    const [isVisible, setVisible] = useState();
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_PLACE_API_KEY,
@@ -25,6 +22,8 @@ export default function Map({coords, center}){
     if(!isLoaded){
         return <Skeleton variant="rectangular" height={400} sx={{ borderRadius: 2 }} />
     }
+
+    const handleToggleVisible = (index)=>setVisible(index)
    
     return (
 
@@ -36,15 +35,42 @@ export default function Map({coords, center}){
                     streetViewControl: false,
                     zoomControl: false,
                     mapTypeControl: false,
+                    disableDoubleClickZoom: true,
                 }}
                 >
-                   <Marker 
-                    position={{ lat: 4.061536, lng: 9.786072 }}
-                    icon={{url: '/static/icons/ic_marker.svg', scaledSize: { height: 20, width: 20 } }}
-                    onMouseOver={()=> setOpacity(0.5)}
-                    onMouseOut={()=> setOpacity(1)}
-                    opacity={opacity}
-                   />
+                    {
+                        coords.map((coord, index)=>(
+                                <InfoBox
+                                key={index}
+                                    position={{ lat: coord.lat, lng: coord.lng }}
+                                    options={{
+                                        enableEventPropagation: true,
+                                        closeBoxURL: '',
+                                        visible: isVisible === index,
+                                    }}
+                                    
+                                >
+                                    <Card variant='elevation' sx={{ height: 30, width: 100, textAlign: 'center'}}>
+                                            <Typography variant='h6'>{coord.title}</Typography>
+                                    </Card>
+                                </InfoBox>
+                        ))
+                    }
+                    {
+                        coords.map((coord, index)=>(
+                            <Marker 
+                                    key={index}
+                                    position={{ lat: coord.lat, lng: coord.lng }}
+                                    icon={{
+                                        url: '/static/icons/ic_marker.svg',
+                                        scaledSize: { height: 30, width: 30 },
+                                    }}
+                                    onMouseOver={()=>handleToggleVisible(index)}
+                                    onMouseOut={()=>handleToggleVisible(null)}
+                                />
+                        ))
+                    }
+                  
                 </GoogleMap>
     )
 }

@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import roundAddShoppingCart from '@iconify/icons-ic/round-add-shopping-cart';
 // material
-import { Box, Card, Typography, Stack, Button } from '@material-ui/core';
+import { Box, Card, Typography, Stack, Button, Grid } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
@@ -35,15 +35,20 @@ export default function ShopProductCard({ product, onSelectProduct }) {
         <Box sx={{ pt: '100%', position: 'relative' }}>
           <ProductImgStyle alt={name} src={image} />
         </Box>
-        <Stack spacing={2} sx={{ p: 3 }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Stack  spacing={2} sx={{ p: 3 }}>
+          <Grid container direction="row" alignItems="center" justifyContent="space-between">
+            <Grid item >
               <Typography variant="subtitle1" noWrap>
                 {name}
               </Typography>
-              <Typography variant="subtitle1">
-              {fCurrency(price)}
-              </Typography>
-          </Stack>
+            </Grid>
+              <Grid item>
+                <Typography variant="subtitle1">
+                {fCurrency(price)}
+                </Typography>
+              </Grid>
+              
+          </Grid>
           <Stack direction="row" alignItems="center" justifyContent="flex-start">
           <Button
               fullWidth

@@ -1,4 +1,5 @@
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 // material
 import { styled } from '@material-ui/core/styles';
 import { Box, Button, AppBar, Toolbar, Container } from '@material-ui/core';
@@ -48,6 +49,7 @@ export default function MainNavbar() {
   const isOffset = useOffSetTop(100);
   const { pathname } = useLocation();
   const isHome = pathname === '/';
+  const {t} = useTranslation();
 
   return (
     <AppBar sx={{ boxShadow: 0, bgcolor: 'transparent' }}>
@@ -79,7 +81,7 @@ export default function MainNavbar() {
           </MHidden>
 
           <Button variant="contained" target="_blank" href={PATH_AUTH.register}>
-            Get started
+            {t('actions.getStarted')}
           </Button>
 
           <MHidden width="mdUp">

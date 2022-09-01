@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 // material
 import { alpha, useTheme, styled } from '@material-ui/core/styles';
 import { Box, Grid, Button, Container, Typography } from '@material-ui/core';
@@ -88,6 +89,8 @@ export default function LandingHugePackElements() {
   const screenRightAnimate = variantScreenRight;
   const screenTopAnimate = variantScreenTop;
 
+  const {t} = useTranslation();
+
   return (
     <RootStyle>
       <Container maxWidth="lg">
@@ -96,14 +99,14 @@ export default function LandingHugePackElements() {
             <ContentStyle>
               <MotionInView variants={varFadeInUp}>
                 <Typography component="p" variant="overline" sx={{ mb: 2, color: 'text.secondary' }}>
-                  One thing to remember
+                  {t('landing.landingHugePackElements.title')}
                 </Typography>
               </MotionInView>
 
               <MotionInView variants={varFadeInUp}>
                 <Typography variant="h2" sx={{ mb: 3 }}>
-                  Cooking & <br />
-                  Delivering
+                {t('landing.landingHugePackElements.subtitle.sentence1')} <br />
+                {t('landing.landingHugePackElements.subtitle.sentence2')}
                 </Typography>
               </MotionInView>
 
@@ -114,13 +117,13 @@ export default function LandingHugePackElements() {
                     color: isLight ? 'text.secondary' : 'common.white'
                   }}
                 >
-                  Focus on the kitchen, we will bring you orders.
+                  {t('landing.landingHugePackElements.content')}
                 </Typography>
               </MotionInView>
 
               <MotionInView variants={varFadeInUp}>
                 <Button size="large" href={PATH_AUTH.register}  variant="outlined">
-                  Become Partner
+                  {t('actions.becomePartner')}
                 </Button>
               </MotionInView>
             </ContentStyle>

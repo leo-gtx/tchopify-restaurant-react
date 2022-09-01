@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 // material
 import { alpha, useTheme, styled } from '@material-ui/core/styles';
 import { Box, Grid, Card, Container, Typography, useMediaQuery } from '@material-ui/core';
@@ -8,20 +9,19 @@ import { varFadeInUp, MotionInView, varFadeInDown } from '../../animate';
 
 const CARDS = [
   {
-    icon: '/static/icons/ic_grow.svg',
-    title: 'Increase Incomes',
-    description: 'You can receive up to a thousand orders per month and increase your sales throught the Tchopify marketplace.'
+    icon: '/static/icons/ic_delivery.svg',
+    title: 'landing.landingMinimal.cards.2.title',
+    description: 'landing.landingMinimal.cards.2.description'
   },
   {
-    icon: '/static/icons/ic_delivery.svg',
-    title: 'Increase Visibility',
-    description: 'Tchopify increases your visibility and offers you an online web page and tools to reach the maximum number of users.'
+    icon: '/static/icons/ic_grow.svg',
+    title: 'landing.landingMinimal.cards.1.title',
+    description: 'landing.landingMinimal.cards.1.description'
   },
   {
     icon: '/static/icons/ic_payment.svg',
-    title: 'Flexible Payment',
-    description:
-      'Withdraw your money directly in your mobile money, orange money or eu mobile money wallet.'
+    title: 'landing.landingMinimal.cards.3.title',
+    description: 'landing.landingMinimal.cards.3.description'
   },
 ];
 
@@ -93,19 +93,19 @@ export default function LandingMinimalHelps() {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
-
+  const { t} = useTranslation();
   return (
     <RootStyle>
       <Container maxWidth="lg">
         <Box sx={{ mb: { xs: 10, md: 25 } }}>
           <MotionInView variants={varFadeInUp}>
             <Typography component="p" variant="overline" sx={{ mb: 2, color: 'text.secondary', textAlign: 'center' }}>
-              Tchopify
+              {t('landing.landingMinimal.title')}
             </Typography>
           </MotionInView>
           <MotionInView variants={varFadeInDown}>
             <Typography variant="h2" sx={{ textAlign: 'center' }}>
-              What tchopify helps you?
+              {t('landing.landingMinimal.subtitle')}
             </Typography>
           </MotionInView>
         </Box>
@@ -117,7 +117,7 @@ export default function LandingMinimalHelps() {
                 <CardStyle className={(index === 0 && 'cardLeft') || (index === 1 && 'cardCenter')}>
                   <CardIconStyle
                     src={card.icon}
-                    alt={card.title}
+                    alt={t(card.title)}
                     sx={{
                       ...(index === 0 && {
                         filter: (theme) => shadowIcon(theme.palette.info.main)
@@ -128,10 +128,10 @@ export default function LandingMinimalHelps() {
                     }}
                   />
                   <Typography variant="h5" paragraph>
-                    {card.title}
+                    {t(card.title)}
                   </Typography>
                   <Typography sx={{ color: isLight ? 'text.secondary' : 'common.white' }}>
-                    {card.description}
+                    {t(card.description)}
                   </Typography>
                 </CardStyle>
               </MotionInView>

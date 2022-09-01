@@ -1,10 +1,10 @@
 import { Icon } from '@iconify/react';
-import googleFill from '@iconify/icons-eva/google-fill';
 import twitterFill from '@iconify/icons-eva/twitter-fill';
 import facebookFill from '@iconify/icons-eva/facebook-fill';
-import linkedinFill from '@iconify/icons-eva/linkedin-fill';
+import instagramFill from '@iconify/icons-ant-design/instagram-filled';
 import { Link as ScrollLink } from 'react-scroll';
 import { Link as RouterLink } from 'react-router-dom';
+
 // material
 import { styled } from '@material-ui/core/styles';
 import { Grid, Link, Divider, Container, Typography, IconButton, Stack } from '@material-ui/core';
@@ -15,8 +15,7 @@ import Logo from '../../components/Logo';
 
 const SOCIALS = [
   { name: 'FaceBook', icon: facebookFill },
-  { name: 'Google', icon: googleFill },
-  { name: 'Linkedin', icon: linkedinFill },
+  { name: 'Instagram', icon: instagramFill },
   { name: 'Twitter', icon: twitterFill }
 ];
 
@@ -39,8 +38,10 @@ const LINKS = [
   {
     headline: 'Contact',
     children: [
-      { name: 'support@tchopify.com', href: '#' },
-      { name: 'Douala, Cameroun, Kotto', href: '#' }
+      { name: '+237 698 618 200', href: 'tel:+237698618200' },
+      { name: '+237 676 411 506', href: 'tel:+237676411506' },
+      { name: 'support@tchopify.com', href:  'mailto:support@tchopify.com' },
+      { name: 'Douala, Cameroun, Kotto', href: 'https://mysoleas.com' }
     ]
   }
 ];
@@ -96,10 +97,22 @@ export default function MainFooter() {
                     <Typography component="p" variant="overline">
                       {headline}
                     </Typography>
-                    {children.map((link) => (
+                    {children.map((link) => headline === 'Contact'?(
                       <Link
-                        to={link.href}
                         key={link.name}
+                        href={link.href}
+                        color="inherit"
+                        variant="body2"
+                        component='a'
+                        sx={{ display: 'block' }}
+                      >
+                        {link.name}
+                      </Link>
+                    ):
+                    (
+                      <Link
+                        key={link.name}
+                        to={link.href}
                         color="inherit"
                         variant="body2"
                         component={RouterLink}
@@ -107,7 +120,8 @@ export default function MainFooter() {
                       >
                         {link.name}
                       </Link>
-                    ))}
+                    )
+                    )}
                   </Stack>
                 );
               })}

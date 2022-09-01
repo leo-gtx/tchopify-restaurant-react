@@ -34,8 +34,10 @@ import navbar from './navbar';
 import pos from './pos';
 import notification from './notification';
 import menu from './menu';
+import landing from './landing';
 
 export default {
+  landing,
   menu,
   login,
   actions,

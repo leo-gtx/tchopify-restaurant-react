@@ -1,30 +1,26 @@
 import { Link as ScrollLink } from 'react-scroll';
-import { useLocation, Outlet } from 'react-router-dom';
+
 // material
-import { Box, Link, Container, Typography } from '@material-ui/core';
-// components
-import Logo from '../../components/Logo';
+import { styled } from '@material-ui/core/styles';
+import { Link, Divider, Container, Typography, Box } from '@material-ui/core';
 //
-import MainNavbar from './MainNavbar';
-import MainFooter from './MainFooter';
+import Logo from '../../components/Logo';
 
 // ----------------------------------------------------------------------
 
-export default function MainLayout() {
-  const { pathname } = useLocation();
-  const isHome = pathname.includes('/dashboard');
 
+const RootStyle = styled('div')(({ theme }) => ({
+  position: 'relative',
+  backgroundColor: theme.palette.background.default
+}));
+
+// ----------------------------------------------------------------------
+
+export default function Footer() {
   return (
-    <>
-      <MainNavbar />
-      <div>
-        <Outlet />
-      </div>
-
-      {!isHome ? (
-        <MainFooter />
-      ) : (
-        <Box
+    <RootStyle>
+      <Divider />
+      <Box
           sx={{
             py: 5,
             textAlign: 'center',
@@ -43,7 +39,6 @@ export default function MainLayout() {
             </Typography>
           </Container>
         </Box>
-      )}
-    </>
+    </RootStyle>
   );
 }

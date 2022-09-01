@@ -78,7 +78,7 @@ export function login(email, password){
     .signInWithEmailAndPassword(email, password)
 } 
 
-export function register({email, password, fullname, role}, onSuccess, onError){
+export function register({email, password, fullname, country, phoneNumber, role}, onSuccess, onError){
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -92,6 +92,8 @@ export function register({email, password, fullname, role}, onSuccess, onError){
             id: res.user.uid,
             email,
             fullname,
+            country,
+            phoneNumber,
             emailVerified: res.user.emailVerified,
             role,
             createdAt: Date.now()
