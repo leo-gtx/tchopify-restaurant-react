@@ -91,7 +91,7 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
       mode: isEdit && currentRestaurant?.mode || '',
       location: isEdit && currentRestaurant?.location || '',
       avatarUrl: isEdit && { preview: currentRestaurant?.image } || {},
-      status: isEdit && currentRestaurant?.status || 'disactivated',
+      status: isEdit && currentRestaurant?.status || 'activated',
       kmCost: isEdit && currentRestaurant?.kmCost || ''
     },
     validationSchema: NewRestaurantSchema,

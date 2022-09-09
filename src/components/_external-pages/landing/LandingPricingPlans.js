@@ -7,27 +7,34 @@ import { useTheme, styled, alpha } from '@material-ui/core/styles';
 import { Box, Grid, Card, Link, Stack, Button, Divider, Container, Typography } from '@material-ui/core';
 //
 import { varFadeIn, varFadeInUp, MotionInView, varFadeInDown } from '../../animate';
+import IconFree from '../../../assets/icon_plan_free';
+import IconPlus from '../../../assets/icon_plan_starter';
+import IconExtended from '../../../assets/icon_plan_premium';
 
 // ----------------------------------------------------------------------
 
 const LICENSES = [
   {
     license: 'Essential',
-    price: '5% Per Order'
+    price: '5% Per Order',
+    icon: ()=> <IconFree/>
   },
   {
     license: 'Plus',
-    price: '5% Per Order + 40.000XAF (Activation)'
+    price: '5% Per Order + 40.000XAF (Activation)',
+    icon: ()=><IconPlus/>
   },
   {
     license: 'Extended',
-    price: '5% Per Order + 80.000XAF (Activation)'
+    price: '5% Per Order + 80.000XAF (Activation)',
+    icon: ()=><IconExtended/>
   }
   ];
 
 const PLANS = [...Array(3)].map((_, index) => ({
   license: LICENSES[index].license,
   price: LICENSES[index].price,
+  icon: LICENSES[index].icon,
   commons: ['One end products', '12 months updates', '6 months of support'],
   options: ['JavaScript version', 'TypeScript version', 'Design Resources', 'Commercial applications'],
   icons: ['/static/home/ic_sketch.svg', '/static/home/ic_figma.svg', '/static/home/ic_js.svg', '/static/home/ic_ts.svg']
@@ -54,7 +61,7 @@ PlanCard.propTypes = {
 
 function PlanCard({ plan, cardIndex }) {
   const theme = useTheme();
-  const { license, price, commons, options, icons } = plan;
+  const { license, price, commons, options, icon } = plan;
 
   const isLight = theme.palette.mode === 'light';
 
@@ -75,6 +82,7 @@ function PlanCard({ plan, cardIndex }) {
           <Typography variant="overline" sx={{ mb: 2, color: 'text.disabled', display: 'block' }}>
             {license}
           </Typography>
+          {icon()}
           <Typography variant="h4">{price}</Typography>
         </div>
 
