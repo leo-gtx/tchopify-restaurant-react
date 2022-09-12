@@ -48,5 +48,10 @@ export default {
             sentence1: 'Level up your business',
             sentence2: 'with Tchopify today'
         }
+    },
+    landingPos:{
+        title: 'In addition Tchopify offers you free',
+        subtitle: 'An application to track orders in your restaurant',
+        content: 'Take back the control of your activities by benefiting from the follow-up that this tool offers you and avoid having more losses in your finances, that\'s all that Tchopify wishes you',
     }
 }

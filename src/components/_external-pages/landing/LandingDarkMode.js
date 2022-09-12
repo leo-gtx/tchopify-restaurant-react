@@ -9,7 +9,8 @@ import { MotionInView, varFadeInUp, varFadeInDown } from '../../animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(28, 0),
-  backgroundColor: theme.palette.grey[900]
+  backgroundColor: theme.palette.grey[900],
+  overflow: 'hidden'
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -34,10 +35,11 @@ export default function LandingDarkMode() {
   return (
     <RootStyle>
       <Container maxWidth="lg" sx={{ position: 'relative' }}>
+      <MotionInView variants={varFadeInDown}>
         <Box
           component="img"
           alt="image shape"
-          src="/static/home/shape.svg"
+          src="/static/home/lightmode.png"
           sx={{
             top: 0,
             right: 0,
@@ -48,6 +50,7 @@ export default function LandingDarkMode() {
             display: { xs: 'none', md: 'block' }
           }}
         />
+        </MotionInView>
 
         <Grid container spacing={5} direction="row-reverse" justifyContent="space-between">
           <Grid item xs={12} md={4}>
@@ -72,11 +75,7 @@ export default function LandingDarkMode() {
             </ContentStyle>
           </Grid>
 
-          <Grid item xs={12} md={7} sx={{ position: 'relative' }}>
-            <MotionInView threshold={0.5} variants={varFadeInUp}>
-              <img alt="light mode" src="/static/home/lightmode.png" />
-            </MotionInView>
-          </Grid>
+          <Grid item xs={12} md={7} sx={{ position: 'relative' }}/>
         </Grid>
       </Container>
     </RootStyle>

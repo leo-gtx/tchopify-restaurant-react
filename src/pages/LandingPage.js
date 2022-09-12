@@ -37,7 +37,7 @@ export default function LandingPage() {
       <LandingHero />
       <ContentStyle>
         <LandingMinimal />
-        {/* <LandingPos/> */}
+        <LandingPos/>
         <LandingHugePackElements />
         <LandingDarkMode />
         <LandingCleanInterfaces />

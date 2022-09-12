@@ -48,5 +48,10 @@ export default {
             sentence1: 'Développez votre activité',
             sentence2: 'avec Tchopify dès maintenant'
         }
+    },
+    landingPos:{
+        title: 'En Plus Tchopify Vous offre gratuitement',
+        subtitle: 'Une application pour relever les commandes dans votre restaurant',
+        content: 'Reprenez le contrôle de vos activités en bénéficiant du suivi que cet outil vous offre et évitez d\'avoir avantage de perte dans vos finances, c\'est tout ce que Tchopify vous souhaite.',
     }
 }

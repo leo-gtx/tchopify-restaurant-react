@@ -54,5 +54,7 @@ export default {
     shipping: 'Delivering',
     rate: 'Rate',
     chooseTable: 'Set a table',
-    becomePartner: 'Become Partner'
+    becomePartner: 'Become Partner',
+    contactUs: 'Contact Us',
+    choosePlan: 'Choose Plan'
 }

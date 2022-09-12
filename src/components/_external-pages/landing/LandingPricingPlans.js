@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import checkmarkFill from '@iconify/icons-eva/checkmark-fill';
 import chevronRightFill from '@iconify/icons-eva/chevron-right-fill';
+import {useTranslation } from 'react-i18next';
 // material
 import { useTheme, styled, alpha } from '@material-ui/core/styles';
 import { Box, Grid, Card, Link, Stack, Button, Divider, Container, Typography } from '@material-ui/core';
@@ -10,24 +11,64 @@ import { varFadeIn, varFadeInUp, MotionInView, varFadeInDown } from '../../anima
 import IconFree from '../../../assets/icon_plan_free';
 import IconPlus from '../../../assets/icon_plan_starter';
 import IconExtended from '../../../assets/icon_plan_premium';
+import { PATH_AUTH } from '../../../routes/paths';
 
 // ----------------------------------------------------------------------
 
 const LICENSES = [
   {
     license: 'Essential',
-    price: '5% Per Order',
-    icon: ()=> <IconFree/>
+    price: 'pricing.price.1',
+    icon: ()=> <IconFree/>,
+    commons: [
+      'pricing.specifications.1',
+      'pricing.specifications.2', 
+      'pricing.specifications.3',
+      'pricing.specifications.4',
+    ], 
+    options : [
+      'pricing.specifications.5',
+      'pricing.specifications.6',
+      'pricing.specifications.7',
+      'pricing.specifications.8',
+    ]
   },
   {
     license: 'Plus',
-    price: '5% Per Order + 40.000XAF (Activation)',
-    icon: ()=><IconPlus/>
+    price: 'pricing.price.2',
+    icon: ()=><IconPlus/>,
+    commons: [
+      'pricing.specifications.1',
+      'pricing.specifications.2', 
+      'pricing.specifications.3',
+      'pricing.specifications.4',
+      'pricing.specifications.5',
+      'pricing.specifications.6',
+    ], 
+    options : [
+      'pricing.specifications.7',
+      'pricing.specifications.8',
+
+    ]
   },
   {
     license: 'Extended',
-    price: '5% Per Order + 80.000XAF (Activation)',
-    icon: ()=><IconExtended/>
+    price: 'pricing.price.3',
+    icon: ()=><IconExtended/>,
+    commons: [
+      'pricing.specifications.1',
+      'pricing.specifications.2', 
+      'pricing.specifications.3',
+      'pricing.specifications.4',
+      'pricing.specifications.5',
+      'pricing.specifications.6',
+      'pricing.specifications.7',
+      'pricing.specifications.8',
+    ], 
+    options : [
+      
+      
+    ]
   }
   ];
 
@@ -35,9 +76,8 @@ const PLANS = [...Array(3)].map((_, index) => ({
   license: LICENSES[index].license,
   price: LICENSES[index].price,
   icon: LICENSES[index].icon,
-  commons: ['One end products', '12 months updates', '6 months of support'],
-  options: ['JavaScript version', 'TypeScript version', 'Design Resources', 'Commercial applications'],
-  icons: ['/static/home/ic_sketch.svg', '/static/home/ic_figma.svg', '/static/home/ic_js.svg', '/static/home/ic_ts.svg']
+  commons: LICENSES[index].commons,
+  options: LICENSES[index].options,
 }));
 
 const RootStyle = styled('div')(({ theme }) => ({
@@ -61,6 +101,7 @@ PlanCard.propTypes = {
 
 function PlanCard({ plan, cardIndex }) {
   const theme = useTheme();
+  const {t} = useTranslation();
   const { license, price, commons, options, icon } = plan;
 
   const isLight = theme.palette.mode === 'light';
@@ -80,17 +121,17 @@ function PlanCard({ plan, cardIndex }) {
       <Stack spacing={5}>
         <div>
           <Typography variant="overline" sx={{ mb: 2, color: 'text.disabled', display: 'block' }}>
-            {license}
+            {t(license)}
           </Typography>
           {icon()}
-          <Typography variant="h4">{price}</Typography>
+          <Typography variant="h4">{t(price)}</Typography>
         </div>
 
         <Stack spacing={2.5}>
           {commons.map((option) => (
             <Stack key={option} spacing={1.5} direction="row" alignItems="center">
               <Box component={Icon} icon={checkmarkFill} sx={{ color: 'primary.main', width: 20, height: 20 }} />
-              <Typography variant="body2">{option}</Typography>
+              <Typography variant="body2">{t(option)}</Typography>
             </Stack>
           ))}
 
@@ -116,7 +157,7 @@ function PlanCard({ plan, cardIndex }) {
                     color: 'text.disabled'
                   }}
                 />
-                <Typography variant="body2">{option}</Typography>
+                <Typography variant="body2">{t(option)}</Typography>
               </Stack>
             )
           )}
@@ -142,10 +183,9 @@ function PlanCard({ plan, cardIndex }) {
           size="large"
           fullWidth
           variant={cardIndex === 1 ? 'contained' : 'outlined'}
-          target="_blank"
-          href="#"
+          href={PATH_AUTH.register}
         >
-          Choose Plan
+          {t('actions.choosePlan')}
         </Button>
       </Stack>
     </Card>
@@ -153,18 +193,19 @@ function PlanCard({ plan, cardIndex }) {
 }
 
 export default function LandingPricingPlans() {
+  const {t} = useTranslation();
   return (
     <RootStyle>
       <Container maxWidth="lg">
         <Box sx={{ mb: 10, textAlign: 'center' }}>
           <MotionInView variants={varFadeInUp}>
             <Typography component="p" variant="overline" sx={{ mb: 2, color: 'text.secondary' }}>
-              pricing plans
+              {t('pricing.heading')}
             </Typography>
           </MotionInView>
           <MotionInView variants={varFadeInDown}>
             <Typography variant="h2" sx={{ mb: 3 }}>
-              The right plan for your business
+              {t('pricing.title')}
             </Typography>
           </MotionInView>
           <MotionInView variants={varFadeInDown}>
@@ -173,7 +214,7 @@ export default function LandingPricingPlans() {
                 color: (theme) => (theme.palette.mode === 'light' ? 'text.secondary' : 'text.primary')
               }}
             >
-              Choose the perfect plan for your needs. Always flexible to grow
+              {t('pricing.subtitle')}
             </Typography>
           </MotionInView>
         </Box>
@@ -191,12 +232,12 @@ export default function LandingPricingPlans() {
         <MotionInView variants={varFadeIn}>
           <Box sx={{ p: 5, mt: 10, textAlign: 'center' }}>
             <MotionInView variants={varFadeInDown}>
-              <Typography variant="h3">Still have questions?</Typography>
+              <Typography variant="h3">{t('pricing.contact.title')}</Typography>
             </MotionInView>
 
             <MotionInView variants={varFadeInDown}>
               <Typography sx={{ mt: 3, mb: 5, color: 'text.secondary' }}>
-                Please describe your case to receive the most accurate advice.
+                {t('pricing.contact.subtitle')}
               </Typography>
             </MotionInView>
 
@@ -206,7 +247,7 @@ export default function LandingPricingPlans() {
                 variant="contained"
                 href="mailto:support@tchopify.com?subject=[Feedback] from Customer"
               >
-                Contact us
+                {t('actions.contactUs')}
               </Button>
             </MotionInView>
           </Box>

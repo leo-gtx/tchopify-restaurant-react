@@ -35,8 +35,10 @@ import pos from './pos';
 import notification from './notification';
 import menu from './menu';
 import landing from './landing';
+import pricing from './pricing';
 
 export default {
+  pricing,
   landing,
   menu,
   login,

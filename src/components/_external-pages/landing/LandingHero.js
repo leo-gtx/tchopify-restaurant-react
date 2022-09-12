@@ -12,7 +12,7 @@ import { Button, Box, Container, Typography, Stack } from '@material-ui/core';
 // routes
 import { PATH_AUTH } from '../../../routes/paths';
 //
-import { varFadeIn, varFadeInUp, varWrapEnter, varFadeInRight } from '../../animate';
+import { varFadeIn, varFadeInUp, varWrapEnter, varFadeInRight, varFadeInLeft } from '../../animate';
 
 
 // ----------------------------------------------------------------------
@@ -79,11 +79,11 @@ export default function LandingHero() {
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
         <HeroOverlayStyle alt="overlay" src="/static/overlay.svg" variants={{...varFadeIn, animate: {opacity: 0.8}}} />
 
-        <HeroImgStyle alt="hero" src="/static/home/hero.png" variants={varFadeInUp} />
+        <HeroImgStyle alt="hero" src="/static/home/hero.png" variants={varFadeInRight} />
 
         <Container maxWidth="lg">
           <ContentStyle>
-            <motion.div variants={varFadeInRight}>
+            <motion.div variants={varFadeInLeft}>
               <Typography variant="h1" sx={{ color: 'common.white' }}>
                 {t('landing.landingHero.title.sentence1')} <br />
                 {t('landing.landingHero.title.sentence2')} <br />
