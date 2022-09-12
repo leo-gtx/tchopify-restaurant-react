@@ -8,7 +8,7 @@ import { MotionInView, varFadeInUp, varFadeInDown } from '../../animate';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
-  padding: theme.spacing(28, 0),
+  padding: theme.spacing(23, 0),
   backgroundColor: theme.palette.grey[900],
   overflow: 'hidden'
 }));
