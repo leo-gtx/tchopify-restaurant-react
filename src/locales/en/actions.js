@@ -1,6 +1,6 @@
 export default {
     goHome: 'Go To Home',
-    getStarted: "Get Started",
+    getStarted: "Start Free",
     login: "Login",
     register: "Register",
     verifyPhoneNumber: "Verify Phone Number",

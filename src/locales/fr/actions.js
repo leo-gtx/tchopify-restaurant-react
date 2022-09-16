@@ -1,6 +1,6 @@
 export default {
     goHome: 'Revenir à l\'accueil',
-    getStarted: "Commencez",
+    getStarted: "Commencez Gratuitement",
     login: "Connexion",
     register: "Inscription",
     verifyPhoneNumber: "Verification Numéro de Téléphone",

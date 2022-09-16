@@ -17,56 +17,46 @@ import { PATH_AUTH } from '../../../routes/paths';
 
 const LICENSES = [
   {
-    license: 'Essential',
+    license: 'pricing.solution1.title',
     price: 'pricing.price.1',
     icon: ()=> <IconFree/>,
     commons: [
-      'pricing.specifications.1',
-      'pricing.specifications.2', 
-      'pricing.specifications.3',
-      'pricing.specifications.4',
+      'pricing.solution1.specs.1',
+      'pricing.solution1.specs.2', 
+      'pricing.solution1.specs.3',
+      'pricing.solution1.specs.4',
+      'pricing.solution1.specs.5',
     ], 
     options : [
-      'pricing.specifications.5',
-      'pricing.specifications.6',
-      'pricing.specifications.7',
-      'pricing.specifications.8',
+      'pricing.solution1.specs.6',
     ]
   },
   {
-    license: 'Plus',
+    license: 'pricing.solution2.title',
     price: 'pricing.price.2',
     icon: ()=><IconPlus/>,
     commons: [
-      'pricing.specifications.1',
-      'pricing.specifications.2', 
-      'pricing.specifications.3',
-      'pricing.specifications.4',
-      'pricing.specifications.5',
-      'pricing.specifications.6',
+      
     ], 
     options : [
-      'pricing.specifications.7',
-      'pricing.specifications.8',
-
+      'pricing.solution2.specs.1',
+      'pricing.solution2.specs.2', 
+      'pricing.solution2.specs.3',
+      'pricing.solution2.specs.4',
     ]
   },
   {
-    license: 'Extended',
+    license: 'pricing.solution3.title',
     price: 'pricing.price.3',
     icon: ()=><IconExtended/>,
     commons: [
-      'pricing.specifications.1',
-      'pricing.specifications.2', 
-      'pricing.specifications.3',
-      'pricing.specifications.4',
-      'pricing.specifications.5',
-      'pricing.specifications.6',
-      'pricing.specifications.7',
-      'pricing.specifications.8',
+     
     ], 
     options : [
-      
+      'pricing.solution3.specs.1',
+      'pricing.solution3.specs.2', 
+      'pricing.solution3.specs.3',
+      'pricing.solution3.specs.4',
       
     ]
   }
@@ -185,7 +175,7 @@ function PlanCard({ plan, cardIndex }) {
           variant={cardIndex === 1 ? 'contained' : 'outlined'}
           href={PATH_AUTH.register}
         >
-          {t('actions.choosePlan')}
+          {t('actions.getStarted')}
         </Button>
       </Stack>
     </Card>

@@ -139,7 +139,7 @@ export default function MainFooter() {
             textAlign: { xs: 'center', md: 'left' }
           }}
         >
-          © 2022. All rights reserved
+         <Link color="inherit" variant="body2" component='a' href='https://mysoleas.com'>MySOLEAS</Link> © 2022. 
         </Typography>
       </Container>
     </RootStyle>

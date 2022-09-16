@@ -1,21 +1,43 @@
 export default {
-    heading: 'pricing plans',
-    title: 'The right plan for your business',
-    subtitle: 'Choose the perfect plan for your needs. Always flexible to grow',
+    heading: 'pricing',
+    title: 'The right solution for your business',
+    subtitle: 'Choose the perfects solutions for your needs. Always flexible to grow',
     price: {
-        1: '5% Per Order',
-        2: '5% Per Order + 10.000XAF/Month',
-        3: '5% Per Order + 20.000XAF/Month'
+        1: '5% / Order',
+        2: '100XAF / 100 Requests',
+        3: '5000XAF / Month + Activation fee',
     },
-    specifications: {
-        1: 'Free online shop on Tchopify',
-        2: 'Free online menu',
-        3: 'Free photo session for digital menu',
-        4: 'Free app to manage your orders',
-        5: 'Promoting and Ads Tools',
-        6: 'Virtual assistant reply on Messenger for you',
-        7: 'Virtual assistant reply on Telegram for you',
-        8: 'Virtual assistant reply on Whatsapp for you',
+    solution1:{
+        title: 'Merchant',
+        specs: {
+            1: 'Get an online exhibition stand for your restaurants on tchopify.com',
+            2: 'Online menu',
+            3: 'Free photo shoot for your menu',
+            4: 'Free application to manage your orders in the restaurant and online',
+            5: 'Dashboard to monitor your business',
+            6: 'Promotion and advertising tools on Tchopify'
+        },
+    },
+    solution2:{
+        title: 'Assistant',
+        specs: {
+            1: 'A virtual assistant answers Whatsapp orders from your customers for you',
+            2: 'A virtual assistant responds to Messenger orders from your customers for you',
+            3: 'A virtual assistant answers your customers\' Telegram orders for you',
+            4: 'A virtual assistant answers your customers\' SMS orders for you',
+
+        }
+    },
+    solution3:{
+        title: 'AR',
+        specs: {
+            1: 'Get a new version of your menu',
+            2: 'Preview your menu available',
+            3: 'QR code for sharing',
+            4: 'Preview available on your Tchopify stand',
+            5: 'Preview available on your Tchopify stand'
+        }
+
     },
     contact: {
         title: 'Still have questions?',
