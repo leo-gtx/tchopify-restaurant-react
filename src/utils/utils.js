@@ -269,7 +269,7 @@ export function RequestTimeout(ms, promise){
 }
 
 export function uniqueId(){
-    const dateString = Date.now().toString().substr(0, 5);
-    const randomness = Math.floor(Math.random() * 10000).toString().substr(0, 4);
-    return dateString + randomness;
+    const dateString = Date.now().toString();
+    const randomness = Math.floor(Math.random() * 1000000 + Number(dateString.substr(dateString.length -4, 3))).toString();
+    return randomness;
 };

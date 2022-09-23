@@ -43,12 +43,12 @@ OrderItem.propTypes = {
 
 export default function OrderItem({ item, position, action1, action2 }) {
   const {t} = useTranslation();
-  const { billing, total, orderAt, cart, from, deliveryTime, status, mode } = item;
-  const cookingTime = sumBy(cart, 'cookingTime');
-  const deliveryDate = new Date(orderAt);
-  deliveryDate.setMinutes(deliveryDate.getMinutes() + deliveryTime + cookingTime)
-  const countdown = useCountdown(deliveryDate);
-  const expired = (deliveryDate - new Date()) < 0; 
+  const { billing, total, orderAt, cart, from, mode, id } = item;
+  // const cookingTime = sumBy(cart, 'cookingTime');
+  // const deliveryDate = new Date(orderAt);
+  // deliveryDate.setMinutes(deliveryDate.getMinutes() + deliveryTime + cookingTime)
+  // const countdown = useCountdown(deliveryDate);
+  // const expired = (deliveryDate - new Date()) < 0; 
   return (
     <Stack spacing={2} sx={{ height: 'auto', position: 'relative', p: 3 }}>
       <Stack direction="row" alignItems="center" spacing={2}>
@@ -57,7 +57,7 @@ export default function OrderItem({ item, position, action1, action2 }) {
           mode !== 'DINE'?
           (
             <div>
-              <Typography variant="subtitle1">{`${billing.receiver} (${billing.phone})`}</Typography>
+              <Typography variant="subtitle1">{`#${id} | ${billing.receiver} (${billing.phone})`}</Typography>
               <Typography variant="subtitle2">{billing.fullAddress}</Typography>
               <Typography variant="caption" sx={{ color: 'text.secondary', mt: 0.5, display: 'block' }}>
                 {t('allOrders.ordered')} {fToNow(orderAt)}
@@ -67,7 +67,7 @@ export default function OrderItem({ item, position, action1, action2 }) {
           (
             <div>
             {billing?.receiver && (<Typography variant="subtitle1">{`${billing?.receiver} (${billing?.phone})`}</Typography>)}
-            {billing?.table && (<Typography variant="subtitle2">Table #{billing?.table}</Typography>)}
+            {billing?.table && (<Typography variant="subtitle2">{`#${id} | Table-${billing?.table}`}</Typography>)}
             <Typography variant="caption" sx={{ color: 'text.secondary', mt: 0.5, display: 'block' }}>
               {t('allOrders.ordered')} {fToNow(orderAt)}
             </Typography>
@@ -105,12 +105,6 @@ export default function OrderItem({ item, position, action1, action2 }) {
         <Icon icon={bagFill} height={20} width={20} />
         <Typography variant="subtitle1">{fCurrency(total)}</Typography>
       </Stack>
-      { mode !== 'DINE' &&  status !== 'completed' && (
-        <Stack direction='row' alignItems='center'>
-          <Icon icon={clockOutline} height={20} width={20} />
-          <Typography variant="subtitle1" color={expired && 'red'}>{`${!expired? countdown.hours: '00'}:${!expired?countdown.minutes: '00'}:${!expired?countdown.seconds:'00'}`}</Typography>
-        </Stack>
-      ) }
       
       <Stack direction="row" spacing={2} alignItems="flex-end" sx={{ flexGrow: 1 }}>
         {

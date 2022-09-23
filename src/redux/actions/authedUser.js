@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import firebase from '../../firebase';
-import { formattedAddress, generateOTP } from '../../utils/utils';
+import { formattedAddress, generateOTP, RequestTimeout } from '../../utils/utils';
 import { USER } from '../../utils/entities';
 import { PATH_DASHBOARD } from '../../routes/paths';
 import { withdraw } from '../../utils/api';
@@ -678,4 +678,17 @@ export function handleSetRegistrationToken(userId, token){
     dispatch(updateAuthedUser({token}))
   })
   .catch((err)=>console.error(err))
+}
+
+export function GetOwner(userId, callback){
+  return RequestTimeout(5000, 
+    firebase
+    .firestore()
+    .collection('users')
+    .doc(userId)
+    .get()
+    .then((snapDoc)=>
+      callback(snapDoc.data())
+    )
+  )
 }
