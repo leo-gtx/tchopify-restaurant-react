@@ -17,7 +17,7 @@ import CategoryNewForm from '../../components/_dashboard/category/SubcategoryNew
 // Utils
 import { jsUcfirst, getOwnerId } from '../../utils/utils';
 // Actions
-import { handleGetSubCategories } from '../../redux/actions/category';
+import { handleGetSubCategories, handleGetCategories } from '../../redux/actions/category';
 // ----------------------------------------------------------------------
 
 export default function ConfigurartionCategoryCreate() {
@@ -32,6 +32,7 @@ export default function ConfigurartionCategoryCreate() {
   const isEdit = pathname.includes('edit');
   const currentCategory = categories.find((category) => paramCase(category.name) === name);
   useEffect(()=>{
+    dispatch(handleGetCategories());
     dispatch(handleGetSubCategories(getOwnerId(authedUser)));
   },[dispatch, authedUser.id])
   return (

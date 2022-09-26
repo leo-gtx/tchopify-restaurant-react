@@ -40,6 +40,7 @@ import { getOwnerId } from '../../../utils/utils';
 // actions
 import { handleAddDish, handleEditDish } from '../../../redux/actions/dishes';
 
+
 // ----------------------------------------------------------------------
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
@@ -93,7 +94,7 @@ export default function DishNewForm({ isEdit, currentDish }) {
       cookingTime: currentDish?.cookingTime || '',
       price: currentDish?.price || '',
       options: currentDish?.options || [],
-      isPublished: true,
+      isPublished: currentDish?.isPublished || false,
       category: currentDish?.category
     },
     validationSchema: NewDishSchema,

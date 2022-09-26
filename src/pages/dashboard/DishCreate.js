@@ -1,11 +1,11 @@
-
+import { useEffect } from 'react';
 import { paramCase } from 'change-case';
 import { useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 // material
 import { Container } from '@material-ui/core';
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -14,6 +14,11 @@ import useSettings from '../../hooks/useSettings';
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import DishNewForm from '../../components/_dashboard/menu/DishNewForm';
+// redux
+import { handleGetCategories, handleGetSubCategories } from '../../redux/actions/category';
+// utils
+import { getOwnerId } from '../../utils/utils';
+
 
 // ----------------------------------------------------------------------
 
@@ -22,10 +27,15 @@ export default function EcommerceProductCreate() {
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
   const { name } = useParams();
-  const  dishes = useSelector(state=>Object.values(state.dishes));
+  const {dishes, authedUser} = useSelector(state=>state);
   const isEdit = pathname.includes('edit');
-  const currentDish = dishes.find((dish) => paramCase(dish.name) === name);
-  
+  const currentDish = Object.values(dishes).find((dish) => paramCase(dish.name) === name);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(handleGetCategories());
+    dispatch(handleGetSubCategories(getOwnerId(authedUser)));
+  },[dispatch])
 
   return (
     <Page title="Menu: Create a new dish | Tchopify">

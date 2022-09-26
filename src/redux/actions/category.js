@@ -244,6 +244,7 @@ export function handleNewSubcategory({owner, name, categoryGroup}, callback, onE
         .firestore()
         .collection('categories')
         .where('name', '==', name)
+        .where('owner', '==', owner)
         .get()
         .then((querySnapshot)=>{
             if(querySnapshot.empty){
@@ -278,13 +279,14 @@ export function handleNewSubcategory({owner, name, categoryGroup}, callback, onE
         
 }
 
-export function handleEditSubcategory({id, name, categoryGroup}, callback, onError){
+export function handleEditSubcategory({owner, id, name, categoryGroup}, callback, onError){
     return (dispatch) =>
         // Check if category name already exists
         firebase
         .firestore()
         .collection('categories')
         .where('name', '==', name)
+        .where('owner', '==', owner)
         .get()
         .then((querySnapshot)=>{
             if(querySnapshot.empty || querySnapshot.docs[0].data().id === id ){

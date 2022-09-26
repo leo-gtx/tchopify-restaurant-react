@@ -23,10 +23,10 @@ export default function StaffCreate() {
   const isEdit = pathname.includes('edit');
   const {t} = useTranslation();
   return (
-    <Page title="Staff: Create a new staff | Tchopify">
+    <Page title={`Staff: ${!isEdit ? t('staffCreate.title1') : t('staffCreate.title2')} | Tchopify`}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? t('staffCreate.title1') : t('staffEdit.title2')}
+          heading={!isEdit ? t('staffCreate.title1') : t('staffCreate.title2')}
           links={[
             { name: t('links.dashboard'), href: PATH_DASHBOARD.root },
             { name: t('links.staff'), href: PATH_DASHBOARD.staff.list },
