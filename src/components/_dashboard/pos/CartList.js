@@ -76,17 +76,16 @@ CartList.propTypes = {
   formik: PropTypes.object.isRequired,
   onDelete: PropTypes.func,
   onDecreaseQuantity: PropTypes.func,
-  onIncreaseQuantity: PropTypes.func
+  openModal: PropTypes.bool.isRequired,
+  onIncreaseQuantity: PropTypes.func,
+  onCloseModal: PropTypes.func,
 };
 
-export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecreaseQuantity }) {
+export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecreaseQuantity, openModal, onCloseModal }) {
   const { products } = formik.values;
-  const { getFieldProps, errors } = formik;
+  const { getFieldProps, errors, handleSubmit  } = formik;
   const {t} = useTranslation();
   const { palette } = useTheme();
-  const [open, setOpen] = useState(false);
-  const handleOpenModal  = ()=> setOpen(true);
-  const handleCloseModal = ()=> setOpen(false);
   return (
       <Stack direction='row' divider={<Divider orientation='vertical' variant='middle' flexItem />}>
 
@@ -147,21 +146,8 @@ export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecre
             );
           })}
           <Stack sx={{m: 2}} justifyContent='center'>
-          <Button
-              size="large"
-              type="button"
-              variant="outlined"
-              sx={{ whiteSpace: 'nowrap' }}
-              onClick={handleOpenModal}
-            >
-              {t('actions.chooseTable')}
-            </Button>
-            {
-              errors.table && (
-                <Typography variant='subtitle2' color={palette.error.main}>{errors.table}</Typography>
-              )
-            }
-            <DialogAnimate open={open} onClose={handleCloseModal}>
+           
+            <DialogAnimate open={openModal} onClose={onCloseModal}>
               <DialogTitle>{t('pos.modalTableTitle')}</DialogTitle>
               <DialogContent>
                 <TextField
@@ -171,7 +157,15 @@ export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecre
                 />
               </DialogContent>
               <DialogActions>
-                <Button variant='outlined' color='inherit' onClick={handleCloseModal}>{t('actions.confirm')}</Button>
+                <Button 
+                variant='outlined' 
+                onClick={()=>{
+                  handleSubmit();
+                  onCloseModal();
+                }}
+                >
+                {t('actions.confirm')}
+                </Button>
               </DialogActions>
             </DialogAnimate>
           </Stack>

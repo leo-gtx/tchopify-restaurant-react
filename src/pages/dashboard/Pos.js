@@ -22,13 +22,14 @@ import {
 import Scrollbar from '../../components/Scrollbar';
 
 // utils
-import { getOwnerId } from '../../utils/utils';
+import { getOwnerId, RequestTimeout } from '../../utils/utils';
 import { fCurrency } from '../../utils/formatNumber';
 // hooks
 import useSettings from '../../hooks/useSettings';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 // actions
 import { handleGetSubCategories } from '../../redux/actions/category';
+import { handleGetDishes } from '../../redux/actions/dishes';
 import { 
   addCart,
   decreaseQuantity,
@@ -63,6 +64,9 @@ export default function Pos() {
   const { cart } = app.checkout;
   const isEmptyCart = cart.length === 0;
   const total = sumBy(cart, 'subtotal');
+  const [open, setOpen] = useState(false);
+  const handleOpenModal  = ()=> setOpen(true);
+  const handleCloseModal = ()=> setOpen(false);
 
   const handleSelectOption = (value)=>{
     setSort(value)
@@ -70,11 +74,12 @@ export default function Pos() {
 
   useEffect(() => {
     dispatch(handleGetSubCategories(getOwnerId(authedUser)));
+    dispatch(handleGetDishes(getOwnerId(authedUser)));
  }, [dispatch, authedUser]);
 
  const formik = useFormik({
   validationSchema: Yup.object().shape({
-    table: Yup.string().required(t('forms.tableRequired'))
+    table: Yup.string(),
   }),
   enableReinitialize: true,
   initialValues: { products: cart, table: '' },
@@ -168,9 +173,9 @@ const getPadding = ()=>{
               {
                 !isEmptyCart && (
                   <Paper sx={{position: 'fixed', bottom: 0, left: 0, right: 0, height: 240, ...getPadding() }} elevation={3}>
-                    <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                    <Form autoComplete="off" noValidate onSubmit={handleOpenModal}>
                         <Scrollbar>
-                          <CartList formik={formik} onDelete={handleDeleteCart} onDecreaseQuantity={handleDecreaseQuantity} onIncreaseQuantity={handleIncreaseQuantity} />
+                          <CartList formik={formik} onCloseModal={handleCloseModal} openModal={open} onDelete={handleDeleteCart} onDecreaseQuantity={handleDecreaseQuantity} onIncreaseQuantity={handleIncreaseQuantity} />
                         </Scrollbar>
                         <Stack justifyContent='center' alignItems='center'>
                           <LoadingButton

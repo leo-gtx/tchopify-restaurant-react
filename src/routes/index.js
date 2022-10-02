@@ -192,7 +192,7 @@ export default function Router() {
                 <OrdersHistory/>
               </RoleBasedGuard>)},
             { path: '/:id/details', element: (
-              <RoleBasedGuard accessibleRoles={[ROLES.owner.value, ROLES.admin.value]}>
+              <RoleBasedGuard accessibleRoles={[ROLES.owner.value, ROLES.admin.value, ROLES.waitress.value]}>
                 <OrderInvoice/>
               </RoleBasedGuard>)}
           ]

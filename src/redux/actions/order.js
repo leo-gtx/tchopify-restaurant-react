@@ -68,13 +68,14 @@ export function PosPlaceOrder({cart, subtotal, billing, discount, payment, from,
         status: 'new',
         paymentStatus: 'unpaid',
     };
-    return firebase
+    return RequestTimeout(5000, firebase
     .firestore()
     .collection('orders')
     .doc(id)
     .set(data)
     .then(onSuccess)
     .catch(onError)
+    )
 }
 
 export function handlePayAndPlaceOrder({cart, subtotal, discount, billing, shipping, payment, from, total, wallet, service, deliveryTime, coupon}, callback, onError){
@@ -258,7 +259,7 @@ export function GetOrdersByStatus({status, ownerId, mode},callback){
     
 }
 
-export function GetOrdersByStatusAndShop({status, shopId, mode},callback){
+export function GetOrdersByStatusAndShop({userId, status, shopId, mode},callback){
     if(mode){
         return firebase
         .firestore()
