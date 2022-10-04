@@ -37,7 +37,7 @@ export default function LoginForm() {
   const {t} = useTranslation();
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email(t('forms.emailInvalid')).required('forms.emailRequired'),
-    password: Yup.string().required(t('form.passwordRequired'))
+    password: Yup.string().required(t('forms.passwordRequired'))
   });
 
   const formik = useFormik({

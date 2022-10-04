@@ -692,3 +692,25 @@ export function GetOwner(userId, callback){
     )
   )
 }
+
+export function handleChangeEmail(email, onSuccess, onError){
+  return (dispatch)=>{
+    const user = firebase.auth().currentUser;
+    RequestTimeout(5000,
+      user.updateEmail(email)
+    .then(()=> {
+      firebase
+      .firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update({email})
+      .then(()=>{
+        dispatch(updateAuthedUser({email}));
+        onSuccess();
+      })
+      
+    })
+    .catch((error)=>onError(error.message))
+    );
+  }
+}

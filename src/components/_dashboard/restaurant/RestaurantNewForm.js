@@ -265,7 +265,6 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
                     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   
                     <TextField
-                      disabled
                       fullWidth
                       label={t('forms.locationLabel')}
                       placeholder={t('forms.locationLabel')}

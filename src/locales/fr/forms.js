@@ -1,4 +1,5 @@
 export default {
+    newEmailLabel: 'Nouvelle adresse email',
     emailInvalid: 'L\'adresse email doit être valide',
     emailRequired: 'Email requis',
     passwordRequired: 'Mot de passe requis',

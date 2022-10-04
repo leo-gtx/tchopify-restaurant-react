@@ -2,15 +2,12 @@ import { Icon } from '@iconify/react';
 import { capitalCase } from 'change-case';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import bellFill from '@iconify/icons-eva/bell-fill';
 import shareFill from '@iconify/icons-eva/share-fill';
 import roundVpnKey from '@iconify/icons-ic/round-vpn-key';
-// import roundReceipt from '@iconify/icons-ic/round-receipt';
 import roundAccountBox from '@iconify/icons-ic/round-account-box';
+import mail from '@iconify/icons-ic/mail';
 // material
 import { Container, Tab, Box, Tabs, Stack } from '@material-ui/core';
-// redux
-// import { getCards, getProfile, getInvoices, getAddressBook, getNotifications } from '../../redux/slices/user';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -20,10 +17,9 @@ import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import {
   AccountGeneral,
-//  AccountBilling,
   AccountSocialLinks,
-//  AccountNotifications,
-  AccountChangePassword
+  AccountChangePassword,
+  AccountChangeEmail,
 } from '../../components/_dashboard/user/account';
 
 // ----------------------------------------------------------------------
@@ -38,16 +34,6 @@ export default function UserAccount() {
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
       component: <AccountGeneral />
     },
-/*    {
-      value: 'billing',
-      icon: <Icon icon={roundReceipt} width={20} height={20} />,
-      component: <AccountBilling />
-    },
-    {
-      value: 'notifications',
-      icon: <Icon icon={bellFill} width={20} height={20} />,
-      component: <AccountNotifications />
-    }, */
     {
       value: 'social_links',
       icon: <Icon icon={shareFill} width={20} height={20} />,
@@ -57,6 +43,11 @@ export default function UserAccount() {
       value: 'change_password',
       icon: <Icon icon={roundVpnKey} width={20} height={20} />,
       component: <AccountChangePassword />
+    },
+    {
+      value: 'change_email',
+      icon: <Icon icon={mail} width={20} height={20}/>,
+      component: <AccountChangeEmail/>
     }
   ];
 
