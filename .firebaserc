@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "tchopify"
+  },
+  "targets": {
+    "tchopify": {
+      "hosting": {
+        "restaurant": [
+          "tchopify-restaurant"
+        ]
+      }
+    }
+  }
+}
