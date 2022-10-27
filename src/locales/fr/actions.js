@@ -56,5 +56,6 @@ export default {
     chooseTable: 'Renseignez la table',
     becomePartner: 'Devenir Partenaire',
     contactUs: 'Contactez Nous',
-    choosePlan: 'Choisissez un Plan'
+    choosePlan: 'Choisissez un Plan',
+    useCurrentLocation: 'Utiliser ma position actuelle'
 }

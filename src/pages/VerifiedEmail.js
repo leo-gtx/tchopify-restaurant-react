@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 // material
@@ -9,7 +10,7 @@ import { MotionContainer, varBounceIn } from '../components/animate';
 import Page from '../components/Page';
 import { SentIcon } from '../assets';
 // Actions
-import { handleSendVerificationEmail} from '../redux/actions/authedUser';
+import { handleSendVerificationEmail, logout } from '../redux/actions/authedUser';
 
 
 
@@ -28,10 +29,12 @@ const RootStyle = styled(Page)(({ theme }) => ({
 export default function EmailVerified() {
   const {t} = useTranslation();
   const [isSend, setSend] = useState(false)
+  const dispatch = useDispatch();
   const handleClick = (e)=>{
     e.preventDefault()
     handleSendVerificationEmail(()=>setSend(true))
   }
+  const handleLogout = ()=> dispatch(logout());
   return (
     <RootStyle title="Verified Email | Tchopify">
       <Container>
@@ -57,10 +60,13 @@ export default function EmailVerified() {
                   </Link>
                 </Typography>
               </Box>
-
-            { /* <Button to="/dashboard"  size="large" variant="contained" component={RouterLink}>
-              Go Home
-                  </Button> */ }
+              <Box style={{flexDirection: 'column'}}>
+                <Typography variant="body2" align="center" color="initial">
+                  <Link variant="subtitle2" underline="none" style={{cursor: 'pointer'}}  onClick={handleLogout}>
+                    {t('actions.login')}
+                  </Link>
+                </Typography>
+              </Box>
           </Box>
         </MotionContainer>
       </Container>

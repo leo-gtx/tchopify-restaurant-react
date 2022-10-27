@@ -7,7 +7,7 @@ export const resizeFileRestaurant = (file) =>
       500,
       500,
       "JPEG",
-      100,
+      90,
       0,
       (uri) => {
         resolve(uri);
@@ -23,7 +23,7 @@ export const resizeFileRestaurant = (file) =>
       800,
       656,
       "JPEG",
-      100,
+      90,
       0,
       (uri) => {
         resolve(uri);
@@ -39,7 +39,7 @@ export const resizeFileRestaurant = (file) =>
       200,
       200,
       "JPEG",
-      100,
+      90,
       0,
       (uri) => {
         resolve(uri);

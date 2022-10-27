@@ -31,7 +31,7 @@ export default function RegisterForm() {
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().min(2, t('forms.minAlert')).max(50, t('forms.maxAlert')).required(t('forms.firstnameRequired')),
     lastName: Yup.string().min(2, t('forms.minAlert')).max(50, t('forms.maxAlert')).required(t('forms.lastnameRequired')),
-    code: Yup.string().required(t('forms.countryRequired')),
+    country: Yup.object().required(t('forms.countryRequired')),
     phoneNumber: Yup.string().matches(phoneRegExp, t('forms.phoneNumberInvalid')).required(t('forms.phoneNumberRequired')),
     email: Yup.string().email(t('forms.emailInvalid')).required(t('forms.emailRequired')),
     password: Yup.string().min(6, t('forms.passwordSizeAlert')).required(t('forms.passwordRequired'))
@@ -41,7 +41,7 @@ export default function RegisterForm() {
     initialValues: {
       firstName: '',
       lastName: '',
-      code: '',
+      country: {},
       phoneNumber: '',
       email: '',
       password: ''
@@ -52,8 +52,8 @@ export default function RegisterForm() {
           email: values.email,
           fullname: `${values.firstName} ${values.lastName}`,
           password: values.password,
-          phoneNumber: `${values.code}${values.phoneNumber}`,
-          country: COUNTRIES.find((item)=>item.phone === values.code).label,
+          phoneNumber: values.phoneNumber,
+          country: values.country,
           role: ROLES.owner.value,
         };
         const onSuccess = ()=>{
@@ -113,7 +113,7 @@ export default function RegisterForm() {
                 options={COUNTRIES}
                 getOptionLabel={(option)=>`${option.label} (${option.phone})`}
                 onSelect={(e)=>{
-                        setFieldValue('code', COUNTRIES.find((item)=>e.target.value.includes(item.label))?.phone)  
+                        setFieldValue('country', COUNTRIES.find((item)=>e.target.value.includes(item.label)))  
                 }}
                 renderInput={(params)=> <TextField
                 {...params}

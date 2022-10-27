@@ -19,8 +19,9 @@ import useCaching from './hooks/useCaching';
 
 export default function App() {
   useCaching();
-  useNotification();
   const {initializing} = useAuth();
+  useNotification();
+  
 
   return (
     <ThemeConfig>

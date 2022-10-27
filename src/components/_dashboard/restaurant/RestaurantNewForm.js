@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect} from 'react';
+import { Icon } from '@iconify/react';
+import navigationFill from '@iconify/icons-eva/navigation-2-fill';
 import { useSnackbar } from 'notistack5';
 import { useNavigate } from 'react-router-dom';
 import { Form, FormikProvider, useFormik } from 'formik';
@@ -17,7 +19,9 @@ import {
   TextField,
   Typography,
   FormHelperText,
-  InputAdornment
+  InputAdornment,
+  Tooltip,
+  IconButton
 } from '@material-ui/core';
 
 // utils
@@ -142,7 +146,8 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
     },
     [setFieldValue]
   );
-  
+
+  /*
   useEffect(() => {
    if ("geolocation" in navigator) {
        navigator.geolocation.getCurrentPosition((position) => {
@@ -159,6 +164,24 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
       setFieldValue('location', t('forms.locationInvalid'))
      }
  }, [navigator]) 
+ */
+
+ const handleSetCurrentLocation = ()=>{
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition((position) => {
+        const center = { lat: position.coords.latitude, lng: position.coords.longitude }
+        axios.post(`${process.env.REACT_APP_GOOGLE_GEOCODE_API_BASE_URL}/json?latlng=${center.lat},${center.lng}&key=${process.env.REACT_APP_GOOGLE_PLACE_API_KEY}`)
+        .then((res)=>{
+
+          setFieldValue('location', res.data.plus_code.compound_code)
+        })
+        .catch((err)=>console.error(err))
+      });
+    
+  } else {
+   setFieldValue('location', t('forms.locationInvalid'))
+  }
+ }
  
   return (
     <FormikProvider value={formik}>
@@ -271,13 +294,25 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
                       {...getFieldProps('location')}
                       error={Boolean(touched.location && errors.location)}
                       helperText={touched.location && errors.location}
+                      InputProps={{
+                        startAdornment: (
+                        <InputAdornment position="start">
+                          <Tooltip title={t('actions.useCurrentLocation')}>
+                            <IconButton
+                              onClick={handleSetCurrentLocation}
+                            >
+                              <Icon icon={navigationFill} height={20} width={20}/>
+                            </IconButton>
+                          </Tooltip>
+                        </InputAdornment>)
+                      }}
                     />
                     
                   </Stack>
                 
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!isEdit ? t('createRestaurant') : t('saveChanges')}
+                    {!isEdit ? t('actions.createRestaurant') : t('actions.saveChanges')}
                   </LoadingButton>
                 </Box>
               </Stack>
