@@ -27,9 +27,9 @@ import Scrollbar from '../../../Scrollbar';
 
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
-  { value: 'below', label: 'shopDetails.below' },
-  { value: 'between', label: 'shopDetails.between' },
-  { value: 'above', label: 'shopDetails.above' }
+  { value: 'below', label: 'dishList.filter.below' },
+  { value: 'between', label: 'dishList.filter.between' },
+  { value: 'above', label: 'dishList.filter.above' }
 ];
 
 
