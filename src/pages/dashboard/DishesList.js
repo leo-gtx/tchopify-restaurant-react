@@ -1,4 +1,3 @@
-import { useFormik } from 'formik';
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
@@ -20,18 +19,14 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination,
-  Backdrop,
-  CircularProgress
+  TablePagination
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { handleGetDishes, handleDeleteDish } from '../../redux/actions/dishes';
-import { handleGetSubCategories } from '../../redux/actions/category';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { getOwnerId } from '../../utils/utils';
-import fakeRequest from '../../utils/fakeRequest';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -45,9 +40,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import {
   MenuListHead,
   MenuListToolbar,
-  MenuMoreMenu,
-  MenuListFilter,
-  MenuTagFiltered
+  MenuMoreMenu
 } from '../../components/_dashboard/menu/menu-list';
 
 // ----------------------------------------------------------------------
@@ -69,36 +62,6 @@ const ThumbImgStyle = styled('img')(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
-
-function applyFilter(products, filters) {
-  // FILTER PRODUCTS
-  if (filters?.category !== 'all') {
-    products = filter(products, (_product) => _product.category === filters.category);
-  }
-  if (filters.priceRange) {
-    products = filter(products, (_product) => {
-      if (filters.priceRange === 'below') {
-        return _product.price < 5000;
-      }
-      if (filters.priceRange === 'between') {
-        return _product.price >= 5000 && _product.price <= 10000;
-      }
-      return _product.price > 10000;
-    });
-  }
-    if (filters?.rating) {
-    products = filter(products, (_product) => {
-      const convertRating = (value) => {
-        if (value === 'up4Star') return 4;
-        if (value === 'up3Star') return 3;
-        if (value === 'up2Star') return 2;
-        return 1;
-      };
-      return _product.rating > convertRating(filters.rating);
-    }); 
-  }
-  return products;
-}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -139,7 +102,7 @@ export default function DishesList() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const dishes  = useSelector((state) => Object.values(state.dishes));
-  const {authedUser, categories } = useSelector((state)=> state);
+  const authedUser = useSelector( (state)=> state.authedUser);
   const owner  = getOwnerId(authedUser);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
@@ -147,39 +110,10 @@ export default function DishesList() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState('createdAt');
-  const [openFilter, setOpenFilter] = useState(false);
 
   useEffect(() => {
      dispatch(handleGetDishes(owner));
-     dispatch(handleGetSubCategories(owner));
   }, [dispatch, owner]);
-
-  const formik = useFormik({
-    initialValues: {
-      category: 'all',
-      priceRange: '',
-      rating: ''
-    },
-    onSubmit: async (values, { setSubmitting, resetForm, setValues}) => {
-      try {
-        await fakeRequest(500);
-        resetForm();
-        setValues({category: 'all', rating: '', priceRange: ''})
-        setOpenFilter(false)
-        setSubmitting(false);
-      } catch (error) {
-        console.error(error);
-        setSubmitting(false);
-      }
-    }
-  });
-
-  const { values, handleSubmit, isSubmitting } = formik;
-
-  const isDefault =
-  !values.priceRange &&
-  !values.rating &&
-  values.category === 'all';
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -246,31 +180,14 @@ export default function DishesList() {
       
   }
 
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
-
-  const handleResetFilter = () => {
-    handleSubmit();
-  };
-
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - dishes.length) : 0;
 
-  const filteredDishes = applySortFilter(applyFilter(dishes, values), getComparator(order, orderBy), filterName);
+  const filteredDishes = applySortFilter(dishes, getComparator(order, orderBy), filterName);
 
   const isDishNotFound = filteredDishes.length === 0;
 
   return (
     <Page title="Menu: Dish List | Tchopify">
-      {values && (
-        <Backdrop open={isSubmitting} sx={{ zIndex: 9999 }}>
-          <CircularProgress />
-        </Backdrop>
-      )}
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={t('dishList.title')}
@@ -295,22 +212,8 @@ export default function DishesList() {
         />
 
         <Card>
-          <MenuListToolbar onDeleteAll={handleDeleteAll} numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} onOpenFilter={handleOpenFilter} />
-          <MenuTagFiltered
-            formik={formik}
-            onResetFilter={handleResetFilter}
-            filters={values}
-            isDefault={isDefault}
-            isShowReset={openFilter}
-          />
-          <MenuListFilter
-            formik={formik}
-            isOpenFilter={openFilter}
-            onResetFilter={handleResetFilter}
-            onOpenFilter={handleOpenFilter}
-            onCloseFilter={handleCloseFilter}
-            categories={Object.values(categories.sub)}
-          />
+          <MenuListToolbar onDeleteAll={handleDeleteAll} numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
