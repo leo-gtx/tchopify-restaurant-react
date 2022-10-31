@@ -25,12 +25,6 @@ import Scrollbar from '../../../Scrollbar';
 
 // ----------------------------------------------------------------------
 
-export const SORT_BY_OPTIONS = [
-  { value: 'newest', label: 'Newest' },
-  { value: 'priceDesc', label: 'Price: High-Low' },
-  { value: 'priceAsc', label: 'Price: Low-High' }
-];
-
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
   { value: 'below', label: 'Below 5000 XAF' },
@@ -68,7 +62,7 @@ export default function MenuListFilter({ isOpenFilter, onResetFilter, onOpenFilt
           >
             <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 1, py: 2 }}>
               <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                {t('shopDetails.filters')}
+                {t('dishList.filter.title')}
               </Typography>
               <MIconButton onClick={onCloseFilter}>
                 <Icon icon={closeFill} width={20} height={20} />
@@ -82,10 +76,10 @@ export default function MenuListFilter({ isOpenFilter, onResetFilter, onOpenFilt
 
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
-                    {t('shopDetails.category')}
+                    {t('dishList.filter.category')}
                   </Typography>
                   <RadioGroup {...getFieldProps('category')}>
-                  <FormControlLabel value='all' control={<Radio />} label={t('shopDetails.all')} />
+                  <FormControlLabel value='all' control={<Radio />} label={t('dishList.filter.all')} />
                     {categories.map((item) => (
                       <FormControlLabel key={item.id} value={item.name} control={<Radio />} label={item.name} />
                     ))}
@@ -95,7 +89,7 @@ export default function MenuListFilter({ isOpenFilter, onResetFilter, onOpenFilt
 
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
-                  {t('shopDetails.price')}
+                  {t('dishList.filter.price')}
                   </Typography>
                   <RadioGroup {...getFieldProps('priceRange')}>
                     {FILTER_PRICE_OPTIONS.map((item) => (
@@ -106,7 +100,7 @@ export default function MenuListFilter({ isOpenFilter, onResetFilter, onOpenFilt
 
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
-                  {t('shopDetails.rating')}
+                  {t('dishList.filter.rating')}
                   </Typography>
                   <RadioGroup {...getFieldProps('rating')}>
                     {FILTER_RATING_OPTIONS.map((item, index) => (
@@ -150,7 +144,7 @@ export default function MenuListFilter({ isOpenFilter, onResetFilter, onOpenFilt
                 onClick={onResetFilter}
                 startIcon={<Icon icon={roundClearAll} />}
               >
-                {t('shopDetails.clearAll')}
+                {t('actions.clearAll')}
               </Button>
             </Box>
           </Drawer>
