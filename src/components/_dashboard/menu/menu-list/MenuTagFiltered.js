@@ -63,18 +63,18 @@ export default function MenuTagFiltered({ formik, filters, isShowReset, isDefaul
   const isShow = values !== initialValues && !isShowReset;
 
   const handleRemoveCategory = () => {
-    handleSubmit();
+    // handleSubmit();
     setFieldValue('category', 'all');
   };
 
 
   const handleRemovePrice = () => {
-    handleSubmit();
+    // handleSubmit();
     setFieldValue('priceRange', '');
   };
 
   const handleRemoveRating = () => {
-    handleSubmit();
+    // handleSubmit();
     setFieldValue('rating', '');
   };
 
