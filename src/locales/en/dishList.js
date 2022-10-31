@@ -6,6 +6,9 @@ export default {
         category: 'Categories',
         price: 'Price range',
         rating: 'Rating',
-        all: 'All'
+        all: 'All',
+        below: 'Below ',
+        between: 'Between ',
+        above: 'Above '
     }
 }
