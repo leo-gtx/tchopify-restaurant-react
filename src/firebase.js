@@ -10,24 +10,36 @@ import { firebaseConfig } from './config';
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
-const analytics = firebase.analytics()
+if (window.location.host !== 'localhost'){
+  firebase.analytics()
+}
+
 
 const auth = firebase.auth()
-// auth.useEmulator('http://localhost:9099')
+if (window.location.host === 'localhost'){
+  auth.useEmulator('http://localhost:9099')
+}
+
 
 const firestore = firebase.firestore()
+if(window.location.host === 'localhost'){
+  firestore.useEmulator('localhost', 8081)
+}
 firestore.settings({
   cacheSizeBytes: 1000 * 1000 * 15,
   merge: true,
 })
 firestore.enablePersistence().catch((err)=>console.error(err))
-// firestore.useEmulator('localhost', 8081)
 
 const storage = firebase.storage()
-// storage.useEmulator('localhost', 9199)
+if(window.location.host === 'localhost'){
+  storage.useEmulator('localhost', 9199)
+}
 
 const functions = firebase.functions()
-// functions.useEmulator('localhost', 5001)
+if(window.location.host === 'localhost'){
+  functions.useEmulator('localhost', 5001)
+}
 
 let messaging = null;
 if(firebase.messaging.isSupported()){

@@ -35,10 +35,11 @@ MenuListHead.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
-  onDeleteAll: PropTypes.func
+  onDeleteAll: PropTypes.func,
+  onOpenFilter: PropTypes.func
 };
 
-export default function MenuListHead({ numSelected, filterName, onFilterName, onDeleteAll }) {
+export default function MenuListHead({ numSelected, filterName, onFilterName, onDeleteAll, onOpenFilter }) {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
 
@@ -76,7 +77,7 @@ export default function MenuListHead({ numSelected, filterName, onFilterName, on
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton >
+          <IconButton onClick={onOpenFilter} >
             <Icon icon={roundFilterList} />
           </IconButton>
         </Tooltip>
