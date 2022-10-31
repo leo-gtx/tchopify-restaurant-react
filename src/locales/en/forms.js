@@ -81,6 +81,8 @@ export default {
     kmCostLabel: 'Cost/Km',
     kmCostRequired: 'Cost per km is required',
     kmCostMin: 'Cost/km must be >= 50 Xaf',
-    kmCostMax: 'Cost/km must be <= 200 Xaf'
+    kmCostMax: 'Cost/km must be <= 200 Xaf',
+    startDate: 'Start date',
+    endDate: 'End date'
 
 }

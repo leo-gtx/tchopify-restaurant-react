@@ -35,6 +35,7 @@ import notification from './notification';
 import menu from './menu';
 import landing from './landing';
 import pricing from './pricing';
+import history from './history';
 
 export default {
   pricing,
@@ -73,5 +74,6 @@ export default {
   invoice,
   navbar,
   pos,
-  notification
+  notification,
+  history
 };
