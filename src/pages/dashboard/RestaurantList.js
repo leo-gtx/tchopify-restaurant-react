@@ -39,7 +39,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import {
     RestaurantListHead,
     RestaurantListToolbar,
-    RestaurantMoreMenu
+    RestaurantMoreMenu,
 } from '../../components/_dashboard/restaurant/restaurant-list';
 
 // ----------------------------------------------------------------------
@@ -93,6 +93,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+
 // ----------------------------------------------------------------------
 
 export default function RestaurantList() {
@@ -108,6 +109,7 @@ export default function RestaurantList() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState('createdAt');
+  
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -173,6 +175,8 @@ export default function RestaurantList() {
     
   }
 
+
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - restaurants.length) : 0;
 
   const filteredRestaurants = applySortFilter(restaurants, getComparator(order, orderBy), filterName);
@@ -206,7 +210,6 @@ export default function RestaurantList() {
 
         <Card>
           <RestaurantListToolbar onDeleteAll={handleDeleteAll} numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

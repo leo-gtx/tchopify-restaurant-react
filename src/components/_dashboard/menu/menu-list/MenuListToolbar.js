@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next'; 
 import { Icon } from '@iconify/react';
 import searchFill from '@iconify/icons-eva/search-fill';
 import trash2Fill from '@iconify/icons-eva/trash-2-fill';
@@ -35,10 +36,12 @@ MenuListHead.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
-  onDeleteAll: PropTypes.func
+  onDeleteAll: PropTypes.func,
+  onOpenFilter: PropTypes.func
 };
 
-export default function MenuListHead({ numSelected, filterName, onFilterName, onDeleteAll }) {
+export default function MenuListHead({ numSelected, filterName, onFilterName, onDeleteAll, onOpenFilter }) {
+  const {t} = useTranslation();
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
 
@@ -59,7 +62,7 @@ export default function MenuListHead({ numSelected, filterName, onFilterName, on
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search dish..."
+          placeholder={t('dishList.search')}
           startAdornment={
             <InputAdornment position="start">
               <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
@@ -75,8 +78,8 @@ export default function MenuListHead({ numSelected, filterName, onFilterName, on
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton >
+        <Tooltip title={t('dishList.filter.title')}>
+          <IconButton onClick={onOpenFilter} >
             <Icon icon={roundFilterList} />
           </IconButton>
         </Tooltip>

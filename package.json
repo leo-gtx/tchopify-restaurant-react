@@ -1,7 +1,7 @@
 {
-  "name": "@tchopify/tchopify-react",
+  "name": "@leo-gtx/tchopify-restaurant-react",
   "author": "Nguefack leonel",
-  "version": "2.1.6",
+  "version": "1.26.11",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
