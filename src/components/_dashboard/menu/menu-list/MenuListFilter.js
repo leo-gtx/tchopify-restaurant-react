@@ -27,9 +27,9 @@ import Scrollbar from '../../../Scrollbar';
 
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
-  { value: 'below', label: 'Below 5000 XAF' },
-  { value: 'between', label: 'Between 5000 XAF - 10000 XAF' },
-  { value: 'above', label: 'Above 10000 XAF' }
+  { value: 'below', label: 'dishList.filter.below' },
+  { value: 'between', label: 'dishList.filter.between' },
+  { value: 'above', label: 'dishList.filter.above' }
 ];
 
 
@@ -93,7 +93,7 @@ export default function MenuListFilter({ isOpenFilter, onResetFilter, onOpenFilt
                   </Typography>
                   <RadioGroup {...getFieldProps('priceRange')}>
                     {FILTER_PRICE_OPTIONS.map((item) => (
-                      <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.label} />
+                      <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={t(item.label)} />
                     ))}
                   </RadioGroup>
                 </div>

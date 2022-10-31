@@ -23,7 +23,6 @@ import account from './account';
 import checkout from './checkout';
 import dishDetails from './dishDetails';
 import common from './common';
-import shopDetails from './shopDetails';
 import page404 from './page404';
 import page500 from './page500';
 import networkError from './networkError';
@@ -66,7 +65,6 @@ export default {
   checkout,
   dishDetails,
   common,
-  shopDetails,
   page404,
   page500,
   networkError,

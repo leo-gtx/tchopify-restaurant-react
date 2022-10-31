@@ -40,12 +40,12 @@ const LabelStyle = styled((props) => <Typography component="span" variant="subti
 
 function labelPriceRange(range) {
   if (range === 'below') {
-    return 'shopDetails.below';
+    return 'dishList.filter.below';
   }
   if (range === 'between') {
-    return 'shopDetails.between';
+    return 'dishList.filter.between';
   }
-  return 'shopDetails.above';
+  return 'dishList.filter.above';
 }
 
 MenuTagFiltered.propTypes = {
