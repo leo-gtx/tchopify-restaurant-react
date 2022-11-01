@@ -3,7 +3,7 @@ export default {
         title: 'Filtrer la liste',
         shop: 'Boutique',
         status: 'Statut',
-        staff: 'Employee',
+        staff: 'Employé',
         new: 'Nouveau',
         accepted: 'Accepté',
         rejected: 'Rejeté',

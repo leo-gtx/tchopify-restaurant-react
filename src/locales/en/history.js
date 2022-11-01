@@ -3,7 +3,7 @@ export default {
         title: 'Filter List',
         shop: 'Shop',
         status: 'Status',
-        staff: 'Staff',
+        staff: 'Employee',
         new: 'New',
         accepted: 'Accepted',
         rejected: 'Rejected',

@@ -174,9 +174,11 @@ export default function OrderHistory() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = orders.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
+      if(selected.length === 0){
+        const newSelecteds = filteredOrders.map((n) => n.id);
+        setSelected(newSelecteds);
+        return;
+      }
     }
     setSelected([]);
   };
