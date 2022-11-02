@@ -1,3 +1,4 @@
+import { useFormik } from 'formik';
 import { filter } from 'lodash';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,12 +15,17 @@ import {
   Container,
   Typography,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Backdrop,
+  CircularProgress
 } from '@material-ui/core';
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { GetOrdersByOwner } from '../../redux/actions/order';
+import { handleGetRestaurants } from '../../redux/actions/restaurant';
+import { handleGetStaffs } from '../../redux/actions/staffs';
 // utils
+import fakeRequest from '../../utils/fakeRequest';
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
 // routes
@@ -35,11 +41,12 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import {
     OrderListHead,
     OrderMoreMenu,
-    OrderListToolbar
+    OrderListToolbar,
+    OrderListFilter,
+    OrderTagFiltered
 } from '../../components/_dashboard/order/order-list';
 // utils
 import { getOwnerId } from '../../utils/utils';
-
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -54,6 +61,24 @@ const TABLE_HEAD = [
 ];
 
 // ----------------------------------------------------------------------
+
+function applyFilter(orders, filters) {
+  // FILTER PRODUCTS
+  if (filters?.shop !== 'all') {
+    orders = filter(orders, (_order) => _order.from.name === filters.shop);
+  }
+  if (filters.startDate && filters.endDate) {
+    orders = filter(orders, (_order) => _order.orderAt >= filters.startDate && _order.orderAt <= filters.endDate
+  );
+  }
+  if (filters?.status) {
+    orders = filter(orders, (_order) => filters.status === _order.status); 
+  }
+  if (filters?.staff) {
+    orders = filter(orders, (_order) => _order.from.userId === filters.staff);
+  }
+  return orders;
+}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -90,9 +115,10 @@ function applySortFilter(array, comparator, query) {
 
 export default function OrderHistory() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { themeStretch } = useSettings();
   const theme = useTheme();
-  const {authedUser} = useSelector(state=>state);
+  const {authedUser, staffs, restaurants } = useSelector(state=>state);
   const [orders, setOrders] = useState([]);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('desc');
@@ -100,10 +126,45 @@ export default function OrderHistory() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState('orderAt');
+  const [openFilter, setOpenFilter] = useState(false);
+  const owner = getOwnerId(authedUser)
 
   useEffect(() => {
-     GetOrdersByOwner(getOwnerId(authedUser),(data)=>setOrders(Object.values(data)));
-  }, [setOrders]);
+     GetOrdersByOwner(owner, (data)=>setOrders(Object.values(data)));
+     dispatch(handleGetRestaurants(owner));
+     dispatch(handleGetStaffs(owner));
+  }, [owner, dispatch, setOrders]);
+
+  const formik = useFormik({
+    initialValues: {
+      startDate: '',
+      endDate: '',
+      shop: 'all',
+      staff: '',
+      status: ''
+    },
+    onSubmit: async(values, {setSubmitting, resetForm, setValues})=>{
+      try {
+        await fakeRequest(500);
+        resetForm();
+        setValues({shop: 'all', startDate: '', endDate: '', staff: '', status: ''})
+        setOpenFilter(false)
+        setSubmitting(false);
+      } catch (error) {
+        console.error(error);
+        setSubmitting(false);
+      }
+    }
+  })
+  
+  const { values, handleSubmit, isSubmitting} = formik;
+
+  const isDefault =
+  values.shop === 'all' &&
+  !values.staff &&
+  !values.status &&
+  !values.start &&
+  !values.end
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -113,9 +174,11 @@ export default function OrderHistory() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = orders.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
+      if(selected.length === 0){
+        const newSelecteds = filteredOrders.map((n) => n.id);
+        setSelected(newSelecteds);
+        return;
+      }
     }
     setSelected([]);
   };
@@ -148,15 +211,32 @@ export default function OrderHistory() {
     setFilterName(event.target.value);
   };
 
+  const handleOpenFilter = () => {
+    setOpenFilter(true);
+  };
+
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
+  };
+
+  const handleResetFilter = () => {
+    handleSubmit();
+  };
+
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - orders.length) : 0;
 
-  const filteredOrders = applySortFilter(orders, getComparator(order, orderBy), filterName);
+  const filteredOrders = applySortFilter(applyFilter(orders, values), getComparator(order, orderBy), filterName);
 
   const isOrderNotFound = filteredOrders.length === 0;
 
   return (
     <Page title="Store: Order History | Tchopify">
+      {values && (
+        <Backdrop open={isSubmitting} sx={{ zIndex: 9999 }}>
+          <CircularProgress />
+        </Backdrop>
+      )}
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={t('orderHistory.title')}
@@ -167,7 +247,22 @@ export default function OrderHistory() {
         />
 
         <Card>
-        <OrderListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+        <OrderListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} onOpenFilter={handleOpenFilter} />
+        <OrderTagFiltered
+          formik={formik}
+          isDefault={isDefault}
+          filters={values}
+          onResetFilter={handleResetFilter}
+          isShowReset={openFilter}
+        />
+        <OrderListFilter
+          formik={formik}
+          isOpenFilter={openFilter}
+          onResetFilter={handleResetFilter}
+          onCloseFilter={handleCloseFilter}
+          shops={Object.values(restaurants)}
+          staffs={Object.values(staffs)}
+        />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

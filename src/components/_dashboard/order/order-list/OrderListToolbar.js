@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
 import searchFill from '@iconify/icons-eva/search-fill';
-import trash2Fill from '@iconify/icons-eva/trash-2-fill';
 import roundFilterList from '@iconify/icons-ic/round-filter-list';
 // material
 import { useTheme, styled } from '@material-ui/core/styles';
@@ -34,10 +34,12 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 OrderListHead.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
-  onFilterName: PropTypes.func
+  onFilterName: PropTypes.func,
+  onOpenFilter: PropTypes.func
 };
 
-export default function OrderListHead({ numSelected, filterName, onFilterName }) {
+export default function OrderListHead({ numSelected, filterName, onFilterName, onOpenFilter }) {
+  const {t} = useTranslation();
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
 
@@ -58,7 +60,7 @@ export default function OrderListHead({ numSelected, filterName, onFilterName })
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search order..."
+          placeholder={t('history.filter.search')}
           startAdornment={
             <InputAdornment position="start">
               <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
@@ -68,8 +70,8 @@ export default function OrderListHead({ numSelected, filterName, onFilterName })
       )}
 
 
-        <Tooltip title="Filter list">
-          <IconButton >
+        <Tooltip title={t('history.filter.title')}>
+          <IconButton onClick={onOpenFilter} >
             <Icon icon={roundFilterList} />
           </IconButton>
         </Tooltip>

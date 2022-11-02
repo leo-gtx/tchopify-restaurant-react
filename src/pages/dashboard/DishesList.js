@@ -188,8 +188,8 @@ export default function DishesList() {
   };
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = dishes.map((n) => n.name);
+    if (event.target.checked && selected.length === 0) {
+      const newSelecteds = filteredDishes.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
