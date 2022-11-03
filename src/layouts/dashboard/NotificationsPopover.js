@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { noCase } from 'change-case';
 import { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -128,7 +127,7 @@ export default function NotificationsPopover() {
           })
     }
     return null;
-  },[setNewOrders])
+  },[setNewOrders, authedUser])
 
   const handleOpen = () => {
     setOpen(true);

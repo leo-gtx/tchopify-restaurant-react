@@ -27,7 +27,7 @@ const onAuthStateChanged = useCallback((currentUser)=>{
         setUser({isAuthenticated: false})
       }
       if (initializing) setInitializing(false);
-},[dispatch, authedUser])
+},[dispatch, authedUser, initializing])
 
 
   useEffect(() => {

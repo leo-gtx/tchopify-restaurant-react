@@ -112,7 +112,7 @@ export default function StaffList() {
   const { enqueueSnackbar } = useSnackbar();
   useEffect(()=>{
     dispatch(handleGetStaffs(authedUser.id))
-  },[dispatch])
+  },[dispatch, authedUser])
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -220,7 +220,7 @@ export default function StaffList() {
                 />
                 <TableBody>
                   {filteredStaffs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, fullname, email, image, filename, role, isVerified, createdAt } = row;
+                    const { id, fullname, email, filename, role, isVerified, createdAt } = row;
 
                     const isItemSelected = selected.indexOf(fullname) !== -1;
 

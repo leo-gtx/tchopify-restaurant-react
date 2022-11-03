@@ -12,7 +12,7 @@ import { Button, Box, Container, Typography, Stack } from '@material-ui/core';
 // routes
 import { PATH_AUTH } from '../../../routes/paths';
 //
-import { varFadeIn, varFadeInUp, varWrapEnter, varFadeInRight, varFadeInLeft } from '../../animate';
+import { varFadeIn, varWrapEnter, varFadeInRight, varFadeInLeft } from '../../animate';
 
 
 // ----------------------------------------------------------------------

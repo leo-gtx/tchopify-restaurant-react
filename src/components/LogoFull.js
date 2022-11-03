@@ -8,6 +8,7 @@ LogoFull.propTypes = {
   sx: PropTypes.object
 };
 
+// eslint-disable-next-line
 const ImgLogoFull = styled('img')(({ theme }) => ({
   objectFit: 'cover',
   height: 90,

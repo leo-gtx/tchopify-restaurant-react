@@ -214,7 +214,7 @@ export default function SubcategoryList() {
                 />
                 <TableBody>
                   {filteredCategories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, image, createdAt, isGroup } = row;
+                    const { id, name, createdAt, isGroup } = row;
 
                     const isItemSelected = selected.indexOf(name) !== -1;
 

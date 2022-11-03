@@ -12,7 +12,6 @@ import {
   LandingCleanInterfaces,
   LandingHugePackElements,
   LandingPos,
-  LandingThemeColor,
   LandingPricingPlans
 } from '../components/_external-pages/landing';
 

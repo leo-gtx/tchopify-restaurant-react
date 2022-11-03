@@ -3,7 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 // material
 import { Container } from '@material-ui/core';
 // redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';

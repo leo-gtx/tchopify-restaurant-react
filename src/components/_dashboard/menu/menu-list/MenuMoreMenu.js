@@ -28,7 +28,7 @@ export default function MenuMoreMenu({ onDelete, dishName, dishId }) {
   const [isTooltipOpen, setTooltipOpen] = useState(false);
   const handleCloseTooltip = ()=>setTooltipOpen(false);
   const handleOpenTooltip = ()=>setTooltipOpen(true);
-  const handleCloseMenu = ()=>setIsOpen(false);
+  // const handleCloseMenu = ()=>setIsOpen(false);
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>

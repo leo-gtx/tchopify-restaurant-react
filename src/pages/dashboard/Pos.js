@@ -22,7 +22,7 @@ import {
 import Scrollbar from '../../components/Scrollbar';
 
 // utils
-import { getOwnerId, RequestTimeout } from '../../utils/utils';
+import { getOwnerId } from '../../utils/utils';
 import { fCurrency } from '../../utils/formatNumber';
 // hooks
 import useSettings from '../../hooks/useSettings';
@@ -118,23 +118,23 @@ export default function Pos() {
 
 const handleDeleteCart = useCallback((productId, options) => {
   dispatch(deleteCart(productId, options));
-});
+},[dispatch]);
 
 const handleIncreaseQuantity = useCallback((productId, options) => {
   dispatch(increaseQuantity(productId, options));
-});
+},[dispatch]);
 
 const handleDecreaseQuantity = useCallback((productId, options) => {
   dispatch(decreaseQuantity(productId, options));
-});
+},[dispatch]);
 
-const handleAddCart = (productId)=>{
+const handleAddCart = useCallback((productId)=>{
   const product = shopDishes.find((item)=>item.id === productId);
   const { id, name, image,  price} = product;
   dispatch(addCart({id, name, image, price, quantity: 1, subtotal: price, options: [], shopId: authedUser.shop}))
-}
+},[dispatch, shopDishes, authedUser]);
 
-const { handleSubmit, isSubmitting } = formik;
+const { isSubmitting } = formik;
 // const totalItems = sum(values.products.map((item) => item.quantity));
 const getPadding = ()=>{
   const padding = {};

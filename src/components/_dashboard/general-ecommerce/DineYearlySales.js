@@ -18,7 +18,7 @@ export default function DineYearlySales() {
     data: [
       { 
         name: t('dashboard.dineIncomes'),
-        data: yearlySalesByDine?.data[key]?.map((item, key)=>Object.values(item)[0]) 
+        data: yearlySalesByDine?.data[key]?.map((item)=>Object.values(item)[0]) 
       }
     ]
   }))

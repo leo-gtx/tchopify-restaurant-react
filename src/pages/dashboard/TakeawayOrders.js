@@ -102,7 +102,7 @@ export default function TakeawayOrders() {
           })
     }
     return null;
-  },[setPendingOrders, setAcceptedOrders, setReadyOrders, setDeliveredOrders, sort])
+  },[setPendingOrders, setAcceptedOrders, setReadyOrders, setDeliveredOrders, sort, authedUser])
 
   const handleAcceptOrder = useCallback((orderId)=>{
     SetOrderStatus({status: 'accepted', orderId})

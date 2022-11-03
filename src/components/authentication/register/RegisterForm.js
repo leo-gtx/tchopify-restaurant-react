@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { useParams } from 'react-router';
 import { Icon } from '@iconify/react';
 import { useSnackbar } from 'notistack5';
 import { useFormik, Form, FormikProvider } from 'formik';

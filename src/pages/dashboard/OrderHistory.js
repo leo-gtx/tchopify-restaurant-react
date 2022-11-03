@@ -277,7 +277,7 @@ export default function OrderHistory() {
                 />
                 <TableBody>
                   {filteredOrders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const {id, total, from, payment, billing,  status, orderAt, paymentStatus, mode } = row;
+                    const {id, total, from, billing,  status, orderAt, paymentStatus, mode } = row;
                     let statusColor='';
                     if(status === 'new' || status === 'ready' || status === 'accepted'){
                         statusColor = 'warning'

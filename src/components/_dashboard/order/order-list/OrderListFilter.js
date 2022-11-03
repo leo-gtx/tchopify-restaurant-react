@@ -143,7 +143,7 @@ export default function OrderListFilter({ isOpenFilter, onResetFilter, onCloseFi
                   {t('history.filter.staff')}
                   </Typography>
                   <RadioGroup {...getFieldProps('staff')}>
-                    {staffs.map((item, index) => (
+                    {staffs.map((item) => (
                       <FormControlLabel key={item.id} value={item.fullname} control={<Radio />} label={item.fullname} />
                     ))}
                   </RadioGroup>

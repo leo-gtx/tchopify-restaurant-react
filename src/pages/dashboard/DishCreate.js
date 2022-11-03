@@ -31,11 +31,12 @@ export default function EcommerceProductCreate() {
   const isEdit = pathname.includes('edit');
   const currentDish = Object.values(dishes).find((dish) => paramCase(dish.name) === name);
   const dispatch = useDispatch();
+  const ownerId = getOwnerId(authedUser);
 
   useEffect(()=>{
     dispatch(handleGetCategories());
-    dispatch(handleGetSubCategories(getOwnerId(authedUser)));
-  },[dispatch])
+    dispatch(handleGetSubCategories(ownerId));
+  },[dispatch, ownerId])
 
   return (
     <Page title="Menu: Create a new dish | Tchopify">

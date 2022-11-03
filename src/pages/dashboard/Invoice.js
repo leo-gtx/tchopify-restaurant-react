@@ -52,7 +52,7 @@ export default function Invoice() {
   const [order, setOrder] = useState({});
   useEffect(()=>{
     GetOrder(id, (data)=>setOrder(data))
-  },[setOrder])
+  },[setOrder, id])
   const {subtotal, total, discount, status, billing, from, cart, shipping, paymentStatus, orderAt } = order;
   let statusColor='';
   if(status === 'new' || status === 'ready' || status === 'accepted'){

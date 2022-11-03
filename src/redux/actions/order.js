@@ -259,7 +259,7 @@ export function GetOrdersByStatus({status, ownerId, mode},callback){
     
 }
 
-export function GetOrdersByStatusAndShop({userId, status, shopId, mode},callback){
+export function GetOrdersByStatusAndShop({status, shopId, mode},callback){
     if(mode){
         return firebase
         .firestore()

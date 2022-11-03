@@ -11,15 +11,16 @@ export default function useNotification(){
         if(authedUser.isAuthenticated && token){
             dispatch(handleSetRegistrationToken(authedUser.id, token))
         }
-    },[token, authedUser.token])
+    },[token, authedUser, dispatch])
     if(!firebase.messaging.isSupported()){
         return null
     }
     getToken((value)=>setToken(value));
     onMessageListener()
     .then((payload)=>{
-        const {notification} = payload;
-        const notify = new Notification(notification.title, { body: notification.body, image: notification.image, icon: '/favicon/android-chrome-192x192.png' })
+         const {notification} = payload;
+         // eslint-disable-next-line
+         const notify = new Notification(notification.title, { body: notification.body, image: notification.image, icon: '/favicon/android-chrome-192x192.png' })
     })
     .catch((err)=>console.error(err))
 

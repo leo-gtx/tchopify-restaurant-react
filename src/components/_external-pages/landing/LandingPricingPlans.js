@@ -85,7 +85,9 @@ PlanCard.propTypes = {
     license: PropTypes.any,
     commons: PropTypes.arrayOf(PropTypes.string),
     icons: PropTypes.arrayOf(PropTypes.string),
-    options: PropTypes.arrayOf(PropTypes.string)
+    options: PropTypes.arrayOf(PropTypes.string),
+    price: PropTypes.string,
+    icon: PropTypes.func
   })
 };
 
@@ -127,7 +129,7 @@ function PlanCard({ plan, cardIndex }) {
 
           <Divider sx={{ borderStyle: 'dashed' }} />
 
-          {options.map((option, optionIndex) =>
+          {options.map((option) =>
             (
               <Stack
                 spacing={1.5}

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withSnackbar } from 'notistack5';
 import Page500 from '../pages/Page500';
-import NetworkError from '../pages/NetworkError';
+
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class ErrorBoundary extends React.Component {
     })
   }
   
-    static getDerivedStateFromError(error) {
+    static getDerivedStateFromError() {
       return { hasError: true };
     }
 
@@ -54,4 +55,11 @@ class ErrorBoundary extends React.Component {
     }
   }
 
+
+
   export default  withSnackbar(ErrorBoundary);
+
+  ErrorBoundary.propTypes = {
+    enqueueSnackbar: PropTypes.func,
+    children: PropTypes.object
+  }

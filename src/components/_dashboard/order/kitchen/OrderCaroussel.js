@@ -19,7 +19,8 @@ OrderCaroussel.propTypes = {
     action1: PropTypes.shape({
       title: PropTypes.string,
       visible: PropTypes.bool,
-      onAction: PropTypes.func
+      onAction: PropTypes.func,
+      disabled: PropTypes.bool
     }),
     action2: PropTypes.shape({
       title: PropTypes.string,

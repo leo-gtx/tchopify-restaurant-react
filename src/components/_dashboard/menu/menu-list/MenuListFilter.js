@@ -4,7 +4,6 @@ import { Form, FormikProvider } from 'formik';
 import { useTranslation } from 'react-i18next';
 import closeFill from '@iconify/icons-eva/close-fill';
 import roundClearAll from '@iconify/icons-ic/round-clear-all';
-import roundFilterList from '@iconify/icons-ic/round-filter-list';
 // material
 import {
   Box,
@@ -44,8 +43,8 @@ MenuListFilter.propTypes = {
   categories: PropTypes.array,
 };
 
-export default function MenuListFilter({ isOpenFilter, onResetFilter, onOpenFilter, onCloseFilter, formik, categories }) {
-  const {t} = useTranslation();
+export default function MenuListFilter({ isOpenFilter, onResetFilter, onCloseFilter, formik, categories }) {
+   const {t} = useTranslation();
   const { values, getFieldProps } = formik;
   return (
     <>

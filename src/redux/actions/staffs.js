@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from 'uuid';
 import firebase from '../../firebase';
 import {formattedStaffs} from '../../utils/utils';
 
@@ -6,15 +5,6 @@ export const ADD_STAFF = 'ADD_STAFF';
 export const SET_STAFFS  = 'SET_STAFFS';
 export const REMOVE_STAFF = 'REMOVE_STAFF';
 export const UPDATE_STAFF = 'UPDATE_STAFF';
-
-function addStaff(staff){
-    return {
-        type: ADD_STAFF,
-        payload: {
-            [staff.id]: staff
-        }
-    };
-}
 
 function updateStaff(staff){
     return {

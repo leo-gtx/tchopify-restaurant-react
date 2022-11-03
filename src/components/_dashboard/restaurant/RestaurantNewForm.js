@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect} from 'react';
+import { useCallback } from 'react';
 import { Icon } from '@iconify/react';
 import navigationFill from '@iconify/icons-eva/navigation-2-fill';
 import { useSnackbar } from 'notistack5';
