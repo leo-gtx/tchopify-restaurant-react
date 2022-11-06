@@ -18,7 +18,7 @@ export default function DeliveryYearlySales() {
     data: [
       { 
         name: t('dashboard.deliveryIncomes'),
-        data: yearlySalesByDelivery?.data[key]?.map((item, key)=>Object.values(item)[0])
+        data: yearlySalesByDelivery?.data[key]?.map((item)=>Object.values(item)[0])
       }
     ]
   }))

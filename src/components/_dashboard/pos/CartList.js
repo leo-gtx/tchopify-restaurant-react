@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import plusFill from '@iconify/icons-eva/plus-fill';
@@ -83,14 +82,14 @@ CartList.propTypes = {
 
 export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecreaseQuantity, openModal, onCloseModal }) {
   const { products } = formik.values;
-  const { getFieldProps, errors, handleSubmit  } = formik;
+  const { getFieldProps, handleSubmit  } = formik;
   const {t} = useTranslation();
   const { palette } = useTheme();
   return (
       <Stack direction='row' divider={<Divider orientation='vertical' variant='middle' flexItem />}>
 
           {products.map((product) => {
-            const { id, name, options, price, image, quantity, subtotal } = product;
+            const { id, name, options, image, quantity, subtotal } = product;
             return (
               <Stack sx={{mt: 2, ml:2, mr: 2}} key={id}>
 

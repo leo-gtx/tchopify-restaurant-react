@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, InfoBox} from '@react-google-maps/api';
 import { Skeleton, Typography, Card} from '@material-ui/core';
@@ -11,7 +11,7 @@ Map.propTypes = {
 };
 
 export default function Map({coords, center}){
-    const {t} = useTranslation();
+    // const {t} = useTranslation();
     const [isVisible, setVisible] = useState();
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',

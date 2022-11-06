@@ -4,16 +4,14 @@ import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
 import closeCircleFill from '@iconify/icons-eva/close-circle-fill';
 import cartFill from '@iconify/icons-eva/shopping-cart-outline';
 import bagFill from '@iconify/icons-eva/shopping-bag-outline';
-import clockOutline from '@iconify/icons-eva/clock-outline';
-import { sumBy } from 'lodash';
+
 import { useTranslation } from 'react-i18next';
 
 import { Chip, Stack, Avatar, List, ListItem, ListItemAvatar, ListItemText, Button, Typography } from '@material-ui/core';
 // utils
 import {  fToNow } from '../../../../utils/formatTime';
 import { fCurrency } from '../../../../utils/formatNumber';
-// components
-import useCountdown from '../../../../hooks/useCountdown';
+
 
 
 
@@ -24,20 +22,28 @@ OrderItem.propTypes = {
     billing: PropTypes.object,
     orderAt: PropTypes.number,
     total: PropTypes.number,
-    cart: PropTypes.arrayOf(PropTypes.object)
+    cart: PropTypes.arrayOf(PropTypes.object),
+    from: PropTypes.object,
+    mode: PropTypes.string,
+    id: PropTypes.string,
+    quantity: PropTypes.number,
+    price: PropTypes.number,
+    name: PropTypes.string,
+    image: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.string)
   }),
   position: PropTypes.number,
-  onAction1: PropTypes.func,
-  onAction2: PropTypes.func,
   action1: PropTypes.shape({
     title: PropTypes.string,
     visible: PropTypes.bool,
-    onAction: PropTypes.func
+    onAction: PropTypes.func,
+    disabled: PropTypes.bool
   }),
   action2: PropTypes.shape({
     title: PropTypes.string,
     visible: PropTypes.bool,
-    onAction: PropTypes.func
+    onAction: PropTypes.func,
+    disabled: PropTypes.bool
   }),
 };
 

@@ -41,7 +41,7 @@ CheckoutPaymentMethods.propTypes = {
   cardOptions: PropTypes.array
 };
 
-export default function CheckoutPaymentMethods({ paymentOptions, cardOptions, formik }) {
+export default function CheckoutPaymentMethods({ paymentOptions, formik }) {
   const { errors, touched, values, getFieldProps } = formik;
   const {t} = useTranslation();
   return (

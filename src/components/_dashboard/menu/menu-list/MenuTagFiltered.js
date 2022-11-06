@@ -58,7 +58,7 @@ MenuTagFiltered.propTypes = {
 
 export default function MenuTagFiltered({ formik, filters, isShowReset, isDefault, onResetFilter }) {
   const {t} = useTranslation();
-  const { values, handleSubmit, setFieldValue, initialValues } = formik;
+  const { values, setFieldValue, initialValues } = formik;
   const { category, priceRange, rating } = filters;
   const isShow = values !== initialValues && !isShowReset;
 

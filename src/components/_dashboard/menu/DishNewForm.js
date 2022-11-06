@@ -139,7 +139,7 @@ export default function DishNewForm({ isEdit, currentDish }) {
     [setFieldValue]
   );
 
-  const handleRemove = (file) => {
+  const handleRemove = () => {
     setFieldValue('image', {});
   };
 

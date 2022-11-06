@@ -17,6 +17,7 @@ StaffMoreMenu.propTypes = {
   staffId: PropTypes.string,
 };
 
+// eslint-disable-next-line
 export default function StaffMoreMenu({ onDelete, staffId }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);

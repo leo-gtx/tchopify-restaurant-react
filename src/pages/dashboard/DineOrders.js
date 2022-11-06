@@ -110,7 +110,7 @@ export default function DineOrders() {
           })
     }
     return null;
-  },[setPendingOrders,  setReadyOrders, setDeliveredOrders, sort])
+  },[setPendingOrders,  setReadyOrders, setDeliveredOrders, sort, authedUser])
 
   const handleReadyOrder = useCallback((orderId)=>{
     SetPosOrderStatus({status: 'ready', readyDate: Date.now()}, orderId)

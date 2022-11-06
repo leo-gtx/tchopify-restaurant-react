@@ -8,7 +8,7 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import clockFill from '@iconify/icons-eva/clock-fill';
 // material
-import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Tooltip, Grid, Button, Typography } from '@material-ui/core';
+import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText, Tooltip, Grid, Button } from '@material-ui/core';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 

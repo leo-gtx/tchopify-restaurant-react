@@ -36,10 +36,6 @@ const LabelStyle = styled((props) => <Typography component="span" variant="subti
 }));
 
 // ----------------------------------------------------------------------
-function labelDateRange(startDate, endDate){
-  return `From ${fDate(new Date(startDate))} to ${fDate(new Date(endDate))}`
-}
-// ----------------------------------------------------------------------
 
 OrderTagFiltered.propTypes = {
   formik: PropTypes.object,

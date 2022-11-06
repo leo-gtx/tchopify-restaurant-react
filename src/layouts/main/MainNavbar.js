@@ -1,4 +1,4 @@
-import { NavLink as RouterLink, useLocation } from 'react-router-dom';
+import { NavLink as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 // material
 import { styled } from '@material-ui/core/styles';
@@ -47,8 +47,8 @@ const ToolbarShadowStyle = styled('div')(({ theme }) => ({
 
 export default function MainNavbar() {
   const isOffset = useOffSetTop(100);
-  const { pathname } = useLocation();
-  const isHome = pathname === '/';
+  // const { pathname } = useLocation();
+  // const isHome = pathname === '/';
   const {t} = useTranslation();
 
   return (

@@ -31,10 +31,11 @@ export default function ConfigurartionCategoryCreate() {
   const groups = useSelector((state) => Object.values(state.categories.meta));
   const isEdit = pathname.includes('edit');
   const currentCategory = categories.find((category) => paramCase(category.name) === name);
+  const ownerId =  getOwnerId(authedUser);
   useEffect(()=>{
     dispatch(handleGetCategories());
-    dispatch(handleGetSubCategories(getOwnerId(authedUser)));
-  },[dispatch, authedUser.id])
+    dispatch(handleGetSubCategories(ownerId));
+  },[dispatch, ownerId])
   return (
     <Page title="Menu: Create a new category | Tchopify">
       <Container maxWidth={themeStretch ? false : 'lg'}>

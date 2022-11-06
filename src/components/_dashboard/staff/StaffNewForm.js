@@ -88,7 +88,7 @@ export default function StaffNewForm({ isEdit, currentStaff }) {
     }
   });
 
-  const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
 
   return (

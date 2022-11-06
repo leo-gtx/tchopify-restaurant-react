@@ -84,7 +84,7 @@ export default function EcommerceCurrentBalance() {
       phoneNumber: ''
     },
     validationSchema: PaymentSchema,
-    onSubmit: (values, { setErrors, setSubmitting }) => {
+    onSubmit: (values ) => {
       const data ={
         userId: getOwnerId(authedUser),
         ...values
@@ -135,7 +135,7 @@ export default function EcommerceCurrentBalance() {
       setSubmitting(true)
       dispatch(handleWithdrawMoney(data, onSuccess, onError))
     } 
-  },[code, phoneNumber, amount, payment])
+  },[code, phoneNumber, amount, payment, authedUser, dispatch, t, navigate, enqueueSnackbar, setSubmitting])
 
   return (
     <FormikProvider value={formik}>
