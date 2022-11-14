@@ -9,6 +9,9 @@ export default{
     titleShipping: 'En Chemin',
     noOrder: 'Aucune Commande',
     ordered: 'Commandé',
-    dineTitle: 'Commandes du Point de Vente',
-    takeawayTitle: 'Commandes à Emporter'
+    dineTitle: 'Commandes en salle',
+    takeawayTitle: 'Commandes à Emporter',
+    titleKitchen: 'En Cuisine',
+    titleServe: 'A Table',
+    titleBilled: 'Facturé'
 }

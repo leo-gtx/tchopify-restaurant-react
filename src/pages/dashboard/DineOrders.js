@@ -135,7 +135,7 @@ export default function DineOrders() {
             <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                     <OrderCaroussel
-                     title={t('allOrders.titleNew')}
+                     title={t('allOrders.titleKitchen')}
                      data={pendingOrders} 
                      action1={{onAction: handleReadyOrder, title: t('actions.ready'), visible: true}} 
                      action2={{ visible: false}} 
@@ -143,7 +143,7 @@ export default function DineOrders() {
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <OrderCaroussel 
-                    title={t('allOrders.titleReady')}
+                    title={t('allOrders.titleServe')}
                     data={readyOrders}
                     action1={{onAction: handleCompleteOrder, title: t('actions.completed'), visible: true}} 
                      action2={{ visible: false}} 

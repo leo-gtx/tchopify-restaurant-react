@@ -1,12 +1,16 @@
 import { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useSnackbar } from 'notistack5';
 import * as Yup from 'yup';
 import { filter, sumBy } from 'lodash';
+import { Icon } from '@iconify/react';
 // material
-import { Container, Stack, Paper, useTheme } from '@material-ui/core';
+import { Container, Stack, Paper, useTheme, Tooltip, Button } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
+import checkmarkFill from '@iconify/icons-eva/checkmark-fill';
+import closeFill from '@iconify/icons-eva/close-fill';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 // routes
@@ -37,7 +41,7 @@ import {
   deleteCart,
   resetCart
  } from '../../redux/actions/app';
-import { PosPlaceOrder } from '../../redux/actions/order';
+import { PosPlaceOrder, PosEditOrder } from '../../redux/actions/order';
 // ----------------------------------------------------------------------
 
 function applyFilter(products, category) {
@@ -56,12 +60,14 @@ export default function Pos() {
   const { isCollapse } = useCollapseDrawer();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
+  const navigator = useNavigate();
   const { authedUser, dishes, categories, app, restaurants } = useSelector((state)=>state);
   const shopDishes = Object.values(dishes);
   const shopCategories = [{id: 'all', name: 'All'}, ...Object.values(categories.sub)];
   const [sort, setSort] = useState('All');
   const filteredProducts = applyFilter(shopDishes, sort);
-  const { cart } = app.checkout;
+  const { cart, orderId, billing } = app.checkout;
+  const isEdit = !!orderId;
   const isEmptyCart = cart.length === 0;
   const total = sumBy(cart, 'subtotal');
   const [open, setOpen] = useState(false);
@@ -82,20 +88,22 @@ export default function Pos() {
     table: Yup.string(),
   }),
   enableReinitialize: true,
-  initialValues: { products: cart, table: '' },
+  initialValues: { products: cart, table: billing?.table || '' },
   onSubmit: (values, { setErrors, setSubmitting }) => {
     const onSuccess = ()=>{
       dispatch(resetCart())
       setSubmitting(true);
-      enqueueSnackbar(t('flash.orderPlaced'), { variant: 'success' });
+      enqueueSnackbar(!isEdit ? t('flash.orderPlaced'):t('flash.orderEdit'), { variant: 'success' });
+      navigator(PATH_DASHBOARD.order.posOrders);
     }
     const onError = (error)=>{
       console.error(error);
       setErrors(error.message);
       setSubmitting(true);
-      enqueueSnackbar(t('flash.orderFailure'), { variant: 'error' });
+      enqueueSnackbar(!isEdit ? t('flash.orderFailure'):t('flash.orderEditFailure'), { variant: 'error' });
     }
     const data = {
+        id: orderId,
         subtotal: total,
         total,
         discount: 0,
@@ -112,9 +120,14 @@ export default function Pos() {
         cart: values.products,
         payment: 'cash'
     }
-    PosPlaceOrder(data, onSuccess, onError)
+    if (!isEdit ) PosPlaceOrder(data, onSuccess, onError)
+    else PosEditOrder(data, onSuccess, onError)
   }
 });
+
+const handleResetCart = useCallback(() => {
+  dispatch(resetCart())
+},[dispatch])
 
 const handleDeleteCart = useCallback((productId, options) => {
   dispatch(deleteCart(productId, options));
@@ -152,20 +165,21 @@ const getPadding = ()=>{
 };
   return (
     <Page title="Point of Sale | Tchopify Merchant">
+      <FormikProvider value={formik}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={t('pos.title')}
+          heading={!isEdit ? t('pos.title'):t('pos.edit', {order: orderId})}
           links={[
             { name: t('links.dashboard'), href: PATH_DASHBOARD.general.home },
             {
-              name: t('links.pos'),
+              name: !isEdit ? t('links.pos'):t('pos.edit', {order: orderId}),
             }
           ]}
         />
           <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-start" sx={{ mb: 5 }}>
               <ShopProductSort options={shopCategories} onSelectOption={handleSelectOption} currentOption={sort} />
           </Stack>
-          <FormikProvider value={formik}>
+          
             <Stack spacing={2} sx={{paddingBottom: 20}}>
               <Stack >
                 <ShopProductList products={filteredProducts || []} isLoad={!dishes} onSelectProduct={handleAddCart}/>
@@ -173,30 +187,52 @@ const getPadding = ()=>{
               {
                 !isEmptyCart && (
                   <Paper sx={{position: 'fixed', bottom: 0, left: 0, right: 0, height: 240, ...getPadding() }} elevation={3}>
-                    <Form autoComplete="off" noValidate onSubmit={handleOpenModal}>
+                    <Form 
+                      autoComplete="off" 
+                      noValidate 
+                      onSubmit={(e)=>{
+                        e.preventDefault();
+                        handleOpenModal();
+                      }}
+                      >
                         <Scrollbar>
                           <CartList formik={formik} onCloseModal={handleCloseModal} openModal={open} onDelete={handleDeleteCart} onDecreaseQuantity={handleDecreaseQuantity} onIncreaseQuantity={handleIncreaseQuantity} />
                         </Scrollbar>
-                        <Stack justifyContent='center' alignItems='center'>
-                          <LoadingButton
-                              size="large"
-                              type="submit"
-                              variant="contained"
-                              sx={{ whiteSpace: 'nowrap' }}
-                              loading={isSubmitting}
-                            >
-                              Total {fCurrency(total)}
-                            </LoadingButton>
+                        <Stack direction='row' justifyContent='center' alignItems='center' spacing={2}>
+                          {
+                            !isSubmitting && (
+                              <Tooltip title={t('actions.cancel')} open placement='left'>
+                                <Button
+                                size='large'
+                                color='primary'
+                                variant="outlined"
+                                sx={{ whiteSpace: 'nowrap' }}
+                                onClick={handleResetCart}
+                                >
+                                  <Icon icon={closeFill} width={24} height={24}/>
+                                </Button>
+                            </Tooltip>
+                            )
+                          }
+                          <Tooltip title={`Total: ${fCurrency(total)}`} open placement='right' >
+                            <LoadingButton
+                                size="large"
+                                type="submit"
+                                color='success'
+                                variant="outlined"
+                                sx={{ whiteSpace: 'nowrap' }}
+                                loading={isSubmitting}
+                              >
+                                <Icon icon={checkmarkFill} width={24} height={24} />
+                              </LoadingButton>
+                          </Tooltip>
                         </Stack>
                     </Form>
                   </Paper>
                 )}  
             </Stack>
-          </FormikProvider>
-          
-       
-        
       </Container>
+      </FormikProvider>
     </Page>
   );
 }

@@ -242,7 +242,7 @@ export function GetOrdersByStatus({status, ownerId, mode},callback){
         .where('from.owner', '==', ownerId)
         .where('status', '==', status)
         .where('mode', '==', mode)
-        .orderBy('orderAt', 'asc')
+        .orderBy('orderAt', 'desc')
         .onSnapshot((documentSnapshot)=>{
             callback(formattedOrders(documentSnapshot.docs))
         })
@@ -252,7 +252,7 @@ export function GetOrdersByStatus({status, ownerId, mode},callback){
         .collection('orders')
         .where('from.owner', '==', ownerId)
         .where('status', '==', status)
-        .orderBy('orderAt', 'asc')
+        .orderBy('orderAt', 'desc')
         .onSnapshot((documentSnapshot)=>{
             callback(formattedOrders(documentSnapshot.docs))
         })
@@ -354,4 +354,14 @@ export function getCoupon({code, uid}, onSuccess, onError){
         console.error(err)
         onError()
     })
+}
+
+export function PosEditOrder({id, cart}, onSuccess, onError) {
+    return firebase
+    .firestore()
+    .collection('orders')
+    .doc(id)
+    .update({cart})
+    .then(onSuccess)
+    .catch(onError)
 }

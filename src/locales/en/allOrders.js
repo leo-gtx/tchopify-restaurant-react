@@ -9,6 +9,9 @@ export default{
     titleShipping: 'On The Way',
     noOrder: 'No Order',
     ordered: 'Ordered',
-    dineTitle: 'Pos\' Orders',
-    takeawayTitle: 'Take Away\'s Orders'
+    dineTitle: 'Dine in Orders',
+    takeawayTitle: 'Take Away\'s Orders',
+    titleKitchen: 'In Kitchen',
+    titleServe: 'At the table',
+    titleBilled: 'Billed'
 }

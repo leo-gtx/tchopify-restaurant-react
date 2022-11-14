@@ -9,17 +9,17 @@ import {
     INCREASE_QUANTITY,
     RESET_CART,
     SET_SHOP_CHECKOUT,
+    SET_ORDER_ID,
+    SET_BILLING,
+    SET_FROM,
 } from '../actions/app';
 
 const initialState = {
     checkout: {
+        orderId: '',
         from: '',
         cart: [],
-        step: 0,
         billing: null,
-        shipping: 0,
-        deliveryCost: 0,
-        deliveryTime: 0, 
         discount: 0,
         subtotal: 0,
         total: 0,
@@ -28,6 +28,22 @@ const initialState = {
 
 export default function app(state = initialState, action){
     switch (action.type) {
+        case SET_ORDER_ID:
+            return {
+                ...state,
+                checkout: {
+                    ...state.checkout,
+                    orderId: action.payload
+                }
+            }
+        case SET_FROM:
+            return {
+                ...state,
+                checkout: {
+                    ...state.checkout,
+                    from: action.payload
+                }
+            }
         case SET_CURRENT_RESTAURANT:
             return {
                 ...state,
@@ -113,6 +129,14 @@ export default function app(state = initialState, action){
                     total: state.checkout.total - action.payload
                 }
             }
+        case SET_BILLING:
+            return {
+                ...state,
+                checkout: {
+                    ...state.checkout,
+                    billing: action.payload
+                }
+            }
         case DECREASE_QUANTITY: {
             const {id, options} = action.payload;
             const updateCart = map(state.checkout.cart, (product) => {
@@ -157,10 +181,11 @@ export default function app(state = initialState, action){
             return {
                 ...state,
                 checkout:{
+                    orderId: '',
+                    from: '',
                     cart: [],
                     step: 0,
                     billing: null,
-                    shipping: 0,
                     discount: 0,
                     subtotal: 0,
                     total: 0,
