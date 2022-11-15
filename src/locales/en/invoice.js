@@ -13,5 +13,7 @@ export default {
     shipping: 'Shipping',
     note: 'If there is any problem with your order please let\'s us know',
     contactLabel: 'Have a Question?',
-    phone: 'Phone'
+    phone: 'Phone',
+    totalCompleted: 'Total Status Completed',
+    totalPaid: 'Total Paid'
 }

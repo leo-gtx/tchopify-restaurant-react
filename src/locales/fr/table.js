@@ -29,6 +29,11 @@ export default {
     mode: 'Mode',
     createAt: 'Créé à',
     published: 'Publié',
-    dish: 'Plat'
+    dish: 'Plat',
+    employee: 'Employé',
+    date: 'Date',
+    orderId: 'Numéro de commande',
+    cricterias: 'Critères',
+    paid: 'Payé'
     
 }

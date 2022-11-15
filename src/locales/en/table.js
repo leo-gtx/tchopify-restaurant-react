@@ -30,5 +30,9 @@ export default {
     createAt: 'Create At',
     published: 'Published',
     dish: 'Dish',
-    
+    employee: 'Employee',
+    date: 'Date',
+    orderId: 'Order Number',
+    cricterias: 'Cricterias',
+    paid: 'Paid'
 }

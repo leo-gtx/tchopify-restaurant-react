@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { filter } from 'lodash';
+import { filter, sortBy } from 'lodash';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 // material
@@ -45,6 +45,7 @@ import {
     OrderListFilter,
     OrderTagFiltered
 } from '../../components/_dashboard/order/order-list';
+import { ReportingToolbar } from '../../components/_dashboard/invoice';
 // utils
 import { getOwnerId } from '../../utils/utils';
 // ----------------------------------------------------------------------
@@ -228,7 +229,14 @@ export default function OrderHistory() {
 
   const filteredOrders = applySortFilter(applyFilter(orders, values), getComparator(order, orderBy), filterName);
 
+  const selectedOrders = orders.filter((order)=>selected.includes(order.id))
+
   const isOrderNotFound = filteredOrders.length === 0;
+
+  const reporting = {
+    orders: selectedOrders.length > 0 ? sortBy(selectedOrders, (order)=>order.orderAt, 'asc') : sortBy(filteredOrders, (order)=>order.orderAt, 'asc') ,
+     cricterias: values
+  }
 
   return (
     <Page title="Store: Order History | Tchopify">
@@ -245,6 +253,8 @@ export default function OrderHistory() {
             { name: t('links.orderHistory'), href: PATH_DASHBOARD.order.history }
           ]}
         />
+
+        { !isOrderNotFound && <ReportingToolbar reporting={reporting} />}
 
         <Card>
         <OrderListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} onOpenFilter={handleOpenFilter} />

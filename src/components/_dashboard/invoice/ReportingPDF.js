@@ -1,6 +1,8 @@
 
 import PropTypes from 'prop-types';
 import { Page, View, Text, Font, Image, Document, StyleSheet } from '@react-pdf/renderer';
+import { sumBy } from 'lodash';
+import { useTranslation } from 'react-i18next';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 import { fDate } from '../../../utils/formatTime';
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
   subtitle2: { fontSize: 9, fontWeight: 700 },
   alignRight: { textAlign: 'right' },
   page: {
-    padding: '40px 24px 0 24px',
+    padding: '40px 24px 24px 24px',
     fontSize: 9,
     lineHeight: 1.6,
     fontFamily: 'Roboto',
@@ -67,94 +69,74 @@ const styles = StyleSheet.create({
 
 // ----------------------------------------------------------------------
 
-InvoicePDF.propTypes = {
-  invoice: PropTypes.object.isRequired
+ReportingPDF.propTypes = {
+  reporting: PropTypes.shape({
+    orders: PropTypes.arrayOf(PropTypes.object),
+    cricterias: PropTypes.object
+  })
 };
 
-export default function InvoicePDF({ invoice }) {
-  const { id, cart, shipping, discount, total, subtotal, billing, from, paymentStatus, orderAt } = invoice;
-
-
+export default function ReportingPDF({ reporting }) {
+    const {t} = useTranslation();
+  const { orders, cricterias } = reporting;
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={styles.page} wrap>
         <View style={[styles.gridContainer, styles.mb40]}>
           <Image source="/static/brand/logo_full.png" style={{ height: 32 }} />
-          <View style={{ alignItems: 'right', flexDirection: 'column' }}>
-            <Text style={styles.h3}>{paymentStatus}</Text>
-            <Text>INV-{id}</Text>
+          <View style={{ flexDirection: 'column' }}>
+            <Text style={styles.h3}>{t('common.reporting')}</Text>
+            <Text style={styles.h4} >{ cricterias.startDate && t('history.filter.dateRangeLabel',{ startDate: fDate(cricterias.startDate), endDate: fDate(cricterias.endDate)})}</Text>
           </View>
         </View>
 
         <View style={[styles.gridContainer, styles.mb40]}>
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Invoice from</Text>
-            <Text style={styles.body1}>{from?.name}</Text>
-            <Text style={styles.body1}>{from?.locationDescription}</Text>
-            <Text style={styles.body1}>{from?.phoneNumber}</Text>
-          </View>
-          <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Invoice to</Text>
-            <Text style={styles.body1}>{billing?.receiver}</Text>
-            <Text style={styles.body1}>{billing?.fullAddress}</Text>
-            <Text style={styles.body1}>{billing?.phone}</Text>
+            <Text style={[styles.overline, styles.mb8]}>{t('table.cricterias')}</Text>
+            <Text style={styles.body1}>{`${t('table.shop')}: ${cricterias.shop}`}</Text>
+            <Text style={styles.body1}>{cricterias.status && `${t('table.status')}: ${cricterias.status}`} </Text> 
+            <Text style={styles.body1}>{cricterias.staff &&`${t('table.employee')}: ${cricterias.staff}`} </Text>
           </View>
         </View>
-
-        <View style={[styles.gridContainer, styles.mb40]}>
-          <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Order Date</Text>
-            <Text style={styles.body1}>{fDate(orderAt)}</Text>
-          </View>
-          <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Invoice Date</Text>
-            <Text style={styles.body1}>{fDate(new Date())}</Text>
-          </View>
-        </View>
-
-        <Text style={[styles.overline, styles.mb8]}>Invoice Details</Text>
 
         <View style={styles.table}>
           <View style={styles.tableHeader}>
             <View style={styles.tableRow}>
-              <View style={styles.tableCell_1}>
-                <Text style={styles.subtitle2}>#</Text>
+              <View style={styles.tableCell_3}>
+                <Text style={styles.subtitle2}>{t('table.date')}</Text>
               </View>
               <View style={styles.tableCell_2}>
-                <Text style={styles.subtitle2}>Description</Text>
+                <Text style={styles.subtitle2}>{t('table.orderId')}</Text>
               </View>
               <View style={styles.tableCell_3}>
-                <Text style={styles.subtitle2}>Qty</Text>
+                <Text style={styles.subtitle2}>{t('table.amount')}</Text>
               </View>
               <View style={styles.tableCell_3}>
-                <Text style={styles.subtitle2}>Unit price</Text>
+                <Text style={styles.subtitle2}>{t('table.status')}</Text>
               </View>
-              <View style={[styles.tableCell_3, styles.alignRight]}>
-                <Text style={styles.subtitle2}>Total</Text>
+              <View style={styles.tableCell_3}>
+                <Text style={styles.subtitle2}>{t('table.paid')}</Text>
               </View>
             </View>
           </View>
 
           <View style={styles.tableBody}>
-            {cart.map((item, index) => (
+            {orders.map((item, index) => (
               <View style={styles.tableRow} key={item.id + index}>
-                <View style={styles.tableCell_1}>
-                  <Text>{index + 1}</Text>
+                <View style={styles.tableCell_3}>
+                  <Text>{new Date(item.orderAt).toLocaleDateString()}</Text>
                 </View>
                 <View style={styles.tableCell_2}>
-                  <Text style={styles.subtitle2}>{item.name}</Text>
-                  { item.options.length > 0 && item.options.map((item, index)=>(
-                    <Text key={index}>{item}</Text>
-                  ))}
+                  <Text style={styles.subtitle2}>#{item.id}</Text>
                 </View>
                 <View style={styles.tableCell_3}>
-                  <Text>{item.quantity}</Text>
+                  <Text>{item.total}</Text>
                 </View>
                 <View style={styles.tableCell_3}>
-                  <Text>{item.price}</Text>
+                  <Text>{item.status.toUpperCase()}</Text>
                 </View>
-                <View style={[styles.tableCell_3, styles.alignRight]}>
-                  <Text>{fCurrency(item.price * item.quantity)}</Text>
+                <View style={styles.tableCell_3}>
+                  <Text>{item.paymentStatus === 'paid'? t('common.yes'):t('common.no')}</Text>
                 </View>
               </View>
             ))}
@@ -164,10 +146,10 @@ export default function InvoicePDF({ invoice }) {
               <View style={styles.tableCell_2} />
               <View style={styles.tableCell_3} />
               <View style={styles.tableCell_3}>
-                <Text>Subtotal</Text>
+                <Text>{t('invoice.total')}</Text>
               </View>
               <View style={[styles.tableCell_3, styles.alignRight]}>
-                <Text>{fCurrency(subtotal)}</Text>
+                <Text>{fCurrency(sumBy(orders, (order)=>order.total))}</Text>
               </View>
             </View>
 
@@ -176,10 +158,10 @@ export default function InvoicePDF({ invoice }) {
               <View style={styles.tableCell_2} />
               <View style={styles.tableCell_3} />
               <View style={styles.tableCell_3}>
-                <Text>Discount</Text>
+                <Text>{t('invoice.totalCompleted')}</Text>
               </View>
               <View style={[styles.tableCell_3, styles.alignRight]}>
-                <Text>{fCurrency(-discount)}</Text>
+                <Text>{fCurrency(sumBy(orders.filter((order)=>order.status === 'completed'), (order)=>order.total))}</Text>
               </View>
             </View>
 
@@ -188,28 +170,16 @@ export default function InvoicePDF({ invoice }) {
               <View style={styles.tableCell_2} />
               <View style={styles.tableCell_3} />
               <View style={styles.tableCell_3}>
-                <Text>Shipping</Text>
+                <Text>{t('invoice.totalPaid')}</Text>
               </View>
               <View style={[styles.tableCell_3, styles.alignRight]}>
-                <Text>{fCurrency(shipping)}</Text>
-              </View>
-            </View>
-
-            <View style={[styles.tableRow, styles.noBorder]}>
-              <View style={styles.tableCell_1} />
-              <View style={styles.tableCell_2} />
-              <View style={styles.tableCell_3} />
-              <View style={styles.tableCell_3}>
-                <Text style={styles.h4}>Total</Text>
-              </View>
-              <View style={[styles.tableCell_3, styles.alignRight]}>
-                <Text style={styles.h4}>{fCurrency(total)}</Text>
+                <Text>{fCurrency(sumBy(orders.filter((order)=>order.paymentStatus === 'paid'), (order)=>order.total))}</Text>
               </View>
             </View>
           </View>
         </View>
 
-        <View style={[styles.gridContainer, styles.footer]}>
+        { /* <View style={[styles.gridContainer, styles.footer]}>
           <View style={styles.col8}>
             <Text style={styles.subtitle2}>NOTES</Text>
             <Text>We appreciate your business. Should you need us to add VAT or extra notes let us know!</Text>
@@ -219,6 +189,7 @@ export default function InvoicePDF({ invoice }) {
             <Text>support@tchopify.com</Text>
           </View>
         </View>
+            */}
       </Page>
     </Document>
   );
