@@ -13,5 +13,7 @@ export default {
     shipping: 'Livraison',
     note: 'Si il y a un problème avec votre commande contactez nous',
     contactLabel: 'Vous avez une Question?',
-    phone: 'Téléphone'
+    phone: 'Téléphone',
+    totalCompleted: 'Total Statut Complêt',
+    totalPaid: 'Total payé'
 }
