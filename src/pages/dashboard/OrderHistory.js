@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { filter, sortBy } from 'lodash';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 // material
 import { useTheme } from '@material-ui/core/styles';
@@ -233,10 +233,11 @@ export default function OrderHistory() {
 
   const isOrderNotFound = filteredOrders.length === 0;
 
-  const reporting = {
+  const reporting = useMemo(()=>({
     orders: selectedOrders.length > 0 ? sortBy(selectedOrders, (order)=>order.orderAt, 'asc') : sortBy(filteredOrders, (order)=>order.orderAt, 'asc') ,
-     cricterias: values
-  }
+    cricterias: values
+  }),[selectedOrders, filteredOrders, values])
+  
 
   return (
     <Page title="Store: Order History | Tchopify">

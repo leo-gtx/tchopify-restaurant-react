@@ -3,5 +3,6 @@ export default{
     all: 'Toutes',
     reporting: 'Journal de Vente',
     yes: 'Oui',
-    no: 'Non'
+    no: 'Non',
+    statistic: 'Statistique des ventes'
 }

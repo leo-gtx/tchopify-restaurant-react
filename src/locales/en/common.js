@@ -1,7 +1,8 @@
 export default{
     closed: 'Closed',
     all: 'All',
-    reporting: 'Sell Report',
+    reporting: 'Sales Report',
     yes: 'Yes',
-    no: 'No'
+    no: 'No',
+    statistic: 'Sales Statistic'
 }
