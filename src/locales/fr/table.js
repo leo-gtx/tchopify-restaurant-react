@@ -34,6 +34,8 @@ export default {
     date: 'Date',
     orderId: 'Numéro de commande',
     cricterias: 'Critères',
-    paid: 'Payé'
+    paid: 'Payé',
+    unitPrice: 'Prix Unitaire',
+    total: 'Total'
     
 }
