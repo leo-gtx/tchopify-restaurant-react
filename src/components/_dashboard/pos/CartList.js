@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 // components
 import { DialogAnimate } from '../../animate';
+import ModalCheckout from './ModalCheckout';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 //
@@ -145,28 +146,11 @@ export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecre
             );
           })}
           <Stack sx={{m: 2}} justifyContent='center'>
-           
-            <DialogAnimate open={openModal} onClose={onCloseModal}>
-              <DialogTitle>{t('pos.modalTableTitle')}</DialogTitle>
-              <DialogContent>
-                <TextField
-                fullWidth
-                label={t('forms.tableLabel')}
-                {...getFieldProps('table')}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button 
-                variant='outlined' 
-                onClick={()=>{
-                  handleSubmit();
-                  onCloseModal();
-                }}
-                >
-                {t('actions.confirm')}
-                </Button>
-              </DialogActions>
-            </DialogAnimate>
+            <ModalCheckout 
+              formik={formik} 
+              openModal={openModal} 
+              onCloseModal={onCloseModal} 
+            />
           </Stack>
       </Stack>
   );

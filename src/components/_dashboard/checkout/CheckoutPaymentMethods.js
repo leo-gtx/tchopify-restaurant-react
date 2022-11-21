@@ -38,15 +38,15 @@ const OptionStyle = styled('div')(({ theme }) => ({
 CheckoutPaymentMethods.propTypes = {
   formik: PropTypes.object,
   paymentOptions: PropTypes.array,
-  cardOptions: PropTypes.array
+  isGiftCard: PropTypes.bool
 };
 
-export default function CheckoutPaymentMethods({ paymentOptions, formik }) {
+export default function CheckoutPaymentMethods({ paymentOptions, formik, isGiftCard }) {
   const { errors, touched, values, getFieldProps } = formik;
   const {t} = useTranslation();
   return (
-    <Card sx={{ my: 3 }}>
-      <CardHeader title={t('forms.paymentLabel')} />
+    <Card elevation={0}>
+      {/* <CardHeader title={t('forms.paymentLabel')} /> */}
       <CardContent>
         <RadioGroup row {...getFieldProps('payment')}>
           <Grid container spacing={2}>
@@ -86,7 +86,7 @@ export default function CheckoutPaymentMethods({ paymentOptions, formik }) {
                             alt="logo card"
                             src={icon}
                             width='auto'
-                            height={60}
+                            height={50}
                             sx={{
                               ...(index === 0 && { mr: 1 })
                             }}
@@ -105,6 +105,16 @@ export default function CheckoutPaymentMethods({ paymentOptions, formik }) {
                           helperText={touched.phoneNumber && errors.phoneNumber}
                           sx={{ marginBottom: 2 }}
                         />
+                        {isGiftCard && (
+                          <TextField
+                          fullWidth
+                          label="Gift Code"
+                          {...getFieldProps('giftCode')}
+                          error={Boolean(touched.giftCode && errors.giftCode)}
+                          helperText={touched.giftCode && errors.giftCode}
+                          sx={{ marginBottom: 2 }}
+                        />
+                        )}
                       </Collapse>
                     )}
                   </OptionStyle>

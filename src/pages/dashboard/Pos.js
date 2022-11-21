@@ -86,9 +86,18 @@ export default function Pos() {
  const formik = useFormik({
   validationSchema: Yup.object().shape({
     table: Yup.string(),
+    phoneNumber: Yup.string(),
+    giftCode: Yup.string(),
+    payment: Yup.mixed().required(t('forms.paymentRequired'))
   }),
   enableReinitialize: true,
-  initialValues: { products: cart, table: billing?.table || '' },
+  initialValues: { 
+    products: cart, 
+    table: billing?.table || '', 
+    giftCode: '', 
+    phoneNumber: '', 
+    payment: '' 
+  },
   onSubmit: (values, { setErrors, setSubmitting }) => {
     const onSuccess = ()=>{
       dispatch(resetCart())
@@ -196,7 +205,14 @@ const getPadding = ()=>{
                       }}
                       >
                         <Scrollbar>
-                          <CartList formik={formik} onCloseModal={handleCloseModal} openModal={open} onDelete={handleDeleteCart} onDecreaseQuantity={handleDecreaseQuantity} onIncreaseQuantity={handleIncreaseQuantity} />
+                          <CartList 
+                            formik={formik} 
+                            onCloseModal={handleCloseModal} 
+                            openModal={open} 
+                            onDelete={handleDeleteCart} 
+                            onDecreaseQuantity={handleDecreaseQuantity} 
+                            onIncreaseQuantity={handleIncreaseQuantity} 
+                          />
                         </Scrollbar>
                         <Stack direction='row' justifyContent='center' alignItems='center' spacing={2}>
                           {
