@@ -39,8 +39,6 @@ export default function OrderCaroussel({ title, data, action1, action2 }) {
     slidesToShow: 1,
     slidesToScroll: 1,
     rtl: Boolean(theme.direction === 'rtl'),
-
-
   };
 
   const handlePrevious = () => {

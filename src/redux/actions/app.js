@@ -8,7 +8,31 @@ export const RESET_CART = 'RESET_CART';
 export const APPLY_SHIPPING = 'APPLY_SHIPPING';
 export const SET_SHOP_CHECKOUT = 'SET_SHOP_CHECKOUT';
 export const GET_CART = 'GET_CART';
+export const SET_ORDER_ID = 'SET_ORDER_ID';
+export const SET_BILLING = 'SET_BILLING';
+export const SET_FROM = 'SET_FROM';
 
+export function setFrom(value) {
+    return {
+        type: SET_FROM,
+        payload: value
+    }
+}
+
+export function setBilling(value){
+    return {
+        type: SET_BILLING,
+        payload: value
+    }
+}
+
+
+export function setOrderId(value) {
+    return {
+        type: SET_ORDER_ID,
+        payload: value
+    }
+}
 
 export function setShopCheckout(value){
     return {

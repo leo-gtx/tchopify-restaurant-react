@@ -57,5 +57,6 @@ export default {
     becomePartner: 'Devenir Partenaire',
     contactUs: 'Contactez Nous',
     choosePlan: 'Choisissez un Plan',
-    useCurrentLocation: 'Utiliser ma position actuelle'
+    useCurrentLocation: 'Utiliser ma position actuelle',
+    editOrder: 'Modifier la commande'
 }

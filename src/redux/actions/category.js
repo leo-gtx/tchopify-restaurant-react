@@ -177,7 +177,7 @@ export function handleGetCategories(){
     .where('isGroup', '==', true)
     .get()
     .then((documentSnapshot)=>{
-        if(!documentSnapshot.empty) dispatch(setCategories(formattedCategories(documentSnapshot.docs)))
+        dispatch(setCategories(formattedCategories(documentSnapshot.docs)))
     })
     .catch((err)=>console.error(err))
 
@@ -191,7 +191,7 @@ export function handleGetSubCategories(owner){
     .where('owner', '==', owner)
     .get()
     .then((documentSnapshot)=>{
-        if(!documentSnapshot.empty) dispatch(setSubcategories(formattedCategories(documentSnapshot.docs)))
+        dispatch(setSubcategories(formattedCategories(documentSnapshot.docs)))
     })
     .catch((err)=>console.error(err))
 
@@ -205,7 +205,7 @@ export function handleGetSubcategoriesByRestaurant(restaurantId, callback){
     .where('owner', '==', restaurantId)
     .get()
     .then((documentSnapshot)=>{
-        if(!documentSnapshot.empty) callback(formattedCategories(documentSnapshot.docs))
+        callback(formattedCategories(documentSnapshot.docs))
     })
     .catch((err)=>console.error(err))
 }
