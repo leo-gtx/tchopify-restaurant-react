@@ -25,15 +25,12 @@ import {
   Tooltip
 } from '@material-ui/core';
 // actions
-import { setOrderId, getCart, setBilling } from '../../../../redux/actions/app';
+import { setOrderId, getCart, setBilling, setPayment, setPaymentStatus } from '../../../../redux/actions/app';
 // utils
 import {  fToNow } from '../../../../utils/formatTime';
 import { fCurrency } from '../../../../utils/formatNumber';
 // path
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-
-
-
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +47,8 @@ OrderItem.propTypes = {
     price: PropTypes.number,
     name: PropTypes.string,
     image: PropTypes.string,
-    options: PropTypes.arrayOf(PropTypes.string)
+    options: PropTypes.arrayOf(PropTypes.string),
+    status: PropTypes.string
   }),
   position: PropTypes.number,
   action1: PropTypes.shape({
@@ -69,15 +67,17 @@ OrderItem.propTypes = {
 
 export default function OrderItem({ item, position, action1, action2 }) {
   const {t} = useTranslation();
-  const { billing, total, orderAt, cart, from, mode, id, status } = item;
+  const { billing, total, orderAt, cart, from, mode, id, status, payment, paymentStatus } = item;
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
   const handleEdit = useCallback(()=>{
     dispatch(setOrderId(id));
     dispatch(getCart(cart));
     dispatch(setBilling(billing));
+    dispatch(setPayment(payment));
+    dispatch(setPaymentStatus(paymentStatus));
     navigate(PATH_DASHBOARD.pos.root);
-  },[dispatch, navigate, id, cart, billing])
+  },[dispatch, navigate, id, cart, billing, payment, paymentStatus])
   // const cookingTime = sumBy(cart, 'cookingTime');
   // const deliveryDate = new Date(orderAt);
   // deliveryDate.setMinutes(deliveryDate.getMinutes() + deliveryTime + cookingTime)

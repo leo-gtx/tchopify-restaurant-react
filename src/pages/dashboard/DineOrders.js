@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
 import useSettings from '../../hooks/useSettings';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
 // components
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
@@ -47,70 +48,75 @@ export default function DineOrders() {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [readyOrders, setReadyOrders] = useState([]);
   const [deliveredOrders, setDeliveredOrders] = useState([]);
-  const [sort, setSort] = useState('day')
+  const [sort, setSort] = useState('day');
+  const isMountedRef = useIsMountedRef();
   useEffect(()=>{
-    if(isOwner(authedUser)){
-        GetOrdersByStatus(
-          {ownerId: getOwnerId(authedUser), status: 'new', mode: 'DINE'},
-           (data)=>{
-            const orders = Object.values(data)
-            setPendingOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
-        GetOrdersByStatus(
-          {ownerId: getOwnerId(authedUser), status: 'ready', mode: 'DINE'},
-          (data)=>{
-            const orders = Object.values(data)
-            setReadyOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
-        GetOrdersByStatus(
-          {ownerId: getOwnerId(authedUser), status: 'completed', mode: 'DINE'},
-          (data)=>{
-            const orders = Object.values(data)
-            setDeliveredOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
+    if(isMountedRef.current){
+      if(isOwner(authedUser)){
+          GetOrdersByStatus(
+            {ownerId: getOwnerId(authedUser), status: 'new', mode: 'DINE'},
+            (data)=>{
+              const orders = Object.values(data)
+              setPendingOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+          GetOrdersByStatus(
+            {ownerId: getOwnerId(authedUser), status: 'ready', mode: 'DINE'},
+            (data)=>{
+              const orders = Object.values(data)
+              setReadyOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+          GetOrdersByStatus(
+            {ownerId: getOwnerId(authedUser), status: 'completed', mode: 'DINE'},
+            (data)=>{
+              const orders = Object.values(data)
+              setDeliveredOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+      }
+      if(isAdmin(authedUser) || isChef(authedUser)){
+          GetOrdersByStatusAndShop(
+            { status: 'new', shopId: authedUser.shop, mode: 'DINE'},
+            (data)=>{
+              const orders = Object.values(data)
+              setPendingOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+          GetOrdersByStatusAndShop(
+            { status: 'ready', shopId: authedUser.shop, mode: 'DINE'},
+            (data)=>{
+              const orders = Object.values(data)
+              setReadyOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+          GetOrdersByStatusAndShop(
+            { status: 'completed', shopId: authedUser.shop, mode: 'DINE'},
+            (data)=>{
+              const orders = Object.values(data)
+              setDeliveredOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+      }
+      if(isWaitress(authedUser)){
+          GetPosOrdersByStatusShopAndUser(
+            { status: 'new', shopId: authedUser.shop, mode: 'DINE', userId: authedUser.id},
+            (data)=>{
+              const orders = Object.values(data)
+              setPendingOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+          GetPosOrdersByStatusShopAndUser(
+            { status: 'ready', shopId: authedUser.shop, mode: 'DINE', userId: authedUser.id},
+            (data)=>{
+              const orders = Object.values(data)
+              setReadyOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+          GetPosOrdersByStatusShopAndUser(
+            { status: 'completed', shopId: authedUser.shop, mode: 'DINE', userId: authedUser.id},
+            (data)=>{
+              const orders = Object.values(data)
+              setDeliveredOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
+            })
+      }
     }
-    if(isAdmin(authedUser) || isChef(authedUser)){
-        GetOrdersByStatusAndShop(
-          { status: 'new', shopId: authedUser.shop, mode: 'DINE'},
-          (data)=>{
-            const orders = Object.values(data)
-            setPendingOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
-        GetOrdersByStatusAndShop(
-          { status: 'ready', shopId: authedUser.shop, mode: 'DINE'},
-          (data)=>{
-            const orders = Object.values(data)
-            setReadyOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
-        GetOrdersByStatusAndShop(
-          { status: 'completed', shopId: authedUser.shop, mode: 'DINE'},
-          (data)=>{
-            const orders = Object.values(data)
-            setDeliveredOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
+    return ()=>{
+      isMountedRef.current = false;
     }
-    if(isWaitress(authedUser)){
-        GetPosOrdersByStatusShopAndUser(
-          { status: 'new', shopId: authedUser.shop, mode: 'DINE', userId: authedUser.id},
-          (data)=>{
-            const orders = Object.values(data)
-            setPendingOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
-        GetPosOrdersByStatusShopAndUser(
-          { status: 'ready', shopId: authedUser.shop, mode: 'DINE', userId: authedUser.id},
-          (data)=>{
-            const orders = Object.values(data)
-            setReadyOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
-        GetPosOrdersByStatusShopAndUser(
-          { status: 'completed', shopId: authedUser.shop, mode: 'DINE', userId: authedUser.id},
-          (data)=>{
-            const orders = Object.values(data)
-            setDeliveredOrders(orders.filter((item)=>moment(item.orderAt).isSame(new Date(), sort)))
-          })
-    }
-    return null;
-  },[setPendingOrders,  setReadyOrders, setDeliveredOrders, sort, authedUser])
+  },[setPendingOrders,  setReadyOrders, setDeliveredOrders, sort, authedUser, isMountedRef])
 
   const handleReadyOrder = useCallback((orderId)=>{
     SetPosOrderStatus({status: 'ready', readyDate: Date.now()}, orderId)

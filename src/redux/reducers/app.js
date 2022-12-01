@@ -12,6 +12,8 @@ import {
     SET_ORDER_ID,
     SET_BILLING,
     SET_FROM,
+    SET_PAYMENT,
+    SET_PAYMENT_STATUS
 } from '../actions/app';
 
 const initialState = {
@@ -23,6 +25,8 @@ const initialState = {
         discount: 0,
         subtotal: 0,
         total: 0,
+        payment: '',
+        paymentStatus: ''
     },
 }
 
@@ -42,6 +46,22 @@ export default function app(state = initialState, action){
                 checkout: {
                     ...state.checkout,
                     from: action.payload
+                }
+            }
+        case SET_PAYMENT:
+            return {
+                ...state,
+                checkout: {
+                    ...state.checkout,
+                    payment: action.payload
+                }
+            }
+        case SET_PAYMENT_STATUS:
+            return {
+                ...state,
+                checkout: {
+                    ...state.checkout,
+                    paymentStatus: action.payload
                 }
             }
         case SET_CURRENT_RESTAURANT:

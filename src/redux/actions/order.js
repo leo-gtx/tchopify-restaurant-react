@@ -1,6 +1,5 @@
-import {v4 as uuidv4} from 'uuid';
 import firebase from '../../firebase';
-import { formattedOrders, RequestTimeout, uniqueId} from '../../utils/utils';
+import { formattedOrders, RequestTimeout, uniqueId, isExpired} from '../../utils/utils';
 import { pay } from '../../utils/api';
 
 export const ADD_ORDER = 'ADD_ORDER';
@@ -59,7 +58,7 @@ export function PosPlaceOrder({cart, subtotal, billing, discount, payment, from,
         cart,
         subtotal,
         discount,
-        payment,
+        payment: payment.value,
         from,
         mode: 'DINE',
         billing,
@@ -68,7 +67,7 @@ export function PosPlaceOrder({cart, subtotal, billing, discount, payment, from,
         status: 'new',
         paymentStatus: 'unpaid',
     };
-    return RequestTimeout(5000, firebase
+    return RequestTimeout(1000 *60*1, firebase
     .firestore()
     .collection('orders')
     .doc(id)
@@ -76,60 +75,196 @@ export function PosPlaceOrder({cart, subtotal, billing, discount, payment, from,
     .then(onSuccess)
     .catch(onError)
     )
+    .catch(onError)
+
 }
 
-export function handlePayAndPlaceOrder({cart, subtotal, discount, billing, shipping, payment, from, total, wallet, service, deliveryTime, coupon}, callback, onError){
-    return (dispatch) => RequestTimeout(1000*60*5, pay({amount: total, wallet, currency: 'xaf', service})
-    .then((res)=>{
-        const id = uuidv4()
-        const data = {
-            id,
-            cart,
-            subtotal,
-            discount,
-            shipping,
-            payment,
-            from,
-            billing,
-            total,
-            deliveryTime,
-            orderAt: Date.now(),
-            status: 'new',
-            paymentStatus: 'paid',
-            paymentFeedback: res.data
-        };
-        firebase
-        .firestore()
-        .collection('orders')
-        .doc(id)
-        .set(data)
-        .then(()=>{
-            if(coupon){
-               firebase
-                .firestore()
-                .collection('coupons')
-                .doc(coupon.id)
-                .update({remainUse: coupon.remainUse -1, blacklisted:[...coupon.blacklisted, billing.userId]}) 
-                .then(()=>{
-                    dispatch(addOrder(data))
-                    callback()
-                })
-            }else{
-                dispatch(addOrder(data))
-                callback()
-            }
-            
-            
-        })
-        .catch((err)=>{
-            onError(err)
-        })
-    })
-    .catch((err)=>{
-        onError(err)
-    }))
-    .catch((err)=>onError(err))
+export function PayAndPlaceOrder({cart, subtotal, billing, payment, from, total, wallet, code}, callback, onError){
+    if(code){
+        return RequestTimeout(1000*60*5, firebase
+            .firestore()
+            .collection('cards')
+            .where('code','==',code)
+            .get()
+            .then((snapDoc)=>{ 
+                if(snapDoc.empty){
+                    onError('This card does not exist!')
+                }
+                else{
+                    const card = snapDoc.docs[0].data()
+                    if(isExpired(card.expiredAt)){
+                        return onError('This card is expired!');
+                    }
+                    const discount = total * card.rate;
+                    pay({amount: total - discount, wallet, currency: 'xaf', service: payment.service})
+                    .then((res)=>{
+                        const id = uniqueId()
+                        const data = {
+                            id,
+                            cart,
+                            subtotal,
+                            discount,
+                            from,
+                            mode: 'DINE',
+                            billing,
+                            total,
+                            payment: { wallet, method: payment.value},
+                            card,
+                            orderAt: Date.now(),
+                            status: 'new',
+                            paymentStatus: 'paid',
+                            paymentFeedback: res.data
+                        };
+                        firebase
+                        .firestore()
+                        .collection('orders')
+                        .doc(id)
+                        .set(data)
+                        .then(()=>{
+                            // dispatch(addOrder(data))
+                            callback() 
+                        })
+                        .catch((err)=>{
+                            onError(err)
+                        })
+                        })
+                    .catch((err)=>{onError(err)})
+                }
+            })
+            .catch((err)=>onError(err))
+        
+            )
+    }
+    return RequestTimeout(1000*60*5,
+                pay({amount: total, wallet, currency: 'xaf', service: payment.service})
+                .then((res)=>{
+                    const id = uniqueId()
+                    const data = {
+                        id,
+                        cart,
+                        subtotal,
+                        discount:0,
+                        from,
+                        mode: 'DINE',
+                        billing,
+                        total,
+                        payment: { wallet, method: payment.value},
+                        orderAt: Date.now(),
+                        status: 'new',
+                        paymentStatus: 'paid',
+                        paymentFeedback: res.data
+                    };
+                    firebase
+                    .firestore()
+                    .collection('orders')
+                    .doc(id)
+                    .set(data)
+                    .then(()=>{
+                        // dispatch(addOrder(data))
+                        callback() 
+                    })
+                    .catch((err)=>{
+                        onError(err)
+                    })
+                    })
+        )
+        .catch((err)=>onError(err))
+    
+}
 
+export function PayAndEditPosOrder({cart, subtotal, billing, payment, from, total, wallet, code}, callback, onError){
+    if(code){
+        return RequestTimeout(1000*60*5, firebase
+            .firestore()
+            .collection('cards')
+            .where('code','==',code)
+            .get()
+            .then((snapDoc)=>{ 
+                if(snapDoc.empty){
+                    onError('This card does not exist!')
+                }
+                else{
+                    const card = snapDoc.docs[0].data()
+                    if(isExpired(card.expiredAt)){
+                        return onError('This card is expired!');
+                    }
+                    const discount = total * card.rate;
+                    pay({amount: total - discount, wallet, currency: 'xaf', service: payment.service})
+                    .then((res)=>{
+                        const id = uniqueId()
+                        const data = {
+                            id,
+                            cart,
+                            subtotal,
+                            discount,
+                            billing,
+                            total,
+                            payment: { wallet, method: payment.value},
+                            card,
+                            paymentStatus: 'paid',
+                            paymentFeedback: res.data
+                        };
+                        firebase
+                        .firestore()
+                        .collection('orders')
+                        .doc(id)
+                        .update({
+                            cart,
+                            payment: data.payment,
+                            paymentStatus: data.paymentStatus,
+                            paymentFeedback: data.paymentFeedback,
+                            card: data.card,
+                            discount: data.discount,
+                            total: data.total
+                        })
+                        .then(()=>{
+                            callback() 
+                        })
+                        .catch((err)=>{
+                            onError(err)
+                        })
+                        })
+                    .catch((err)=>{onError(err)})
+                }
+            })
+            .catch((err)=>onError(err))
+        
+            )
+    }
+    return RequestTimeout(1000*60*5,
+                pay({amount: total, wallet, currency: 'xaf', service: payment.service})
+                .then((res)=>{
+                    const id = uniqueId()
+                    const data = {
+                        id,
+                        cart,
+                        subtotal,
+                        discount:0,
+                        from,
+                        mode: 'DINE',
+                        billing,
+                        total,
+                        payment: { wallet, method: payment.value},
+                        orderAt: Date.now(),
+                        status: 'new',
+                        paymentStatus: 'paid',
+                        paymentFeedback: res.data
+                    };
+                    firebase
+                    .firestore()
+                    .collection('orders')
+                    .doc(id)
+                    .set(data)
+                    .then(()=>{
+                        // dispatch(addOrder(data))
+                        callback() 
+                    })
+                    .catch((err)=>{
+                        onError(err)
+                    })
+                    })
+        )
+        .catch((err)=>onError(err))
     
 }
 

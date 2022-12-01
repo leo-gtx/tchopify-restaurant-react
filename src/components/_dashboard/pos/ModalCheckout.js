@@ -13,8 +13,10 @@ import { Icon } from '@iconify/react';
 import { capitalCase } from 'change-case';
 import squareFill from '@iconify/icons-eva/square-fill';
 import moneyFill from '@iconify/icons-ant-design/credit-card-fill';
+import CreditScoreIcon from '@material-ui/icons/CreditScore';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 // components
 import { DialogAnimate } from '../../animate';
@@ -79,8 +81,10 @@ ModalCheckout.propTypes = {
 
 export default function ModalCheckout({ formik, openModal, onCloseModal }){
     const [currentTab, setCurrentTab] = useState('table');
-    const { handleSubmit, getFieldProps } = formik;
+    const { handleSubmit } = formik;
+    const { paymentStatus } = useSelector((state)=>state.app.checkout)
     const {t} = useTranslation();
+    const isPaid = paymentStatus === 'paid';
     const CHECKOUT_TABS = [
         {
             value: 'table',
@@ -88,8 +92,11 @@ export default function ModalCheckout({ formik, openModal, onCloseModal }){
             component: <TableView formik={formik} />
         },
         {
-            value: 'payment',
-            icon: <Icon icon={moneyFill} width={20} height={20} />,
+            value: isPaid? t('common.paid'):'payment',
+            disabled: isPaid,
+            icon: !isPaid?
+            <Icon icon={moneyFill} width={20} height={20}/>:
+            <CreditScoreIcon/>,
             component: <CheckoutPaymentMethods 
                             formik={formik} 
                             paymentOptions={PAYMENT_OPTIONS} 
@@ -113,7 +120,14 @@ export default function ModalCheckout({ formik, openModal, onCloseModal }){
                         onChange={handleChangeTab}
                     >
                         {CHECKOUT_TABS.map((tab) => (
-                        <Tab disableRipple key={tab.value} label={capitalCase(tab.value)} icon={tab.icon} value={tab.value} />
+                        <Tab 
+                          disableRipple 
+                          key={tab.value} 
+                          label={capitalCase(tab.value)} 
+                          icon={tab.icon} 
+                          value={tab.value}
+                          disabled={tab?.disabled}
+                        />
                         ))}
                     </Tabs>
 

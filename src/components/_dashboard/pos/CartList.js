@@ -12,14 +12,8 @@ import {
   Divider,
   Typography,
   useTheme,
-  Button,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField
 } from '@material-ui/core';
 // components
-import { DialogAnimate } from '../../animate';
 import ModalCheckout from './ModalCheckout';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
@@ -83,7 +77,6 @@ CartList.propTypes = {
 
 export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecreaseQuantity, openModal, onCloseModal }) {
   const { products } = formik.values;
-  const { getFieldProps, handleSubmit  } = formik;
   const {t} = useTranslation();
   const { palette } = useTheme();
   return (

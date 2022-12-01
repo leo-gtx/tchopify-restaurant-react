@@ -1,5 +1,8 @@
 import {groupBy, sumBy} from 'lodash';
 
+export function isExpired(date){
+    return new Date(date) < new Date()
+}
 export function formattedCategories(arrayCategories){
     let categories = {}
     arrayCategories.forEach((item)=>{
