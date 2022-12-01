@@ -185,7 +185,7 @@ export default function StaffNewForm({ isEdit, currentStaff }) {
 
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!isEdit ? t('actions.createStaff') : t('action.saveChanges')}
+                    {!isEdit ? t('actions.createStaff') : t('actions.saveChanges')}
                   </LoadingButton>
                 </Box>
               </Stack>

@@ -1,6 +1,6 @@
 export default {
     title: 'Point de Vente',
     emptyCart: 'Panier Vide',
-    modalTableTitle: 'Renseignez une table',
+    modalTitle: 'Finaliser la commande',
     edit: 'Modification de la commande #{{order}}',
 }

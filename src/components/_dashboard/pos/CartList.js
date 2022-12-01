@@ -12,14 +12,9 @@ import {
   Divider,
   Typography,
   useTheme,
-  Button,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField
 } from '@material-ui/core';
 // components
-import { DialogAnimate } from '../../animate';
+import ModalCheckout from './ModalCheckout';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 //
@@ -82,7 +77,6 @@ CartList.propTypes = {
 
 export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecreaseQuantity, openModal, onCloseModal }) {
   const { products } = formik.values;
-  const { getFieldProps, handleSubmit  } = formik;
   const {t} = useTranslation();
   const { palette } = useTheme();
   return (
@@ -145,28 +139,11 @@ export default function CartList({ formik, onDelete, onIncreaseQuantity, onDecre
             );
           })}
           <Stack sx={{m: 2}} justifyContent='center'>
-           
-            <DialogAnimate open={openModal} onClose={onCloseModal}>
-              <DialogTitle>{t('pos.modalTableTitle')}</DialogTitle>
-              <DialogContent>
-                <TextField
-                fullWidth
-                label={t('forms.tableLabel')}
-                {...getFieldProps('table')}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button 
-                variant='outlined' 
-                onClick={()=>{
-                  handleSubmit();
-                  onCloseModal();
-                }}
-                >
-                {t('actions.confirm')}
-                </Button>
-              </DialogActions>
-            </DialogAnimate>
+            <ModalCheckout 
+              formik={formik} 
+              openModal={openModal} 
+              onCloseModal={onCloseModal} 
+            />
           </Stack>
       </Stack>
   );

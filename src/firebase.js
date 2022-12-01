@@ -10,19 +10,19 @@ import { firebaseConfig } from './config';
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
-if (window.location.host !== 'localhost'){
+if (window.location.hostname !== 'localhost'){
   firebase.analytics()
 }
 
 
-const auth = firebase.auth()
-if (window.location.host === 'localhost'){
-  auth.useEmulator('http://localhost:9099')
-}
+// const auth = firebase.auth()
+// if (window.location.hostname === 'localhost'){
+//  auth.useEmulator('http://localhost:9099')
+// }
 
 
 const firestore = firebase.firestore()
-if(window.location.host === 'localhost'){
+if(window.location.hostname === 'localhost'){
   firestore.useEmulator('localhost', 8081)
 }
 firestore.settings({
@@ -32,12 +32,12 @@ firestore.settings({
 firestore.enablePersistence().catch((err)=>console.error(err))
 
 const storage = firebase.storage()
-if(window.location.host === 'localhost'){
+if(window.location.hostname === 'localhost'){
   storage.useEmulator('localhost', 9199)
 }
 
 const functions = firebase.functions()
-if(window.location.host === 'localhost'){
+if(window.location.hostname === 'localhost'){
   functions.useEmulator('localhost', 5001)
 }
 

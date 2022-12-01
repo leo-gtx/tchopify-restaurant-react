@@ -41,8 +41,41 @@ import {
   deleteCart,
   resetCart
  } from '../../redux/actions/app';
-import { PosPlaceOrder, PosEditOrder } from '../../redux/actions/order';
+import { PosPlaceOrder, PosEditOrder, PayAndPlaceOrder, PayAndEditPosOrder } from '../../redux/actions/order';
 // ----------------------------------------------------------------------
+const PAYMENT_OPTIONS = [
+  {
+      value: 'cash',
+      title: 'Cash',
+      service: '0',
+      description: '',
+      note: 'forms.cashNote',
+      icons: ['/static/icons/ic_payment.svg']
+  },
+  {
+    value: 'mobile_money',
+    title: 'Mobile Money',
+    service: '1',
+    description: '',
+    note: 'forms.momoNote',
+    icons: ['/static/icons/ic_mobile_money.svg']
+  },
+  {
+    value: 'orange_money',
+    title: 'Orange Money',
+    service: '2',
+    description: '',
+    note: 'forms.omNote',
+    icons: ['/static/icons/ic_orange_money.svg']
+  },
+  {
+    value: 'eu_mobile_money',
+    title: 'EU Mobile Money',
+    service: '5',
+    description: '',
+    icons: ['/static/icons/ic_eu_mobile_money.png']
+  }
+];
 
 function applyFilter(products, category) {
   // FILTER PRODUCTS
@@ -66,7 +99,7 @@ export default function Pos() {
   const shopCategories = [{id: 'all', name: 'All'}, ...Object.values(categories.sub)];
   const [sort, setSort] = useState('All');
   const filteredProducts = applyFilter(shopDishes, sort);
-  const { cart, orderId, billing } = app.checkout;
+  const { cart, orderId, billing, payment, paymentStatus } = app.checkout;
   const isEdit = !!orderId;
   const isEmptyCart = cart.length === 0;
   const total = sumBy(cart, 'subtotal');
@@ -86,23 +119,39 @@ export default function Pos() {
  const formik = useFormik({
   validationSchema: Yup.object().shape({
     table: Yup.string(),
+    phoneNumber: Yup.string()
+      .when('payment', {
+        is: (payment)=> payment !== 'cash',
+        then: Yup.string().required(t('forms.phoneNumber'))
+      }),
+    giftCode: Yup.string(),
+    payment: Yup.mixed().required(t('forms.paymentRequired'))
   }),
   enableReinitialize: true,
-  initialValues: { products: cart, table: billing?.table || '' },
+  initialValues: { 
+    products: cart, 
+    table: billing?.table || '', 
+    giftCode: '', 
+    phoneNumber: '', 
+    payment: payment || 'cash' 
+  },
   onSubmit: (values, { setErrors, setSubmitting }) => {
     const onSuccess = ()=>{
       dispatch(resetCart())
-      setSubmitting(true);
+      setSubmitting(false);
       enqueueSnackbar(!isEdit ? t('flash.orderPlaced'):t('flash.orderEdit'), { variant: 'success' });
       navigator(PATH_DASHBOARD.order.posOrders);
     }
     const onError = (error)=>{
       console.error(error);
       setErrors(error.message);
-      setSubmitting(true);
+      setSubmitting(false);
       enqueueSnackbar(!isEdit ? t('flash.orderFailure'):t('flash.orderEditFailure'), { variant: 'error' });
     }
     const data = {
+        wallet: values.phoneNumber,
+        payment: PAYMENT_OPTIONS.find((item)=>item.value === values.payment),
+        code: values.giftCode,
         id: orderId,
         subtotal: total,
         total,
@@ -118,10 +167,18 @@ export default function Pos() {
           userId: authedUser.id
         },
         cart: values.products,
-        payment: 'cash'
     }
-    if (!isEdit ) PosPlaceOrder(data, onSuccess, onError)
-    else PosEditOrder(data, onSuccess, onError)
+    if (!isEdit){
+      if (data.payment.value === 'cash') PosPlaceOrder(data, onSuccess, onError)
+      else PayAndPlaceOrder(data, onSuccess, onError);
+    } 
+    if(isEdit) {
+      if(data.payment.value !== 'cash' && paymentStatus === 'unpaid'){
+        PayAndEditPosOrder(data, onSuccess, onError)
+      }else{
+        PosEditOrder(data, onSuccess, onError)
+      }
+    }
   }
 });
 
@@ -196,7 +253,14 @@ const getPadding = ()=>{
                       }}
                       >
                         <Scrollbar>
-                          <CartList formik={formik} onCloseModal={handleCloseModal} openModal={open} onDelete={handleDeleteCart} onDecreaseQuantity={handleDecreaseQuantity} onIncreaseQuantity={handleIncreaseQuantity} />
+                          <CartList 
+                            formik={formik} 
+                            onCloseModal={handleCloseModal} 
+                            openModal={open} 
+                            onDelete={handleDeleteCart} 
+                            onDecreaseQuantity={handleDecreaseQuantity} 
+                            onIncreaseQuantity={handleIncreaseQuantity} 
+                          />
                         </Scrollbar>
                         <Stack direction='row' justifyContent='center' alignItems='center' spacing={2}>
                           {

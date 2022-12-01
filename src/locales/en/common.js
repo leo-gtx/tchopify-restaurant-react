@@ -4,5 +4,6 @@ export default{
     reporting: 'Sales Report',
     yes: 'Yes',
     no: 'No',
-    statistic: 'Sales Statistic'
+    statistic: 'Sales Statistic',
+    paid: 'Paid'
 }

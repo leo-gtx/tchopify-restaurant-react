@@ -11,6 +11,22 @@ export const GET_CART = 'GET_CART';
 export const SET_ORDER_ID = 'SET_ORDER_ID';
 export const SET_BILLING = 'SET_BILLING';
 export const SET_FROM = 'SET_FROM';
+export const SET_PAYMENT = 'SET_PAYMENT';
+export const SET_PAYMENT_STATUS = 'SET_PAYMENT_STATUS';
+
+export function setPayment(value) {
+    return {
+        type: SET_PAYMENT,
+        payload: value
+    }
+}
+
+export function setPaymentStatus(value) {
+    return {
+        type: SET_PAYMENT_STATUS,
+        payload: value
+    }
+}
 
 export function setFrom(value) {
     return {
