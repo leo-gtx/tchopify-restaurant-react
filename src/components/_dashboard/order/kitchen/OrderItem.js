@@ -50,6 +50,7 @@ OrderItem.propTypes = {
     price: PropTypes.number,
     name: PropTypes.string,
     image: PropTypes.string,
+    status: PropTypes.string,
     options: PropTypes.arrayOf(PropTypes.string)
   }),
   position: PropTypes.number,

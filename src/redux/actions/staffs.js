@@ -1,5 +1,5 @@
 import firebase from '../../firebase';
-import {formattedStaffs} from '../../utils/utils';
+import {formattedStaffs, RequestTimeout} from '../../utils/utils';
 
 export const ADD_STAFF = 'ADD_STAFF';
 export const SET_STAFFS  = 'SET_STAFFS';
@@ -65,28 +65,31 @@ export function handleAddStaff({email, password, firstName, lastName, role, owne
 }
 
 export function handleDeleteStaff({staffId, filename}, callback, onError){
-    return (dispatch) => firebase
-    .firestore()
-    .collection('users')
-    .doc(staffId)
-    .delete()
-    .then(()=>{
+    return (dispatch) => RequestTimeout( 1000*60*5,
+      firebase
+      .firestore()
+      .collection('users')
+      .doc(staffId)
+      .delete()
+      .then(()=>{
 
-        if (filename){
-          // Create a reference to the file to delete
-          const imageRef = firebase.storage().ref(`images/staffs/${filename}`);
-          // Delete the file
-          imageRef.delete().then(() => {
-              console.log(`Image ${filename} Deleted Successfully`)
-          }).catch((error) => {
-              console.error(error)
-               onError(error)
-          });
-        }
-        dispatch(removeStaff(staffId))
-        callback()
-    })
-    .catch((err)=>console.log(err))
+          if (filename){
+            // Create a reference to the file to delete
+            const imageRef = firebase.storage().ref(`images/staffs/${filename}`);
+            // Delete the file
+            imageRef.delete().then(() => {
+                console.log(`Image ${filename} Deleted Successfully`)
+            }).catch((error) => {
+                console.error(error)
+                onError(error)
+            });
+          }
+          dispatch(removeStaff(staffId))
+          callback()
+      })
+      .catch((err)=>console.log(err))
+      )
+    .catch((err)=>console.error(err))
   }
 
   export function handleEditStaff({id, lastName, firstName, role, shop}, callback, onError){

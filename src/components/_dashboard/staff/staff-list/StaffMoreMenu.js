@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import editFill from '@iconify/icons-eva/edit-fill';
+import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import { Link as RouterLink } from 'react-router-dom';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // material
@@ -38,14 +39,13 @@ export default function StaffMoreMenu({ onDelete, staffId }) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {/** 
+
         <MenuItem onClick={onDelete} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        */}
 
         <MenuItem
           component={RouterLink}
