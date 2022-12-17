@@ -33,7 +33,7 @@ export default function ShopProductCard({ product, onSelectProduct }) {
   return (
       <Card onClick={handleSelectProduct} style={{height: 300}}>
         <Box sx={{ pt: '100%', position: 'relative'}}>
-          <ProductImgStyle alt={name} src={image} />
+          <ProductImgStyle alt={name} src={ image || '/static/illustrations/illustration_dish.jpg'} />
         </Box>
         <Stack  spacing={2} sx={{ p: 3 }}>
           <Grid container direction="column"  justifyContent="space-between">
