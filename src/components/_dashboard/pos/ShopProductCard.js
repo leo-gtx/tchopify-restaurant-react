@@ -13,7 +13,7 @@ import { fCurrency } from '../../../utils/formatNumber';
 const ProductImgStyle = styled('img')({
   top: 0,
   width: '100%',
-  height: '100%',
+  height: '130px',
   objectFit: 'cover',
   position: 'absolute'
 });
@@ -31,14 +31,14 @@ export default function ShopProductCard({ product, onSelectProduct }) {
   const handleSelectProduct = ()=>
     onSelectProduct(id)
   return (
-      <Card>
-        <Box sx={{ pt: '100%', position: 'relative' }}>
+      <Card onClick={handleSelectProduct} style={{height: 300}}>
+        <Box sx={{ pt: '100%', position: 'relative'}}>
           <ProductImgStyle alt={name} src={image} />
         </Box>
         <Stack  spacing={2} sx={{ p: 3 }}>
-          <Grid container direction="row" alignItems="center" justifyContent="space-between">
+          <Grid container direction="column"  justifyContent="space-between">
             <Grid item >
-              <Typography variant="subtitle1" noWrap>
+              <Typography variant="subtitle1">
                 {name}
               </Typography>
             </Grid>
@@ -59,9 +59,7 @@ export default function ShopProductCard({ product, onSelectProduct }) {
               startIcon={<Icon icon={roundAddShoppingCart} />}
               onClick={handleSelectProduct}
               sx={{ whiteSpace: 'nowrap' }}
-            >
-              {t('actions.addToCart')}
-            </Button>
+            />
           </Stack>
         </Stack>
       </Card>
