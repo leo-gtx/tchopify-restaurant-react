@@ -201,7 +201,7 @@ const getPadding = ()=>{
                         <Stack direction='row' justifyContent='center' alignItems='center' spacing={2}>
                           {
                             !isSubmitting && (
-                              <Tooltip title={t('actions.cancel')} open placement='left'>
+                              <Tooltip title={t('actions.cancel')} placement='left'>
                                 <Button
                                 size='large'
                                 color='primary'
@@ -214,7 +214,7 @@ const getPadding = ()=>{
                             </Tooltip>
                             )
                           }
-                          <Tooltip title={`Total: ${fCurrency(total)}`} open placement='right' >
+                          <Tooltip title={`Total: ${fCurrency(total)}`}  placement='right' >
                             <LoadingButton
                                 size="large"
                                 type="submit"

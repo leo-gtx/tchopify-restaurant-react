@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import roundAddShoppingCart from '@iconify/icons-ic/round-add-shopping-cart';
 // material
 import { Box, Card, Typography, Stack, Button, Grid } from '@material-ui/core';
@@ -26,7 +26,7 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product, onSelectProduct }) {
-  const {t} = useTranslation();
+  // const {t} = useTranslation();
   const { name, image, price, id  } = product;
   const handleSelectProduct = ()=>
     onSelectProduct(id)
@@ -57,7 +57,6 @@ export default function ShopProductCard({ product, onSelectProduct }) {
               color="warning"
               variant="contained"
               startIcon={<Icon icon={roundAddShoppingCart} />}
-              onClick={handleSelectProduct}
               sx={{ whiteSpace: 'nowrap' }}
             />
           </Stack>
