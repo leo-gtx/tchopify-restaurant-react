@@ -31,7 +31,7 @@ export default function ShopProductCard({ product, onSelectProduct }) {
   const handleSelectProduct = ()=>
     onSelectProduct(id)
   return (
-      <Card onClick={handleSelectProduct} style={{height: 300}}>
+      <Card onClick={handleSelectProduct}>
         <Box sx={{ pt: '100%', position: 'relative'}}>
           <ProductImgStyle alt={name} src={ image || '/static/illustrations/illustration_dish.jpg'} />
         </Box>
