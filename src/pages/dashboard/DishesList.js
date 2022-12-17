@@ -349,7 +349,7 @@ export default function DishesList() {
                               alignItems: 'center'
                             }}
                           >
-                            <ThumbImgStyle alt={name} src={image} />
+                            <ThumbImgStyle alt={name} src={image || '/static/illustrations/illustration_dish.jpg'} />
                             <Typography variant="subtitle2" noWrap>
                               {name}
                             </Typography>
