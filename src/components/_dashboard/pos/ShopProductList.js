@@ -30,7 +30,7 @@ export default function ProductList({ products, isLoad, onSelectProduct, ...othe
       {isLoad && SkeletonLoad}
       <Grid container spacing={3} {...other}>
         {products.map((product) => (
-          <Grid key={product.id} item xs={12} sm={4} md={2}>
+          <Grid key={product.id} item xs='auto'>
             <ShopProductCard product={product} onSelectProduct={onSelectProduct} />
           </Grid>
         ))}

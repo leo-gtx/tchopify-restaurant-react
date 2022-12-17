@@ -28,6 +28,8 @@ import Scrollbar from '../../components/Scrollbar';
 import MenuPopover from '../../components/MenuPopover';
 import { MIconButton } from '../../components/@material-extend';
 import { PATH_DASHBOARD } from '../../routes/paths';
+// hooks
+import useIsMountedRef from '../../hooks/useIsMountedRef';
 // actions
 import { GetOrdersByStatus, GetOrdersByStatusAndShop } from '../../redux/actions/order';
 // utils 
@@ -101,6 +103,7 @@ export default function NotificationsPopover() {
   const [newOrders, setNewOrders] = useState([]);
   const { authedUser } = useSelector((state)=>state);
   const {t} = useTranslation();
+  const isMountedRef = useIsMountedRef();
   const notifications = orderBy(newOrders.map((item) => ({
     id: item.id,
     title: t('notification.itemTitle',{value: item.id}),
@@ -113,21 +116,24 @@ export default function NotificationsPopover() {
   const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
 
   useEffect(()=>{
-    if(isOwner(authedUser)){
+    if(isMountedRef.current){
+      if(isOwner(authedUser)){
         GetOrdersByStatus(
           {ownerId: getOwnerId(authedUser), status: 'new'},
            (data)=>{
             setNewOrders(Object.values(data).filter((item)=>moment(item.orderAt).isSame(new Date(), 'month')))
           })
-    }else{
-        GetOrdersByStatusAndShop(
-          { status: 'new', shopId: authedUser.shop},
-          (data)=>{
-            setNewOrders(Object.values(data).filter((item)=>moment(item.orderAt).isSame(new Date(), 'month')))
-          })
+      }else{
+          GetOrdersByStatusAndShop(
+            { status: 'new', shopId: authedUser.shop},
+            (data)=>{
+              setNewOrders(Object.values(data).filter((item)=>moment(item.orderAt).isSame(new Date(), 'month')))
+            })
+      }
     }
-    return null;
-  },[setNewOrders, authedUser])
+    
+    return ()=>isMountedRef.current = false;
+  },[setNewOrders, authedUser, isMountedRef])
 
   const handleOpen = () => {
     setOpen(true);
