@@ -36,7 +36,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const {t} = useTranslation();
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email(t('forms.emailInvalid')).required('forms.emailRequired'),
+    email: Yup.string().email(t('forms.emailInvalid')).required(t('forms.emailRequired')),
     password: Yup.string().required(t('forms.passwordRequired'))
   });
 
