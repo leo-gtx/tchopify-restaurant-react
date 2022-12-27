@@ -51,7 +51,7 @@ function updateBusinessHours(restaurantId, businessHours){
 
 
 
-export function handleNewRestaurant({owner, name, location, image, phoneNumber, kmCost, status, mode}, callback, onError){
+export function handleNewRestaurant({owner, name, location, image, phoneNumber, kmCost, status, mode, paymentOptions}, callback, onError){
     const id = uuidv4()
     return (dispatch) =>{
         // If there is no image
@@ -66,6 +66,7 @@ export function handleNewRestaurant({owner, name, location, image, phoneNumber, 
             kmCost,
             owner,
             businessHours: BUSINESS_HOURS,
+            paymentOptions,
             createdAt: Date.now()
           }
          firebase
@@ -132,6 +133,7 @@ export function handleNewRestaurant({owner, name, location, image, phoneNumber, 
                   kmCost,
                   owner,
                   businessHours: BUSINESS_HOURS,
+                  paymentOptions,
                   createdAt: Date.now()
                 }
                firebase
@@ -157,7 +159,7 @@ export function handleNewRestaurant({owner, name, location, image, phoneNumber, 
         }
 }
 
-export function handleEditRestaurant({id, name, location, image, phoneNumber, status, oldImage, mode, kmCost}, callback, onError){
+export function handleEditRestaurant({id, name, location, image, phoneNumber, status, oldImage, mode, kmCost, paymentOptions}, callback, onError){
   return (dispatch) =>{
       // If there is no image
       if(image==null){
@@ -168,7 +170,8 @@ export function handleEditRestaurant({id, name, location, image, phoneNumber, st
           location,
           status,
           mode,
-          kmCost
+          kmCost,
+          paymentOptions
         }
        firebase
         .firestore()
@@ -243,7 +246,8 @@ export function handleEditRestaurant({id, name, location, image, phoneNumber, st
                 filename,
                 status,
                 mode,
-                kmCost
+                kmCost,
+                paymentOptions
               }
              firebase
               .firestore()

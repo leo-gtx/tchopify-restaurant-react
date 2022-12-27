@@ -83,6 +83,7 @@ export default {
     kmCostMin: 'Cost/km must be >= 50 Xaf',
     kmCostMax: 'Cost/km must be <= 200 Xaf',
     startDate: 'Start date',
-    endDate: 'End date'
+    endDate: 'End date',
+    paymentOptionsLabel: 'Payment options'
 
 }
