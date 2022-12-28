@@ -84,6 +84,8 @@ export default {
     kmCostMax: 'Cost/km must be <= 200 Xaf',
     startDate: 'Start date',
     endDate: 'End date',
-    paymentOptionsLabel: 'Payment options'
+    paymentOptionsLabel: 'Payment options',
+    paymentOptionsInvalid: 'Choose at least one payment option',
+    paymentOptionsRequired: 'Payment options required'
 
 }

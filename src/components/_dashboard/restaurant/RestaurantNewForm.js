@@ -105,14 +105,7 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
       is: (mode) => mode?.includes('DELIVERY'),
       then: Yup.number().min(50, t('forms.kmCostMin')).max(200, t('forms.kmCostMax')).required(t('forms.kmCostRequired'))
     }),
-    paymentOptions: Yup.array().of(
-      Yup.object().shape({
-      value: Yup.string(),
-      title: Yup.string(),
-      service: Yup.string(),
-      description: Yup.string(),
-      icons: Yup.array()
-    }))
+    paymentOptions: Yup.array().of(Yup.string()).min(1, t('forms.paymentOptionsInvalid')).required(t('forms.paymentOptionsRequired'))
   });
 
 
@@ -126,7 +119,7 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
       avatarUrl: isEdit && { preview: currentRestaurant?.image } || {},
       status: isEdit && currentRestaurant?.status || 'activated',
       kmCost: isEdit && currentRestaurant?.kmCost || '',
-      paymentOptions: isEdit && currentRestaurant?.paymentOptions || ['Whatsapp']
+      paymentOptions: isEdit && currentRestaurant?.paymentOptions
     },
     validationSchema: NewRestaurantSchema,
     onSubmit: (values, { setSubmitting, resetForm, setErrors }) => {
@@ -154,7 +147,7 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
           oldImage: currentRestaurant?.filename,
           createdAt: isEdit ? currentRestaurant?.createdAt : new Date(),
           owner: authedUser.id,
-          paymentOptions: PAYMENT_OPTIONS.filter((item)=>values.paymentOptions.includes(item.title)).map((item)=>item.value)
+          paymentOptions: values.paymentOptions,
         }
         if(!isEdit) dispatch(handleNewRestaurant(data, callback, onError))
         else dispatch(handleEditRestaurant(data, callback, onError))
@@ -356,7 +349,12 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
                         <Chip key={index} size="small" label={option} {...getTagProps({ index })} />
                       ))
                     }
-                    renderInput={(params) => <TextField label={t('forms.paymentOptionsLabel')} {...params} />}
+                    renderInput={(params) => <TextField 
+                      error={Boolean(touched.paymentOptions && errors.paymentOptions)}
+                      helperText={touched.paymentOptions && errors.paymentOptions}
+                      label={t('forms.paymentOptionsLabel')} 
+                      {...params} 
+                      />}
                   />
                 </Stack>
                 
