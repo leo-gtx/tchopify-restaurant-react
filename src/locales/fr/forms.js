@@ -83,6 +83,9 @@ export default {
     meterCostMin: 'Coût/km doit être >= 50 Xaf',
     meterCostMax: 'Coût/km doit être <= 200 Xaf',
     startDate: 'Date de début',
-    endDate: 'Date de fin'
+    endDate: 'Date de fin',
+    paymentOptionsLabel: 'Méthodes de paiement',
+    paymentOptionsInvalid: 'Choississez au moin une méthode de paiement',
+    paymentOptionsRequired: 'Options de paiement requises'
 
 }

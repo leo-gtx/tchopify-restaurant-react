@@ -21,7 +21,9 @@ import {
   FormHelperText,
   InputAdornment,
   Tooltip,
-  IconButton
+  Autocomplete,
+  IconButton,
+  Chip
 } from '@material-ui/core';
 
 // utils
@@ -50,21 +52,40 @@ const MODES = [
     value: 'TAKEAWAY',
     label: 'restaurantCreate.takeaway'
   },
-  {
-    value: 'DELIVERY_DINE',
-    label: 'restaurantCreate.delivery_dine'
-  },
-  {
-    value: 'TAKEAWAY_DINE',
-    label: 'restaurantCreate.takeaway_dine'
-  },
+  // {
+  //   value: 'DELIVERY_DINE',
+  //   label: 'restaurantCreate.delivery_dine'
+  // },
+  // {
+  //   value: 'TAKEAWAY_DINE',
+  //   label: 'restaurantCreate.takeaway_dine'
+  // },
   { 
     value: 'DELIVERY_TAKEAWAY',
     label: 'restaurantCreate.takeaway_delivery'
   },
+  // {
+  //   value: 'DELIVERY_TAKEAWAY_DINE',
+  //   label: 'restaurantCreate.delivery_takeaway_dine'
+  // },
+];
+
+const PAYMENT_OPTIONS = [
   {
-    value: 'DELIVERY_TAKEAWAY_DINE',
-    label: 'restaurantCreate.delivery_takeaway_dine'
+    value: 'mobile_money',
+    title: 'Mobile Money',
+  },
+  {
+    value: 'orange_money',
+    title: 'Orange Money',
+  },
+  {
+    value: 'eu_mobile_money',
+    title: 'EU Mobile Money',
+  },
+  {
+    value: 'whatsapp',
+    title: 'Whatsapp',
   },
 ];
 // ----------------------------------------------------------------------
@@ -83,7 +104,8 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
     kmCost: Yup.number().min(50, t('forms.kmCostMin')).max(200, t('forms.kmCostMax')).when("mode",{
       is: (mode) => mode?.includes('DELIVERY'),
       then: Yup.number().min(50, t('forms.kmCostMin')).max(200, t('forms.kmCostMax')).required(t('forms.kmCostRequired'))
-    })
+    }),
+    paymentOptions: Yup.array().of(Yup.string()).min(1, t('forms.paymentOptionsInvalid')).required(t('forms.paymentOptionsRequired'))
   });
 
 
@@ -96,7 +118,8 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
       location: isEdit && currentRestaurant?.location || '',
       avatarUrl: isEdit && { preview: currentRestaurant?.image } || {},
       status: isEdit && currentRestaurant?.status || 'activated',
-      kmCost: isEdit && currentRestaurant?.kmCost || ''
+      kmCost: isEdit && currentRestaurant?.kmCost || '',
+      paymentOptions: isEdit && currentRestaurant?.paymentOptions
     },
     validationSchema: NewRestaurantSchema,
     onSubmit: (values, { setSubmitting, resetForm, setErrors }) => {
@@ -123,7 +146,8 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
           kmCost: values.kmCost,
           oldImage: currentRestaurant?.filename,
           createdAt: isEdit ? currentRestaurant?.createdAt : new Date(),
-          owner: authedUser.id
+          owner: authedUser.id,
+          paymentOptions: values.paymentOptions,
         }
         if(!isEdit) dispatch(handleNewRestaurant(data, callback, onError))
         else dispatch(handleEditRestaurant(data, callback, onError))
@@ -249,6 +273,32 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
                     helperText={touched.phoneNumber && errors.phoneNumber}
                   />
                 </Stack>
+                
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                  
+                    <TextField
+                      fullWidth
+                      label={t('forms.locationLabel')}
+                      placeholder={t('forms.locationLabel')}
+                      {...getFieldProps('location')}
+                      error={Boolean(touched.location && errors.location)}
+                      helperText={touched.location && errors.location}
+                      InputProps={{
+                        startAdornment: (
+                        <InputAdornment position="start">
+                          <Tooltip title={t('actions.useCurrentLocation')}>
+                            <IconButton
+                              onClick={handleSetCurrentLocation}
+                            >
+                              <Icon icon={navigationFill} height={20} width={20}/>
+                            </IconButton>
+                          </Tooltip>
+                        </InputAdornment>)
+                      }}
+                    />
+                    
+                </Stack>
+
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     select
@@ -284,31 +334,29 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
                     }
                     
                 </Stack>
-                
-                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  
-                    <TextField
-                      fullWidth
-                      label={t('forms.locationLabel')}
-                      placeholder={t('forms.locationLabel')}
-                      {...getFieldProps('location')}
-                      error={Boolean(touched.location && errors.location)}
-                      helperText={touched.location && errors.location}
-                      InputProps={{
-                        startAdornment: (
-                        <InputAdornment position="start">
-                          <Tooltip title={t('actions.useCurrentLocation')}>
-                            <IconButton
-                              onClick={handleSetCurrentLocation}
-                            >
-                              <Icon icon={navigationFill} height={20} width={20}/>
-                            </IconButton>
-                          </Tooltip>
-                        </InputAdornment>)
-                      }}
-                    />
-                    
-                  </Stack>
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                  <Autocomplete
+                    fullWidth
+                    multiple
+                    value={values.paymentOptions}
+                    onChange={(event, newValue) => {
+                      setFieldValue('paymentOptions', newValue)
+                    }}
+                    options={PAYMENT_OPTIONS.map((option)=>option.title)}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip key={index} size="small" label={option} {...getTagProps({ index })} />
+                      ))
+                    }
+                    renderInput={(params) => <TextField 
+                      error={Boolean(touched.paymentOptions && errors.paymentOptions)}
+                      helperText={touched.paymentOptions && errors.paymentOptions}
+                      label={t('forms.paymentOptionsLabel')} 
+                      {...params} 
+                      />}
+                  />
+                </Stack>
                 
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
