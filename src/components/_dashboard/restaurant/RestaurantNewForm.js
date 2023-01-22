@@ -84,8 +84,8 @@ const PAYMENT_OPTIONS = [
     title: 'EU Mobile Money',
   },
   {
-    value: 'whatsapp',
-    title: 'Whatsapp',
+    value: 'cash',
+    title: 'Cash',
   },
 ];
 // ----------------------------------------------------------------------
