@@ -8,16 +8,16 @@ export default{
     withdrawTitle: 'Withdraw Money',
     totalOrder: 'Total Order',
     thanLastMonth: 'than last month',
-    posIncomes: 'Pos Incomes',
+    monthlyIncomes: 'Monthly Incomes',
     marketplaceIncomes: 'Marketplace Incomes',
     orderMode: 'Order By Mode',
-    titleSalesDine: 'POS Yearly Sales',
-    titleSalesDelivery: 'Marketplace Yearly Sales',
+    titleMonthlySales: 'Monthly Sales',
+    titleSales: 'Yearly Sales',
     totalIncomes: 'Total Incomes',
     mostOrderedTitle: 'Most Ordered Dishes',
     rank: 'Rank',
     product: 'Product',
     deliveryIncomes: 'Marketplace\'s Sales',
     dineIncomes: 'POS\'s Sales',
-    saleoverview: 'Sales Overview'
+    saleoverview: 'Shop Profitability'
 }

@@ -8,16 +8,16 @@ export default{
     withdrawTitle: 'Retirer l\'argent',
     totalOrder: 'Commande Totale',
     thanLastMonth: 'Comparé au mois passé',
-    posIncomes: 'Revenu POS',
+    monthlyIncomes: 'Revenu Mensuel',
     marketplaceIncomes: 'Revenu Marketplace',
     orderMode: 'Commande Par Mode',
-    titleSalesDine: 'POS Ventes Annuelles',
-    titleSalesDelivery: 'Marketplace Ventes Annuelles',
+    titleMonthlySales: 'Ventes Mensuelles',
+    titleSales: 'Ventes Annuelles',
     totalIncomes: 'Revenu Totale',
     mostOrderedTitle: 'Plats les plus commandés',
     rank: 'Rang',
     product: 'Produit',
     deliveryIncomes: 'Vente Marketplace',
     dineIncomes: 'Vente POS',
-    saleoverview: 'Globalité des ventes'
+    saleoverview: 'Rentabilité des boutiques'
 }

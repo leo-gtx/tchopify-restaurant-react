@@ -5,7 +5,7 @@ export { default as MarketplaceIncomes } from './EcommerceSalesProfit';
 export { default as DeliveryYearlySales } from './DeliveryYearlySales';
 export { default as DineYearlySales } from './DineYearlySales';
 export { default as MostOrdered } from './EcommerceBestSalesman';
-export { default as PosIncome } from './EcommerceTotalBalance';
+export { default as MonthlyIncomes } from './MonthlyIncomes';
 export { default as OrderByMode } from './EcommerceSaleByGender';
 export { default as ShopSalesOverview } from './EcommerceSalesOverview';
 export { default as EcommerceLatestProducts } from './EcommerceLatestProducts';

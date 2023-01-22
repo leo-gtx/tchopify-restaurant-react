@@ -29,10 +29,10 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function EcommerceTotalBalance() {
+export default function MonthlyIncomes() {
   const { t } = useTranslation();
   const theme = useTheme();
-  const { posIncomes, posIncomesPercentage, posIncomesChartData } = useSelector((state)=>state.dashboard);
+  const { monthlyIncomes, monthlyIncomesPercentage, monthlyIncomesChartData } = useSelector((state)=>state.dashboard);
   const chartOptions = merge(BaseOptionChart(), {
     colors: [theme.palette.chart.green[0]],
     chart: { animations: { enabled: true }, sparkline: { enabled: true } },
@@ -49,15 +49,15 @@ export default function EcommerceTotalBalance() {
     }
   });
 
-  const PERCENT = posIncomesPercentage;
-  const TOTAL_BALANCE = posIncomes;
-  const CHART_DATA = [{ data: posIncomesChartData }];
+  const PERCENT = monthlyIncomesPercentage;
+  const TOTAL_BALANCE = monthlyIncomes;
+  const CHART_DATA = [{ data: monthlyIncomesChartData }];
 
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="subtitle2" paragraph>
-          {t('dashboard.posIncomes')}
+          {t('dashboard.monthlyIncomes')}
         </Typography>
         <Typography variant="h3" gutterBottom>
           {fCurrency(TOTAL_BALANCE)}
