@@ -13,7 +13,7 @@ import { BaseOptionChart } from '../../charts';
 export default function MonthlySales() {
   const {t} = useTranslation();
   const { monthlySales } = useSelector((state)=>state.dashboard);
-  const CHART_DATA = Object.keys(monthlySales?.data).map((key)=>({
+  const CHART_DATA = Object.keys(monthlySales.data).map((key)=>({
     month: key,
     data: [
       { 

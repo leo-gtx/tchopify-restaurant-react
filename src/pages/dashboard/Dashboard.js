@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // material
 import { Container, Grid, Skeleton} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,39 +32,41 @@ const SkeletonLoader = () => {
       <Container maxWidth={themeStretch ? false : 'xl'}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8}>
-              <Skeleton variant='rectangular'  />
+              <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
             </Grid>
 
             <Grid item xs={12} md={4}>
-            <Skeleton variant='rectangular'  />
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280}  />
             </Grid>
 
             <Grid item xs={12} md={4}>
-            <Skeleton variant='rectangular'  />
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={150}  />
             </Grid>
             <Grid item xs={12} md={4}>
-            <Skeleton variant='rectangular'  />
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={150} />
             </Grid>
             <Grid item xs={12} md={4}>
-            <Skeleton variant='rectangular'  />
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={150} />
             </Grid>
 
             <Grid item xs={12} md={6} lg={4}>
-            <Skeleton variant='rectangular'  />
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
             </Grid>
 
             <Grid item xs={12} md={6} lg={8}>
-            <Skeleton variant='rectangular'  />
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
             </Grid>
-            <Grid item xs={12} md={6} lg={8}>
-            <Skeleton variant='rectangular'  />
-            </Grid>
+            
             <Grid item xs={12} md={6} lg={4}>
-            <Skeleton variant='rectangular'  />
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={8}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
             </Grid>
 
             <Grid item xs={12} md={6} lg={12}>
-            <Skeleton variant='rectangular'  />
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
             </Grid>
           </Grid>
         </Container>
@@ -76,11 +78,12 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const {authedUser, dashboard} = useSelector((state)=>state);
   const ownerId = getOwnerId(authedUser);
+  const [isLoading, setLoading] = useState(true);
   useEffect(()=>{
-    dispatch(handleInit(ownerId))
+    dispatch(handleInit(ownerId, ()=>setLoading(false)))
   },[dispatch, ownerId])
 
-  if(!dashboard){
+  if(isLoading){
     return <SkeletonLoader/>
   }
   return (
@@ -122,8 +125,6 @@ export default function Dashboard() {
           <Grid item xs={12} md={6} lg={12}>
             <MostOrdered />
           </Grid>
-
-         
 
           {/* <Grid item xs={12} md={6} lg={4}>
             <InviteFriends />

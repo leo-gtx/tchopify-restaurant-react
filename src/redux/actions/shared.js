@@ -5,12 +5,13 @@ import { handleGetDishes } from "./dishes";
 import { handleGetRestaurants} from "./restaurant";
 import { resetCart } from './app';
 
-export function handleInit(owner){
+export function handleInit(owner, callback){
     return (dispatch)=>Promise.all([
         dispatch(handleGetDishes(owner)),
         dispatch(handleGetRestaurants(owner)),
         dispatch(handleGetOrderStatistics(owner)),
     ])
+    .then(callback)
     .catch((err)=>console.error(err))
 }
 
