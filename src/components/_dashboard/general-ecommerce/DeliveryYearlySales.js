@@ -39,7 +39,7 @@ export default function DeliveryYearlySales() {
   return (
     <Card>
       <CardHeader
-        title={t('dashboard.titleSalesDelivery')}
+        title={t('dashboard.titleSales')}
         action={
           <TextField
             select

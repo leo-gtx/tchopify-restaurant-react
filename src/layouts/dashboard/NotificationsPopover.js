@@ -107,7 +107,7 @@ export default function NotificationsPopover() {
   const notifications = orderBy(newOrders.map((item) => ({
     id: item.id,
     title: t('notification.itemTitle',{value: item.id}),
-    description: t('notification.itemSubtitle', {user: item?.billing.receiver || `Table ${item?.billing.table}`, mode: t(`notification.${item.mode.toLowerCase()}`)}),
+    description: t('notification.itemSubtitle', {user: item?.billing?.receiver || `Table ${item?.billing?.table}`, mode: t(`notification.${item.mode.toLowerCase()}`)}),
     avatar: item?.billing?.image || '/static/icons/ic_notification_package.svg',
     createdAt: item.orderAt,
     link: `${PATH_DASHBOARD.order.root}/${item.id}/details`,

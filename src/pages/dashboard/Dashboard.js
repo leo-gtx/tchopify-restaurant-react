@@ -1,7 +1,11 @@
+import { useEffect, useState } from 'react';
 // material
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, Skeleton} from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 // hooks
 import useSettings from '../../hooks/useSettings';
+// actions
+import { handleInit } from '../../redux/actions/shared';
 // components
 import Page from '../../components/Page';
 import {
@@ -14,15 +18,74 @@ import {
   TotalOrders,
   MostOrdered,
   ShopSalesOverview,
-  PosIncome
+  MonthlyIncomes
 //  InviteFriends
 } from '../../components/_dashboard/general-ecommerce';
-// actions 
+// utils
+import { getOwnerId } from '../../utils/utils';
 
 // ----------------------------------------------------------------------
+const SkeletonLoader = () => {
+  const { themeStretch } = useSettings();
+  return(
+    <Page title="General: Dashboard | Tchopify">
+      <Container maxWidth={themeStretch ? false : 'xl'}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={8}>
+              <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
+            </Grid>
 
+            <Grid item xs={12} md={4}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280}  />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={150}  />
+            </Grid>
+            <Grid item xs={12} md={4}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={150} />
+            </Grid>
+            <Grid item xs={12} md={4}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={150} />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={4}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={8}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
+            </Grid>
+            
+            <Grid item xs={12} md={6} lg={4}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={8}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={12}>
+            <Skeleton variant='rectangular' style={{borderRadius: 5}} height={280} />
+            </Grid>
+          </Grid>
+        </Container>
+      </Page>
+  )
+}
 export default function Dashboard() {
   const { themeStretch } = useSettings();
+  const dispatch = useDispatch();
+  const {authedUser, dashboard} = useSelector((state)=>state);
+  const ownerId = getOwnerId(authedUser);
+  const [isLoading, setLoading] = useState(true);
+  useEffect(()=>{
+    dispatch(handleInit(ownerId, ()=>setLoading(false)))
+  },[dispatch, ownerId])
+
+  if(isLoading){
+    return <SkeletonLoader/>
+  }
   return (
     <Page title="General: Dashboard | Tchopify">
       <Container maxWidth={themeStretch ? false : 'xl'}>
@@ -34,16 +97,16 @@ export default function Dashboard() {
           <Grid item xs={12} md={4}>
             <Balance />
           </Grid>
-
+          <Grid item xs={12} md={4}>
+            <MarketplaceIncomes />
+          </Grid>
           <Grid item xs={12} md={4}>
             <TotalOrders />
           </Grid>
           <Grid item xs={12} md={4}>
-            <PosIncome />
+            <MonthlyIncomes />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <MarketplaceIncomes />
-          </Grid>
+          
 
           <Grid item xs={12} md={6} lg={4}>
             <OrderByMode />
@@ -52,18 +115,16 @@ export default function Dashboard() {
           <Grid item xs={12} md={6} lg={8}>
             <DeliveryYearlySales />
           </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <ShopSalesOverview />
+          </Grid>
           <Grid item xs={12} md={6} lg={8}>
             <DineYearlySales />
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <MostOrdered />
-          </Grid>
 
           <Grid item xs={12} md={6} lg={12}>
-            <ShopSalesOverview />
+            <MostOrdered />
           </Grid>
-
-         
 
           {/* <Grid item xs={12} md={6} lg={4}>
             <InviteFriends />

@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import firebase from '../firebase';
 import { handleGetAuthedUser, updateAuthedUser } from '../redux/actions/authedUser';
-import { handleInit } from '../redux/actions/shared';
-import { getOwnerId } from '../utils/utils';
+// import { handleInit } from '../redux/actions/shared';
+// import { getOwnerId } from '../utils/utils';
 
 function useAuth(){
 // Set an initializing state whilst Firebase connects
@@ -12,13 +12,13 @@ const [user, setUser] = useState();
 const dispatch = useDispatch();
 const authedUser = useSelector((state)=>state.authedUser)
 
-// Handle user state changes
+// Handle user state change
 const onAuthStateChanged = useCallback((currentUser)=>{
     if (currentUser){
         if(!authedUser.isAuthenticated) {
           dispatch(handleGetAuthedUser(currentUser.uid, (user)=>{
             setUser(user);
-            dispatch(handleInit(getOwnerId(user)));
+            // dispatch(handleInit(getOwnerId(user)));
           }))
           
         }

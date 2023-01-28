@@ -1,5 +1,5 @@
 import { merge } from 'lodash';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
@@ -10,27 +10,27 @@ import { BaseOptionChart } from '../../charts';
 
 // ----------------------------------------------------------------------
 
-export default function DineYearlySales() {
+export default function MonthlySales() {
   const {t} = useTranslation();
-  const { yearlySalesByDine } = useSelector((state)=>state.dashboard);
-  const CHART_DATA = Object.keys(yearlySalesByDine.data).map((key)=>({
-    year: key,
+  const { monthlySales } = useSelector((state)=>state.dashboard);
+  const CHART_DATA = Object.keys(monthlySales.data).map((key)=>({
+    month: key,
     data: [
       { 
-        name: t('dashboard.dineIncomes'),
-        data: yearlySalesByDine?.data[key]?.map((item)=>Object.values(item)[0]) 
+        name: t('dashboard.monthlyIncomes'),
+        data: monthlySales?.data[key].map((item)=>Object.values(item)[0]) 
       }
     ]
   }))
-  const [seriesData, setSeriesData] = useState(CHART_DATA[0]?.year);
-  const handleChangeSeriesData = (event) => {
-    setSeriesData(Number(event.target.value));
-  };
+  const [seriesData, setSeriesData] = useState(CHART_DATA[0]?.month);
+  const handleChangeSeriesData = useCallback((event) => {
+    setSeriesData(event.target.value);
+  },[setSeriesData]);
 
   const chartOptions = merge(BaseOptionChart(), {
     legend: { position: 'top', horizontalAlign: 'right' },
     xaxis: {
-      categories: yearlySalesByDine?.label[seriesData]?.map((item)=>Object.values(item)[0])
+      categories: monthlySales?.label[seriesData]?.map((item)=>Object.values(item)[0])
     }
   });
 
@@ -39,7 +39,7 @@ export default function DineYearlySales() {
   return (
     <Card>
       <CardHeader
-        title={t('dashboard.titleSalesDine')}
+        title={t('dashboard.titleMonthlySales')}
         action={
           <TextField
             select
@@ -54,18 +54,18 @@ export default function DineYearlySales() {
               '& .MuiNativeSelect-icon': { top: 4, right: 0, width: 20, height: 20 }
             }}
           >
-            {CHART_DATA.map((option) => (
-              <option key={option.year} value={option.year}>
-                {option.year}
+            {CHART_DATA.map((option, index) => (
+              <option key={index + option.month} value={option.month}>
+                {option.month}
               </option>
             ))}
           </TextField>
         }
       />
 
-      {CHART_DATA.map((item) => (
-        <Box key={item.year} sx={{ mt: 3, mx: 3 }} dir="ltr">
-          {item.year === seriesData && (
+      {CHART_DATA.map((item, index) => (
+        <Box key={index + item.month} sx={{ mt: 3, mx: 3 }} dir="ltr">
+          {item.month === seriesData && (
             <ReactApexChart type="area" series={item.data} options={chartOptions} height={364} />
           )}
         </Box>

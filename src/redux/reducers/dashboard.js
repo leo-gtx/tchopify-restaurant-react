@@ -10,16 +10,16 @@ const initialState = {
     incomes: 0,
     incomesPercentage: 0,
     incomesChartData: [],
-    posIncomes: 0,
-    posIncomesPercentage: 0,
-    posIncomesChartData: [],
+    monthlyIncomes: 0,
+    monthlyIncomesPercentage: 0,
+    monthlyIncomesChartData: [],
     incomesDoneByShop: {},
     orderByMode: { },
     yearlySalesByDelivery: {
         data: [],
         label: []
     },
-    yearlySalesByDine: {
+    monthlySales: {
         data: [],
         label: []
     },
@@ -29,7 +29,6 @@ export default function dashboard(state = initialState, action ){
     switch (action.type) {
         case SET_STATISTICS:
             return action.payload;
-    
         default:
             return state;
     }

@@ -56,7 +56,7 @@ export default function EcommerceSalesProfit() {
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="subtitle2" paragraph>
-          {t('dashboard.marketplaceIncomes')}
+          {t('dashboard.totalIncomes')}
         </Typography>
         <Typography variant="h3" gutterBottom>
           {fCurrency(incomes)}
