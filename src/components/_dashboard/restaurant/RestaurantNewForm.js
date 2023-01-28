@@ -84,8 +84,8 @@ const PAYMENT_OPTIONS = [
     title: 'EU Mobile Money',
   },
   {
-    value: 'whatsapp',
-    title: 'Whatsapp',
+    value: 'cash',
+    title: 'Cash',
   },
 ];
 // ----------------------------------------------------------------------
@@ -119,7 +119,7 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
       avatarUrl: isEdit && { preview: currentRestaurant?.image } || {},
       status: isEdit && currentRestaurant?.status || 'activated',
       kmCost: isEdit && currentRestaurant?.kmCost || '',
-      paymentOptions: isEdit && currentRestaurant?.paymentOptions
+      paymentOptions: isEdit && currentRestaurant?.paymentOptions || undefined
     },
     validationSchema: NewRestaurantSchema,
     onSubmit: (values, { setSubmitting, resetForm, setErrors }) => {
