@@ -86,6 +86,8 @@ export default {
     endDate: 'Date de fin',
     paymentOptionsLabel: 'Méthodes de paiement',
     paymentOptionsInvalid: 'Choississez au moin une méthode de paiement',
-    paymentOptionsRequired: 'Options de paiement requises'
+    paymentOptionsRequired: 'Options de paiement requises',
+    formatInvalid: 'Le format est invalide, ajoutez le code {{code}} au début',
+    singleOptionLabel: 'Un seul choix possible'
 
 }

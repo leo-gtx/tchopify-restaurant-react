@@ -86,6 +86,8 @@ export default {
     endDate: 'End date',
     paymentOptionsLabel: 'Payment options',
     paymentOptionsInvalid: 'Choose at least one payment option',
-    paymentOptionsRequired: 'Payment options required'
+    paymentOptionsRequired: 'Payment options required',
+    formatInvalid: 'The format is invalid add {{code}} phone code at the begining',
+    singleOptionLabel: 'Only one available choice'
 
 }

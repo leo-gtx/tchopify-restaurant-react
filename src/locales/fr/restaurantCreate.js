@@ -1,6 +1,6 @@
 export default {
     title1: 'Créé une nouvelle boutique',
-    title2: 'Modifier un utilisateur',
+    title2: 'Modifier la boutique',
     delivery: 'Livraison uniquement',
     takeaway: 'A Emporter uniquement',
     takeaway_delivery: 'A Emporter & Livraison',

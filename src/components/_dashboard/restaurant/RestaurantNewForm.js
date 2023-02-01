@@ -89,16 +89,19 @@ const PAYMENT_OPTIONS = [
   },
 ];
 // ----------------------------------------------------------------------
-
 export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const authedUser = useSelector(state=>state.authedUser)
   const {t} = useTranslation();
+  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/ 
   const NewRestaurantSchema = Yup.object().shape({
     name: Yup.string().required(t('forms.nameRequired')),
-    phoneNumber: Yup.string().required(t('forms.phoneNumberRequired')),
+    phoneNumber: Yup
+    .string()
+    .matches(phoneRegExp, t('forms.formatInvalid'))
+    .required(t('forms.phoneNumberRequired')),
     location: Yup.string().required(t('forms.locationRequired')),
     mode: Yup.string().required(t('forms.modeRequired')),
     kmCost: Yup.number().min(50, t('forms.kmCostMin')).max(200, t('forms.kmCostMax')).when("mode",{
@@ -113,7 +116,7 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
     enableReinitialize: true,
     initialValues: {
       name: isEdit && currentRestaurant?.name || '',
-      phoneNumber: isEdit && currentRestaurant?.phoneNumber || '',
+      phoneNumber: isEdit && currentRestaurant?.phoneNumber.split(' ')[1] || '',
       mode: isEdit && currentRestaurant?.mode || '',
       location: isEdit && currentRestaurant?.location || '',
       avatarUrl: isEdit && { preview: currentRestaurant?.image } || {},
@@ -138,7 +141,7 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
         const data = {
           id: currentRestaurant?.id,
           name: values.name,
-          phoneNumber: values.phoneNumber,
+          phoneNumber: `${authedUser.country.phone} ${values.phoneNumber}`,
           location: values.location,
           image: values.avatarUrl.file,
           status: values.status,
@@ -269,6 +272,10 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
                     fullWidth
                     label={t('forms.phoneNumberLabel')}
                     {...getFieldProps('phoneNumber')}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">+{authedUser.country.phone}</InputAdornment>,
+                      type: 'number'
+                    }}
                     error={Boolean(touched.phoneNumber && errors.phoneNumber)}
                     helperText={touched.phoneNumber && errors.phoneNumber}
                   />
@@ -341,9 +348,11 @@ export default function RestaurantNewForm({ isEdit, currentRestaurant }) {
                     multiple
                     value={values.paymentOptions}
                     onChange={(event, newValue) => {
-                      setFieldValue('paymentOptions', newValue)
+                      const mappedValue = newValue.map((item)=>item.value)
+                      setFieldValue('paymentOptions', mappedValue)
                     }}
-                    options={PAYMENT_OPTIONS.map((option)=>option.title)}
+                    options={PAYMENT_OPTIONS}
+                    getOptionLabel={(option)=>option.title}
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
                         <Chip key={index} size="small" label={option} {...getTagProps({ index })} />

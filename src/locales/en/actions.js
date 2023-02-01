@@ -58,5 +58,6 @@ export default {
     contactUs: 'Contact Us',
     choosePlan: 'Choose Plan',
     useCurrentLocation: 'Use my current location',
-    editOrder: 'Edit order'
+    editOrder: 'Edit order',
+    addOption: 'Add Option'
 }

@@ -1,6 +1,6 @@
 export default {
     title1: 'Create a new shop',
-    title2: 'Edit user',
+    title2: 'Edit shop',
     delivery: 'Delivery Only',
     takeaway: 'Take Away Only',
     takeaway_delivery: 'Take Away & Delivery',

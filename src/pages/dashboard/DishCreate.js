@@ -42,7 +42,7 @@ export default function EcommerceProductCreate() {
     <Page title="Menu: Create a new dish | Tchopify">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? t('dishCreate.title') : ('dishCreate.edit')}
+          heading={!isEdit ? t('dishCreate.title') : t('dishCreate.edit')}
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             {

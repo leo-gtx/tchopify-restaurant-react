@@ -83,6 +83,7 @@ export default function DishNewForm({ isEdit, currentDish }) {
     price: Yup.number().min(100, t('forms.priceInvalid')).required(t('forms.priceRequired')),
     cookingTime: Yup.number().required(t('forms.cookingTimeRequired')),
     category: Yup.string().required(t('forms.categoryRequired')),
+    isSingleOption: Yup.boolean()
   });
 
   const formik = useFormik({
@@ -94,6 +95,7 @@ export default function DishNewForm({ isEdit, currentDish }) {
       cookingTime: currentDish?.cookingTime || '',
       price: currentDish?.price || '',
       options: currentDish?.options || [],
+      isSingleOption: currentDish?.isSingleOption || false,
       isPublished: currentDish?.isPublished || false,
       category: currentDish?.category
     },
@@ -246,9 +248,15 @@ export default function DishNewForm({ isEdit, currentDish }) {
                     }
                     renderInput={(params) => <TextField label={t('forms.optionsLabel')} {...params} />}
                   />
+                  <FormControlLabel
+                    control={<Switch {...getFieldProps('isSingleOption')} checked={values.isSingleOption} />}
+                    label={t('forms.singleOptionLabel')}
+                    sx={{ mt: 2 }}
+                  />
                   <Button type="button" variant="text" size="large" onClick={handleOpen}>
-                    Add an option
+                    {t('actions.addOption')}
                   </Button>
+                  
                 </Stack>
               </Card>
 

@@ -71,7 +71,7 @@ export function handleGetDishesByShop(shop, callback){
     })
     .catch((err)=>console.error(err))
 }
-export function handleAddDish({name, description, image, category, options, price, cookingTime, isPublished, owner}, callback, onError){
+export function handleAddDish({name, description, image, category, options, price, cookingTime, isSingleOption, isPublished, owner}, callback, onError){
     const id = uuidv4()
     return (dispatch) =>
         // Check if category name already exists
@@ -91,6 +91,7 @@ export function handleAddDish({name, description, image, category, options, pric
                     category,
                     options,
                     price,
+                    isSingleOption,
                     isPublished,
                     cookingTime,
                     owner,
@@ -155,6 +156,7 @@ export function handleAddDish({name, description, image, category, options, pric
                             options,
                             price,
                             cookingTime,
+                            isSingleOption,
                             isPublished,
                             owner,
                             createdAt: Date.now(),
@@ -211,7 +213,7 @@ export function handleDeleteDish({dishId, filename}, callback){
     .catch((err)=>console.log(err))
   }
 
-  export function handleEditDish({id, name, description, image, category, options, price, cookingTime, isPublished, oldImage, owner}, callback, onError){
+  export function handleEditDish({id, name, description, image, category, options, price, cookingTime, isSingleOption, isPublished, oldImage, owner}, callback, onError){
     return (dispatch) =>{
         // If there is no image
         if(image==null){
@@ -222,6 +224,7 @@ export function handleDeleteDish({dishId, filename}, callback){
             category,
             options,
             price,
+            isSingleOption,
             isPublished,
             owner,
             cookingTime,
@@ -297,6 +300,7 @@ export function handleDeleteDish({dishId, filename}, callback){
                     category,
                     options,
                     price,
+                    isSingleOption,
                     isPublished,
                     cookingTime,
                     owner,
